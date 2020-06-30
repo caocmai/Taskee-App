@@ -8,6 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		2C4ED4B624ABD6B800FD05D4 /* CoreDataStack.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C4ED4B524ABD6B800FD05D4 /* CoreDataStack.swift */; };
+		2C8F175424ABE953002B0352 /* Project.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 2C8F175224ABE953002B0352 /* Project.xcdatamodeld */; };
 		2C9BB4CC24A9A55400936C1C /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C9BB4CB24A9A55400936C1C /* AppDelegate.swift */; };
 		2C9BB4CE24A9A55400936C1C /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C9BB4CD24A9A55400936C1C /* SceneDelegate.swift */; };
 		2C9BB4D024A9A55400936C1C /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C9BB4CF24A9A55400936C1C /* ViewController.swift */; };
@@ -15,12 +16,17 @@
 		2C9BB4D524A9A55500936C1C /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 2C9BB4D424A9A55500936C1C /* Assets.xcassets */; };
 		2C9BB4D824A9A55500936C1C /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 2C9BB4D624A9A55500936C1C /* LaunchScreen.storyboard */; };
 		2C9BB4E524A9B48F00936C1C /* README.md in Resources */ = {isa = PBXBuildFile; fileRef = 2C9BB4E424A9B48F00936C1C /* README.md */; };
+		2CEBDFC724ABF13F0097094F /* Project+CoreDataClass.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2CEBDFC324ABF13F0097094F /* Project+CoreDataClass.swift */; };
+		2CEBDFC824ABF13F0097094F /* Project+CoreDataProperties.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2CEBDFC424ABF13F0097094F /* Project+CoreDataProperties.swift */; };
+		2CEBDFC924ABF13F0097094F /* Task+CoreDataClass.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2CEBDFC524ABF13F0097094F /* Task+CoreDataClass.swift */; };
+		2CEBDFCA24ABF13F0097094F /* Task+CoreDataProperties.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2CEBDFC624ABF13F0097094F /* Task+CoreDataProperties.swift */; };
+		2CEBDFCC24ABF5240097094F /* TasksVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2CEBDFCB24ABF5240097094F /* TasksVC.swift */; };
 		2CECFAF824AB0B57006564AA /* UIColor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2CECFAF724AB0B57006564AA /* UIColor.swift */; };
-		D6FC0F9CE8C4545CFB2AC7D8 /* Pods_Taskee_App.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8DE88954EEBD6EAFC32CD958 /* Pods_Taskee_App.framework */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
 		2C4ED4B524ABD6B800FD05D4 /* CoreDataStack.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CoreDataStack.swift; sourceTree = "<group>"; };
+		2C8F175324ABE953002B0352 /* Project.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = Project.xcdatamodel; sourceTree = "<group>"; };
 		2C9BB4C824A9A55400936C1C /* Taskee App.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Taskee App.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		2C9BB4CB24A9A55400936C1C /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		2C9BB4CD24A9A55400936C1C /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -30,10 +36,12 @@
 		2C9BB4D724A9A55500936C1C /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		2C9BB4D924A9A55500936C1C /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		2C9BB4E424A9B48F00936C1C /* README.md */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = net.daringfireball.markdown; path = README.md; sourceTree = "<group>"; };
+		2CEBDFC324ABF13F0097094F /* Project+CoreDataClass.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Project+CoreDataClass.swift"; sourceTree = "<group>"; };
+		2CEBDFC424ABF13F0097094F /* Project+CoreDataProperties.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Project+CoreDataProperties.swift"; sourceTree = "<group>"; };
+		2CEBDFC524ABF13F0097094F /* Task+CoreDataClass.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Task+CoreDataClass.swift"; sourceTree = "<group>"; };
+		2CEBDFC624ABF13F0097094F /* Task+CoreDataProperties.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Task+CoreDataProperties.swift"; sourceTree = "<group>"; };
+		2CEBDFCB24ABF5240097094F /* TasksVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TasksVC.swift; sourceTree = "<group>"; };
 		2CECFAF724AB0B57006564AA /* UIColor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIColor.swift; sourceTree = "<group>"; };
-		347E84F5BAE03CA109DBAAE4 /* Pods-Taskee App.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Taskee App.release.xcconfig"; path = "Target Support Files/Pods-Taskee App/Pods-Taskee App.release.xcconfig"; sourceTree = "<group>"; };
-		874C0FC58F0B4FE42EF2C0FC /* Pods-Taskee App.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Taskee App.debug.xcconfig"; path = "Target Support Files/Pods-Taskee App/Pods-Taskee App.debug.xcconfig"; sourceTree = "<group>"; };
-		8DE88954EEBD6EAFC32CD958 /* Pods_Taskee_App.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_Taskee_App.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -41,21 +49,23 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				D6FC0F9CE8C4545CFB2AC7D8 /* Pods_Taskee_App.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
-		0D5B91DA6092A16CE0DADED5 /* Pods */ = {
+		2C8F175524ABE95B002B0352 /* Core Data */ = {
 			isa = PBXGroup;
 			children = (
-				874C0FC58F0B4FE42EF2C0FC /* Pods-Taskee App.debug.xcconfig */,
-				347E84F5BAE03CA109DBAAE4 /* Pods-Taskee App.release.xcconfig */,
+				2CEBDFC324ABF13F0097094F /* Project+CoreDataClass.swift */,
+				2CEBDFC524ABF13F0097094F /* Task+CoreDataClass.swift */,
+				2CEBDFC424ABF13F0097094F /* Project+CoreDataProperties.swift */,
+				2CEBDFC624ABF13F0097094F /* Task+CoreDataProperties.swift */,
+				2C8F175224ABE953002B0352 /* Project.xcdatamodeld */,
+				2C4ED4B524ABD6B800FD05D4 /* CoreDataStack.swift */,
 			);
-			name = Pods;
-			path = Pods;
+			path = "Core Data";
 			sourceTree = "<group>";
 		};
 		2C9BB4BF24A9A55400936C1C = {
@@ -64,8 +74,6 @@
 				2C9BB4E424A9B48F00936C1C /* README.md */,
 				2C9BB4CA24A9A55400936C1C /* Taskee App */,
 				2C9BB4C924A9A55400936C1C /* Products */,
-				0D5B91DA6092A16CE0DADED5 /* Pods */,
-				84A8FEAF6462491D3EDB0452 /* Frameworks */,
 			);
 			sourceTree = "<group>";
 		};
@@ -82,6 +90,7 @@
 			children = (
 				2C9BB4CB24A9A55400936C1C /* AppDelegate.swift */,
 				2C9BB4CD24A9A55400936C1C /* SceneDelegate.swift */,
+				2C8F175524ABE95B002B0352 /* Core Data */,
 				2CECFAF924AB0B5B006564AA /* Extension */,
 				2C9BB4E124A9B45F00936C1C /* Controller */,
 				2C9BB4E324A9B47400936C1C /* Model */,
@@ -97,6 +106,7 @@
 			isa = PBXGroup;
 			children = (
 				2C9BB4CF24A9A55400936C1C /* ViewController.swift */,
+				2CEBDFCB24ABF5240097094F /* TasksVC.swift */,
 			);
 			path = Controller;
 			sourceTree = "<group>";
@@ -112,7 +122,6 @@
 		2C9BB4E324A9B47400936C1C /* Model */ = {
 			isa = PBXGroup;
 			children = (
-				2C4ED4B524ABD6B800FD05D4 /* CoreDataStack.swift */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -125,14 +134,6 @@
 			path = Extension;
 			sourceTree = "<group>";
 		};
-		84A8FEAF6462491D3EDB0452 /* Frameworks */ = {
-			isa = PBXGroup;
-			children = (
-				8DE88954EEBD6EAFC32CD958 /* Pods_Taskee_App.framework */,
-			);
-			name = Frameworks;
-			sourceTree = "<group>";
-		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
@@ -140,11 +141,9 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = 2C9BB4DC24A9A55500936C1C /* Build configuration list for PBXNativeTarget "Taskee App" */;
 			buildPhases = (
-				5414EC65D742A83778DAE5A7 /* [CP] Check Pods Manifest.lock */,
 				2C9BB4C424A9A55400936C1C /* Sources */,
 				2C9BB4C524A9A55400936C1C /* Frameworks */,
 				2C9BB4C624A9A55400936C1C /* Resources */,
-				6916A53A32D985E7C1026EA7 /* [CP] Embed Pods Frameworks */,
 			);
 			buildRules = (
 			);
@@ -202,57 +201,21 @@
 		};
 /* End PBXResourcesBuildPhase section */
 
-/* Begin PBXShellScriptBuildPhase section */
-		5414EC65D742A83778DAE5A7 /* [CP] Check Pods Manifest.lock */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputFileListPaths = (
-			);
-			inputPaths = (
-				"${PODS_PODFILE_DIR_PATH}/Podfile.lock",
-				"${PODS_ROOT}/Manifest.lock",
-			);
-			name = "[CP] Check Pods Manifest.lock";
-			outputFileListPaths = (
-			);
-			outputPaths = (
-				"$(DERIVED_FILE_DIR)/Pods-Taskee App-checkManifestLockResult.txt",
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
-			showEnvVarsInLog = 0;
-		};
-		6916A53A32D985E7C1026EA7 /* [CP] Embed Pods Frameworks */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputFileListPaths = (
-				"${PODS_ROOT}/Target Support Files/Pods-Taskee App/Pods-Taskee App-frameworks-${CONFIGURATION}-input-files.xcfilelist",
-			);
-			name = "[CP] Embed Pods Frameworks";
-			outputFileListPaths = (
-				"${PODS_ROOT}/Target Support Files/Pods-Taskee App/Pods-Taskee App-frameworks-${CONFIGURATION}-output-files.xcfilelist",
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-Taskee App/Pods-Taskee App-frameworks.sh\"\n";
-			showEnvVarsInLog = 0;
-		};
-/* End PBXShellScriptBuildPhase section */
-
 /* Begin PBXSourcesBuildPhase section */
 		2C9BB4C424A9A55400936C1C /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
 				2CECFAF824AB0B57006564AA /* UIColor.swift in Sources */,
+				2CEBDFC924ABF13F0097094F /* Task+CoreDataClass.swift in Sources */,
+				2C8F175424ABE953002B0352 /* Project.xcdatamodeld in Sources */,
+				2CEBDFC824ABF13F0097094F /* Project+CoreDataProperties.swift in Sources */,
 				2C9BB4D024A9A55400936C1C /* ViewController.swift in Sources */,
+				2CEBDFC724ABF13F0097094F /* Project+CoreDataClass.swift in Sources */,
 				2C9BB4CC24A9A55400936C1C /* AppDelegate.swift in Sources */,
+				2CEBDFCC24ABF5240097094F /* TasksVC.swift in Sources */,
 				2C4ED4B624ABD6B800FD05D4 /* CoreDataStack.swift in Sources */,
+				2CEBDFCA24ABF13F0097094F /* Task+CoreDataProperties.swift in Sources */,
 				2C9BB4CE24A9A55400936C1C /* SceneDelegate.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -395,7 +358,6 @@
 		};
 		2C9BB4DD24A9A55500936C1C /* Debug */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 874C0FC58F0B4FE42EF2C0FC /* Pods-Taskee App.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_STYLE = Automatic;
@@ -413,7 +375,6 @@
 		};
 		2C9BB4DE24A9A55500936C1C /* Release */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 347E84F5BAE03CA109DBAAE4 /* Pods-Taskee App.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_STYLE = Automatic;
@@ -451,6 +412,19 @@
 			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
+
+/* Begin XCVersionGroup section */
+		2C8F175224ABE953002B0352 /* Project.xcdatamodeld */ = {
+			isa = XCVersionGroup;
+			children = (
+				2C8F175324ABE953002B0352 /* Project.xcdatamodel */,
+			);
+			currentVersion = 2C8F175324ABE953002B0352 /* Project.xcdatamodel */;
+			path = Project.xcdatamodeld;
+			sourceTree = "<group>";
+			versionGroupType = wrapper.xcdatamodel;
+		};
+/* End XCVersionGroup section */
 	};
 	rootObject = 2C9BB4C024A9A55400936C1C /* Project object */;
 }

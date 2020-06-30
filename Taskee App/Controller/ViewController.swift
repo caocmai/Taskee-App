@@ -10,18 +10,30 @@ import UIKit
 
 class ViewController: UIViewController {
     
+    var coreData = CoreDataStack()
+    
+    var projects = [Project]()
+    
     var table: UITableView = {
-       let newTable = UITableView()
+        let newTable = UITableView()
         return newTable
     }()
     
     var sample = ["a", "s", "d", "d", "s"]
-
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         // Do any additional setup after loading the view.
-        configureNavBar()
-        configureTable()
+        self.configureNavBar()
+        
+        //        let newProject = Project(context: coreData.managedContext)
+        //        newProject.name = "Finish Coloring2"
+        //        newProject.color = UIColor.color(red: 13, green: 7, blue: 126, alpha: 0.50)
+        //        coreData.saveContext()
+        
+        
+        self.fetchProjects()
+        self.configureTable()
         
         
     }
@@ -29,7 +41,27 @@ class ViewController: UIViewController {
     private func configureNavBar() {
         self.view.backgroundColor = .white
         self.navigationController?.navigationBar.prefersLargeTitles = true
-        self.title = "All Tasks"
+        self.title = "All Projects"
+        let addButton = UIBarButtonItem(title: "New Project", style: .plain, target: self, action: #selector(addButtonTapped))
+        
+        self.navigationItem.rightBarButtonItem = addButton
+        //        self.navigationItem.rightBarButtonItem?.title = "Done"
+        
+        
+        
+        //        let camera = UIBarButtonItem(barButtonSystemItem: .Camera, target: self, action: Selector("btnOpenCamera"))
+        //        self.navigationItem.rightBarButtonItem = camera
+    }
+    
+    private func fetchProjects() {
+        coreData.fetchPersistedData { (results) in
+            switch results {
+            case .success(let allProjects):
+                self.projects = allProjects
+            case .failure(let error):
+                print(error)
+            }
+        }
     }
     
     private func configureTable() {
@@ -38,22 +70,36 @@ class ViewController: UIViewController {
         self.table.delegate = self
         self.table.dataSource = self
         self.table.register(UITableViewCell.self, forCellReuseIdentifier: "Cell")
+        self.table.separatorStyle = .none
         
     }
-
-
+    
+    @objc func addButtonTapped(){
+        print("hello")
+    }
+    
+    
+    
 }
 
 
 extension ViewController: UITableViewDelegate, UITableViewDataSource {
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return sample.count
+        return projects.count
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "Cell", for: indexPath)
-        cell.textLabel?.text = sample[indexPath.row]
+        cell.textLabel?.text = projects[indexPath.row].name
         return cell
+    }
+    
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        
+        let destinationVC = TasksVC()
+        destinationVC.selectedProject = projects[indexPath.row]
+        self.navigationController?.pushViewController(destinationVC, animated: true)
+        
     }
     
     

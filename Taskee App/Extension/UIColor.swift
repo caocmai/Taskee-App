@@ -8,7 +8,7 @@
 
 import UIKit
 
-private extension UIColor {
+extension UIColor {
     
     static func color(red: NSNumber, green: NSNumber, blue: NSNumber, alpha: NSNumber?=1) -> UIColor? {
         return UIColor(red: CGFloat(truncating: red) / 255.0,
