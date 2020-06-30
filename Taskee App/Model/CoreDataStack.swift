@@ -1,18 +1,17 @@
 //
 //  CoreDataStack.swift
-//  PLUTrainer
+//  Taskee App
 //
-//  Created by Cao Mai on 6/27/20.
-//  Copyright © 2020 Mondale. All rights reserved.
+//  Created by Cao Mai on 6/30/20.
+//  Copyright © 2020 Make School. All rights reserved.
 //
 
 import Foundation
-import CoreData
 
 //class CoreDataStack {
 //
 //    private lazy var storeContainer: NSPersistentContainer = {
-//        let container = NSPersistentContainer(name: "Produce")
+//        let container = NSPersistentContainer(name: "Project")
 //        container.loadPersistentStores { (storeDescription, error) in
 //            if let error = error as NSError? {
 //                print("Error: \(error), \(error.userInfo)")
@@ -36,8 +35,8 @@ import CoreData
 //        }
 //    }
 //
-//    func fetchPersistedData(completion: @escaping(Result<[Produce]>) -> Void) {
-//        let fetchRequest: NSFetchRequest<Produce> = Produce.fetchRequest()
+//    func fetchPersistedData(completion: @escaping(Result<[Project]>) -> Void) {
+//        let fetchRequest: NSFetchRequest<Project> = Project.fetchRequest()
 //        do {
 //            let allProduces = try managedContext.fetch(fetchRequest)
 //            completion(.success(allProduces))
