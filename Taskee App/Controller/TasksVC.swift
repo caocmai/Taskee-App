@@ -20,7 +20,7 @@ class TasksVC: UIViewController {
     }
     var tasks = [Task]()
     var coreData: NSManagedObjectContext!
-    var coredataSTack = CoreDataStack()
+    var coredataSTack = CoreDataStack(modelName: "Project")
     var testCD: CoreDataStack!
     
     lazy var dateFormatter: DateFormatter = {
@@ -144,6 +144,7 @@ extension TasksVC: UITableViewDelegate, UITableViewDataSource {
         
         tableView.deselectRow(at: indexPath, animated: true)
     }
+    
     
 }
 

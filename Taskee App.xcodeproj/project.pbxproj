@@ -22,6 +22,7 @@
 		2CEBDFCA24ABF13F0097094F /* Task+CoreDataProperties.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2CEBDFC624ABF13F0097094F /* Task+CoreDataProperties.swift */; };
 		2CEBDFCC24ABF5240097094F /* TasksVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2CEBDFCB24ABF5240097094F /* TasksVC.swift */; };
 		2CEBDFD024AC19E40097094F /* NewTaskVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2CEBDFCF24AC19E40097094F /* NewTaskVC.swift */; };
+		2CEBDFD224AC45450097094F /* ProjectCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2CEBDFD124AC45450097094F /* ProjectCell.swift */; };
 		2CECFAF824AB0B57006564AA /* UIColor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2CECFAF724AB0B57006564AA /* UIColor.swift */; };
 /* End PBXBuildFile section */
 
@@ -43,6 +44,7 @@
 		2CEBDFC624ABF13F0097094F /* Task+CoreDataProperties.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Task+CoreDataProperties.swift"; sourceTree = "<group>"; };
 		2CEBDFCB24ABF5240097094F /* TasksVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TasksVC.swift; sourceTree = "<group>"; };
 		2CEBDFCF24AC19E40097094F /* NewTaskVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewTaskVC.swift; sourceTree = "<group>"; };
+		2CEBDFD124AC45450097094F /* ProjectCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProjectCell.swift; sourceTree = "<group>"; };
 		2CECFAF724AB0B57006564AA /* UIColor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIColor.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -118,6 +120,7 @@
 			isa = PBXGroup;
 			children = (
 				2C9BB4D124A9A55400936C1C /* Main.storyboard */,
+				2CEBDFD124AC45450097094F /* ProjectCell.swift */,
 			);
 			path = View;
 			sourceTree = "<group>";
@@ -217,6 +220,7 @@
 				2C9BB4D024A9A55400936C1C /* ProjectsVC.swift in Sources */,
 				2CEBDFC724ABF13F0097094F /* Project+CoreDataClass.swift in Sources */,
 				2C9BB4CC24A9A55400936C1C /* AppDelegate.swift in Sources */,
+				2CEBDFD224AC45450097094F /* ProjectCell.swift in Sources */,
 				2CEBDFCC24ABF5240097094F /* TasksVC.swift in Sources */,
 				2C4ED4B624ABD6B800FD05D4 /* CoreDataStack.swift in Sources */,
 				2CEBDFCA24ABF13F0097094F /* Task+CoreDataProperties.swift in Sources */,
