@@ -13,7 +13,6 @@ class TasksVC: UIViewController {
     
     var selectedProject: Project? {
         didSet{
-            self.title = selectedProject?.name
             self.loadItems()
         }
     }
@@ -38,7 +37,7 @@ class TasksVC: UIViewController {
         super.viewDidLoad()
         self.configureNavBar()
 //        let tasks = selectedProject?.projectTasks[0] as? Task
-        print(selectedProject?.projectTasks)
+//        print(selectedProject?.projectTasks)
         self.configureTable()
         
         
@@ -47,6 +46,7 @@ class TasksVC: UIViewController {
     private func configureNavBar() {
         self.view.backgroundColor = .white
         self.navigationController?.navigationBar.prefersLargeTitles = true
+        self.title = "\(selectedProject!.name ?? "Unnamed") Tasks"
         let addButton = UIBarButtonItem(barButtonSystemItem: .add, target: self, action: #selector(addButtonTapped))
         self.navigationItem.rightBarButtonItem = addButton
     }
@@ -75,8 +75,7 @@ class TasksVC: UIViewController {
     
     func loadItems(with request: NSFetchRequest<Task> = Task.fetchRequest(), predicate: NSPredicate? = nil) {
         
-        print(selectedProject?.name as Any)
-        let categoryPredicate = NSPredicate(format: "parentProject.name MATCHES[cd] %@", selectedProject!.name!)
+        let categoryPredicate = NSPredicate(format: "parentProject.name MATCHES %@", selectedProject!.name!)
         
 
         
@@ -96,20 +95,6 @@ class TasksVC: UIViewController {
         taskTable.reloadData()
         
     }
-    
-//    func loadCategories() {
-//
-//          let request : NSFetchRequest<Task> = Task.fetchRequest()
-//
-//          do{
-//            tasks = try coredataSTack.managedContext.fetch(request)
-//          } catch {
-//              print("Error loading categories \(error)")
-//          }
-//
-//          taskTable.reloadData()
-//
-//      }
     
     
 }

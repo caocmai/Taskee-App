@@ -38,12 +38,36 @@ class CoreDataStack {
 
     func fetchPersistedData(completion: @escaping(Result<[Project]>) -> Void) {
         let fetchRequest: NSFetchRequest<Project> = Project.fetchRequest()
+        
         do {
             let allProduces = try managedContext.fetch(fetchRequest)
             completion(.success(allProduces))
         } catch {
             completion(.failure(error))
         }
+    }
+    
+    func fetchTasks(with request: NSFetchRequest<Task> = Task.fetchRequest(), predicate: NSPredicate? = nil, selectedProject: String, completion: @escaping(Result<[Task]>) -> Void) {
+        
+        let categoryPredicate = NSPredicate(format: "parentProject.name MATCHES %@", selectedProject)
+        
+
+        
+        if let addtionalPredicate = predicate {
+            request.predicate = NSCompoundPredicate(andPredicateWithSubpredicates: [categoryPredicate, addtionalPredicate])
+        } else {
+            request.predicate = categoryPredicate
+        }
+
+    
+        do {
+            let tasks = try managedContext.fetch(request)
+            completion(.success(tasks))
+        } catch {
+            completion(.failure(error))
+        }
+        
+        
     }
 }
 

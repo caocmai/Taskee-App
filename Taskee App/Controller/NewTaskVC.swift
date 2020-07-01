@@ -19,8 +19,8 @@ class NewTaskVC: UIViewController {
         super.viewDidLoad()
         view.backgroundColor = .white
         setupUI()
-        createToolbar()
-//        addDoneButtonOnKeyboard()
+//        createToolbar()
+        addDoneButtonOnKeyboard()
         
         
     }
@@ -37,11 +37,11 @@ class NewTaskVC: UIViewController {
     }
     
     func createToolbar() {
-        let pickerToolbar = UIToolbar()
-//        pickerToolbar.autoresizingMask = .flexibleHeight // This or the bottom works the same
-        pickerToolbar.sizeToFit()
+        let pickerToolbar: UIToolbar = UIToolbar(frame: CGRect(x:38, y: 100, width: 244, height: 30))
+        pickerToolbar.autoresizingMask = .flexibleHeight // This or the bottom works the same
+//        pickerToolbar.sizeToFit()
         //add buttons
-        let cancelButton = UIBarButtonItem(barButtonSystemItem: .cancel, target: self, action:
+        let cancelButton = UIBarButtonItem(barButtonSystemItem: .close, target: self, action:
             #selector(cancelBtnTapped))
 //        cancelButton.tintColor = UIColor.white
         let flexSpace = UIBarButtonItem(barButtonSystemItem: .flexibleSpace, target: nil, action: nil)
@@ -52,29 +52,26 @@ class NewTaskVC: UIViewController {
         //add the items to the toolbar
         pickerToolbar.items = [cancelButton, flexSpace, doneButton]
         self.dateTextField.inputAccessoryView = pickerToolbar
-
-        
-        
     }
     
-//    func addDoneButtonOnKeyboard() {
-//        let doneToolbar: UIToolbar = UIToolbar(frame: CGRect(x:38, y: 100, width: 244, height: 30))
-//        doneToolbar.barStyle = UIBarStyle.default
+    func addDoneButtonOnKeyboard() {
+        let doneToolbar: UIToolbar = UIToolbar(frame: CGRect(x:38, y: 100, width: 244, height: 30))
+        doneToolbar.barStyle = UIBarStyle.default
+
+        let hide = UIBarButtonItem(barButtonSystemItem: UIBarButtonItem.SystemItem.close, target: nil, action: #selector(cancelBtnTapped))
+        let flexSpace = UIBarButtonItem(barButtonSystemItem: UIBarButtonItem.SystemItem.flexibleSpace, target: nil, action: nil)
+
+        let done: UIBarButtonItem = UIBarButtonItem(title: "Check", style: UIBarButtonItem.Style.done, target: self, action: #selector(cancelBtnTapped))
+
+//        var items = [UIBarButtonItem]()
+//        items.append(hide)
+//        items.append(flexSpace)
+//        items.append(done)
 //
-//        let hide = UIBarButtonItem(barButtonSystemItem: UIBarButtonItem.SystemItem.close, target: nil, action: #selector(cancelBtnClicked))
-//        let flexSpace = UIBarButtonItem(barButtonSystemItem: UIBarButtonItem.SystemItem.flexibleSpace, target: nil, action: nil)
-//
-//        let done: UIBarButtonItem = UIBarButtonItem(title: "Check", style: UIBarButtonItem.Style.done, target: self, action: #selector(cancelBtnClicked))
-//
-////        var items = [UIBarButtonItem]()
-////        items.append(hide)
-////        items.append(flexSpace)
-////        items.append(done)
-////
-//        doneToolbar.items = [hide, flexSpace, done]
-//        doneToolbar.sizeToFit()
-//        self.dateTextField.inputAccessoryView = doneToolbar
-//    }
+        doneToolbar.items = [hide, flexSpace, done]
+        doneToolbar.sizeToFit()
+        self.dateTextField.inputAccessoryView = doneToolbar
+    }
     
     @objc func cancelBtnTapped(_ button: UIBarButtonItem?) {
         dateTextField.resignFirstResponder()
