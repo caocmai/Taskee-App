@@ -26,10 +26,7 @@ class ViewController: UIViewController {
         // Do any additional setup after loading the view.
         self.configureNavBar()
         
-        //        let newProject = Project(context: coreData.managedContext)
-        //        newProject.name = "Finish Coloring2"
-        //        newProject.color = UIColor.color(red: 13, green: 7, blue: 126, alpha: 0.50)
-        //        coreData.saveContext()
+        
         
         
         self.fetchProjects()
@@ -76,6 +73,11 @@ class ViewController: UIViewController {
     
     @objc func addButtonTapped(){
         print("hello")
+        let newProject = Project(context: coreData.managedContext)
+                newProject.name = "another"
+                newProject.color = UIColor.color(red: 13, green: 7, blue: 126, alpha: 0.50)
+                coreData.saveContext()
+        table.reloadData()
     }
     
     
@@ -90,7 +92,9 @@ extension ViewController: UITableViewDelegate, UITableViewDataSource {
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "Cell", for: indexPath)
-        cell.textLabel?.text = projects[indexPath.row].name
+        let project = projects[indexPath.row]
+        cell.textLabel?.text = project.name
+        cell.textLabel?.backgroundColor = project.color as? UIColor
         return cell
     }
     
@@ -98,6 +102,7 @@ extension ViewController: UITableViewDelegate, UITableViewDataSource {
         
         let destinationVC = TasksVC()
         destinationVC.selectedProject = projects[indexPath.row]
+        destinationVC.coreData = coreData.managedContext
         self.navigationController?.pushViewController(destinationVC, animated: true)
         
     }

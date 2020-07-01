@@ -7,15 +7,26 @@
 //
 
 import UIKit
+import CoreData
 
 class TasksVC: UIViewController {
     
     var selectedProject: Project? {
         didSet{
             self.title = selectedProject?.name
+            self.loadItems()
         }
     }
     var tasks = [Task]()
+    var coreData: NSManagedObjectContext!
+    var coredataSTack = CoreDataStack()
+    
+    lazy var dateFormatter: DateFormatter = {
+        let formatter = DateFormatter()
+        formatter.dateStyle = .short
+        formatter.timeStyle = .short
+        return formatter
+    }()
     
     let taskTable: UITableView = {
         let table = UITableView()
@@ -26,6 +37,10 @@ class TasksVC: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         self.configureNavBar()
+//        let tasks = selectedProject?.projectTasks[0] as? Task
+        print(selectedProject?.projectTasks)
+        self.configureTable()
+        
         
     }
     
@@ -38,6 +53,13 @@ class TasksVC: UIViewController {
     
     @objc func addButtonTapped(){
         print("hello")
+        let destinationVC = NewTaskVC()
+        destinationVC.coreData = coreData
+        destinationVC.parentObject = selectedProject
+        self.navigationController?.pushViewController(destinationVC, animated: true)
+        
+      
+        
     }
     
     func configureTable() {
@@ -51,6 +73,44 @@ class TasksVC: UIViewController {
         
     }
     
+    func loadItems(with request: NSFetchRequest<Task> = Task.fetchRequest(), predicate: NSPredicate? = nil) {
+        
+        print(selectedProject?.name as Any)
+        let categoryPredicate = NSPredicate(format: "parentProject.name MATCHES[cd] %@", selectedProject!.name!)
+        
+
+        
+        if let addtionalPredicate = predicate {
+            request.predicate = NSCompoundPredicate(andPredicateWithSubpredicates: [categoryPredicate, addtionalPredicate])
+        } else {
+            request.predicate = categoryPredicate
+        }
+
+    
+        do {
+            tasks = try coredataSTack.managedContext.fetch(request)
+        } catch {
+            print("Error fetching data from context \(error)")
+        }
+        
+        taskTable.reloadData()
+        
+    }
+    
+//    func loadCategories() {
+//
+//          let request : NSFetchRequest<Task> = Task.fetchRequest()
+//
+//          do{
+//            tasks = try coredataSTack.managedContext.fetch(request)
+//          } catch {
+//              print("Error loading categories \(error)")
+//          }
+//
+//          taskTable.reloadData()
+//
+//      }
+    
     
 }
 
@@ -61,6 +121,7 @@ extension TasksVC: UITableViewDelegate, UITableViewDataSource {
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "Cell", for: indexPath)
+        cell.textLabel!.text = dateFormatter.string(from: tasks[indexPath.row].dueDate!)
         return cell
     }
     
