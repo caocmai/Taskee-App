@@ -14,11 +14,14 @@ class TasksVC: UIViewController {
     var selectedProject: Project? {
         didSet{
             self.loadItems()
+            
+
         }
     }
     var tasks = [Task]()
     var coreData: NSManagedObjectContext!
     var coredataSTack = CoreDataStack()
+    var testCD: CoreDataStack!
     
     lazy var dateFormatter: DateFormatter = {
         let formatter = DateFormatter()
@@ -39,20 +42,39 @@ class TasksVC: UIViewController {
 //        let tasks = selectedProject?.projectTasks[0] as? Task
 //        print(selectedProject?.projectTasks)
         self.configureTable()
+//        test()
         
         
+    }
+    
+    func test() {
+        testCD.fetchTasks(selectedProject: (selectedProject?.name)!) { (restuls) in
+            switch restuls {
+            case .success(let yes):
+                self.tasks = yes
+            case .failure(let error):
+                print(error)
+            }
+        }
     }
     
     private func configureNavBar() {
         self.view.backgroundColor = .white
         self.navigationController?.navigationBar.prefersLargeTitles = true
         self.title = "\(selectedProject!.name ?? "Unnamed") Tasks"
-        let addButton = UIBarButtonItem(barButtonSystemItem: .add, target: self, action: #selector(addButtonTapped))
+        let addButton = UIBarButtonItem(barButtonSystemItem: .add, target: self, action: #selector(addTaskTapped))
         self.navigationItem.rightBarButtonItem = addButton
     }
     
-    @objc func addButtonTapped(){
-        print("hello")
+    @objc func addTaskTapped(){
+        let newTask = Task(context: self.coreData)
+        newTask.dueDate = Date()
+        newTask.status = false
+        newTask.title = "Other task"
+        newTask.taskImage = UIImage(named: "mango")?.pngData()
+        newTask.parentProject = self.selectedProject
+        testCD.saveContext()
+        
         let destinationVC = NewTaskVC()
         destinationVC.coreData = coreData
         destinationVC.parentObject = selectedProject
@@ -106,10 +128,22 @@ extension TasksVC: UITableViewDelegate, UITableViewDataSource {
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "Cell", for: indexPath)
-        cell.textLabel!.text = dateFormatter.string(from: tasks[indexPath.row].dueDate!)
+//        cell.textLabel!.text = dateFormatter.string(from: tasks[indexPath.row].dueDate!)
+        let task = tasks[indexPath.row]
+        cell.textLabel!.text = task.title
+        cell.accessoryType = task.status ? .checkmark : .none
+
         return cell
     }
     
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        tasks[indexPath.row].status = !tasks[indexPath.row].status
+
+        testCD.saveContext()
+        test()
+        
+        tableView.deselectRow(at: indexPath, animated: true)
+    }
     
 }
 

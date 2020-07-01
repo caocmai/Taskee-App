@@ -107,7 +107,7 @@ class NewTaskVC: UIViewController {
         let newTask = Task(context: self.coreData)
         newTask.dueDate = datePicker.date
         newTask.status = false
-        newTask.title = "A new task"
+        newTask.title = "Other task"
         newTask.taskImage = UIImage(named: "mango")?.pngData()
         newTask.parentProject = self.parentObject
         

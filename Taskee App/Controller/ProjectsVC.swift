@@ -10,8 +10,8 @@ import UIKit
 
 class ProjectsVC: UIViewController {
     
-    var coreData = CoreDataStack()
-    
+    var coreData = CoreDataStack(modelName: "Project")
+    var testCDStack: CoreDataStack!
     var projects = [Project]()
     
     var table: UITableView = {
@@ -26,9 +26,6 @@ class ProjectsVC: UIViewController {
         // Do any additional setup after loading the view.
         self.configureNavBar()
         
-        
-        
-        
         self.fetchProjects()
         self.configureTable()
         
@@ -39,7 +36,7 @@ class ProjectsVC: UIViewController {
         self.view.backgroundColor = .white
         self.navigationController?.navigationBar.prefersLargeTitles = true
         self.title = "All Projects"
-        let addButton = UIBarButtonItem(title: "New Project", style: .plain, target: self, action: #selector(addButtonTapped))
+        let addButton = UIBarButtonItem(title: "New Project", style: .plain, target: self, action: #selector(addProjectTapped))
         
         self.navigationItem.rightBarButtonItem = addButton
         //        self.navigationItem.rightBarButtonItem?.title = "Done"
@@ -71,12 +68,13 @@ class ProjectsVC: UIViewController {
         
     }
     
-    @objc func addButtonTapped(){
+    @objc func addProjectTapped(){
         print("hello")
         let newProject = Project(context: coreData.managedContext)
-                newProject.name = "another"
+                newProject.name = "ONLY"
                 newProject.color = UIColor.color(red: 13, green: 7, blue: 126, alpha: 0.50)
                 coreData.saveContext()
+        
         table.reloadData()
     }
     
@@ -103,6 +101,7 @@ extension ProjectsVC: UITableViewDelegate, UITableViewDataSource {
         let destinationVC = TasksVC()
         destinationVC.selectedProject = projects[indexPath.row]
         destinationVC.coreData = coreData.managedContext
+        destinationVC.testCD = coreData
         self.navigationController?.pushViewController(destinationVC, animated: true)
         
     }
