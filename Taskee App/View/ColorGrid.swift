@@ -8,8 +8,8 @@
 
 import UIKit
 
-protocol ReturnButtonNameDelegate {
-    func getButtonLabel(buttonName: UIColor)
+protocol ButtonBackgroundColorDelegate {
+    func getButtonColor(buttonColor: UIColor)
 }
 
 
@@ -19,15 +19,18 @@ class ColorGrid: UIView {
     
     var firstRow = UIStackView()
     var secondRow = UIStackView()
-//    var thirdRow = UIStackView()
-//    var fourthRow = UIStackView()
+    //    var thirdRow = UIStackView()
+    //    var fourthRow = UIStackView()
     
-    var delegate: ReturnButtonNameDelegate!
+    var delegate: ButtonBackgroundColorDelegate!
     
     override init(frame: CGRect) {
         super.init(frame:frame)
         translatesAutoresizingMaskIntoConstraints = false
- 
+        configureFirstRow()
+        configureSecondRow()
+        configureStackView()
+        
     }
     
     required init?(coder: NSCoder) {
@@ -39,8 +42,8 @@ class ColorGrid: UIView {
         clipsToBounds = true
         stackView.addArrangedSubview(firstRow)
         stackView.addArrangedSubview(secondRow)
-//        stackView.addArrangedSubview(thirdRow)
-//        stackView.addArrangedSubview(fourthRow)
+        //        stackView.addArrangedSubview(thirdRow)
+        //        stackView.addArrangedSubview(fourthRow)
         
         stackView.translatesAutoresizingMaskIntoConstraints = false
         stackView.spacing = CGFloat(10.0)
@@ -85,9 +88,14 @@ class ColorGrid: UIView {
         let fiveButton = UIButton()
         let sixButton = UIButton()
         
+        fourButton.backgroundColor = UIColor.color(red: 123, green: 12, blue: 12)
+        fiveButton.backgroundColor = UIColor.color(red: 12, green: 123, blue: 12)
+        sixButton.backgroundColor = UIColor.color(red: 89, green: 78, blue: 23)
+        
         fourButton.addTarget(self, action: #selector(returnButtonValue), for: .touchUpInside)
         fiveButton.addTarget(self, action: #selector(returnButtonValue), for: .touchUpInside)
         sixButton.addTarget(self, action: #selector(returnButtonValue), for: .touchUpInside)
+        
         
         
         secondRow.addArrangedSubview(fourButton)
@@ -101,7 +109,9 @@ class ColorGrid: UIView {
     }
     
     @objc func returnButtonValue(_ sender: UIButton ) {
-        print(sender.currentTitle!)
-        delegate.getButtonLabel(buttonName: sender.backgroundColor!)
+        let color = sender.backgroundColor! as UIColor
+        print("color", color)
+        self.delegate.getButtonColor(buttonColor: color)
+        
     }
 }

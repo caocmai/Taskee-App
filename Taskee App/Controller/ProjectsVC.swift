@@ -99,12 +99,15 @@ class ProjectsVC: UIViewController, NSFetchedResultsControllerDelegate {
     }
     
     @objc func addProjectTapped(){
-        print("hello")
-        let newProject = Project(context: testCDStack.managedContext)
-        newProject.name = "AOO"
-        newProject.color = UIColor.color(red: 13, green: 7, blue: 126, alpha: 0.50)
-        self.testCDStack.saveContext()
-        print("saved")
+        
+        let newProjectVC = NewProjectVC()
+        self.present(newProjectVC, animated: true, completion: nil)
+//        print("hello")
+//        let newProject = Project(context: testCDStack.managedContext)
+//        newProject.name = "AOO"
+//        newProject.color = UIColor.color(red: 13, green: 7, blue: 126, alpha: 0.50)
+//        self.testCDStack.saveContext()
+//        print("saved")
        
     }
     

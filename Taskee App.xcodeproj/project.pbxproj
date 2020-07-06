@@ -9,6 +9,7 @@
 /* Begin PBXBuildFile section */
 		2C4ED4B624ABD6B800FD05D4 /* CoreDataStack.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C4ED4B524ABD6B800FD05D4 /* CoreDataStack.swift */; };
 		2C5258D224B2D164005D662D /* ColorGrid.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C5258D124B2D164005D662D /* ColorGrid.swift */; };
+		2C5258D424B2D4E6005D662D /* NewProjectVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C5258D324B2D4E6005D662D /* NewProjectVC.swift */; };
 		2C8F175424ABE953002B0352 /* Project.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 2C8F175224ABE953002B0352 /* Project.xcdatamodeld */; };
 		2C9BB4CC24A9A55400936C1C /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C9BB4CB24A9A55400936C1C /* AppDelegate.swift */; };
 		2C9BB4CE24A9A55400936C1C /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C9BB4CD24A9A55400936C1C /* SceneDelegate.swift */; };
@@ -30,6 +31,7 @@
 /* Begin PBXFileReference section */
 		2C4ED4B524ABD6B800FD05D4 /* CoreDataStack.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CoreDataStack.swift; sourceTree = "<group>"; };
 		2C5258D124B2D164005D662D /* ColorGrid.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ColorGrid.swift; sourceTree = "<group>"; };
+		2C5258D324B2D4E6005D662D /* NewProjectVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewProjectVC.swift; sourceTree = "<group>"; };
 		2C8F175324ABE953002B0352 /* Project.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = Project.xcdatamodel; sourceTree = "<group>"; };
 		2C9BB4C824A9A55400936C1C /* Taskee App.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Taskee App.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		2C9BB4CB24A9A55400936C1C /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
@@ -112,6 +114,7 @@
 			isa = PBXGroup;
 			children = (
 				2C9BB4CF24A9A55400936C1C /* ProjectsVC.swift */,
+				2C5258D324B2D4E6005D662D /* NewProjectVC.swift */,
 				2CEBDFCB24ABF5240097094F /* TasksVC.swift */,
 				2CEBDFCF24AC19E40097094F /* NewTaskVC.swift */,
 			);
@@ -220,6 +223,7 @@
 				2CEBDFC924ABF13F0097094F /* Task+CoreDataClass.swift in Sources */,
 				2C8F175424ABE953002B0352 /* Project.xcdatamodeld in Sources */,
 				2CEBDFC824ABF13F0097094F /* Project+CoreDataProperties.swift in Sources */,
+				2C5258D424B2D4E6005D662D /* NewProjectVC.swift in Sources */,
 				2CEBDFD024AC19E40097094F /* NewTaskVC.swift in Sources */,
 				2C9BB4D024A9A55400936C1C /* ProjectsVC.swift in Sources */,
 				2CEBDFC724ABF13F0097094F /* Project+CoreDataClass.swift in Sources */,
