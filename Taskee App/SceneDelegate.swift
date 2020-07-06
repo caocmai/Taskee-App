@@ -12,7 +12,7 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
 
     var window: UIWindow?
 
-//    lazy var coreDataStack = CoreDataStack(modelName: "Project")
+//    lazy var coreDataStack = CoreDataStack()
 
 
     func scene(_ scene: UIScene, willConnectTo session: UISceneSession, options connectionOptions: UIScene.ConnectionOptions) {
@@ -24,7 +24,7 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         window = UIWindow(frame:windowScene.coordinateSpace.bounds)
         window?.windowScene = windowScene
         let homeVC = ProjectsVC()
-//        homeVC.testCDStack = coreDataStack
+//        homeVC.testCDStack = coreDataStack.managedContext
         let viewControllerNavigation = UINavigationController(rootViewController: homeVC)
         window?.rootViewController = viewControllerNavigation
         window?.makeKeyAndVisible()

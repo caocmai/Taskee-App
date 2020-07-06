@@ -19,10 +19,10 @@
 		2C9BB4D524A9A55500936C1C /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 2C9BB4D424A9A55500936C1C /* Assets.xcassets */; };
 		2C9BB4D824A9A55500936C1C /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 2C9BB4D624A9A55500936C1C /* LaunchScreen.storyboard */; };
 		2C9BB4E524A9B48F00936C1C /* README.md in Resources */ = {isa = PBXBuildFile; fileRef = 2C9BB4E424A9B48F00936C1C /* README.md */; };
-		2CEBDFC724ABF13F0097094F /* Project+CoreDataClass.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2CEBDFC324ABF13F0097094F /* Project+CoreDataClass.swift */; };
-		2CEBDFC824ABF13F0097094F /* Project+CoreDataProperties.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2CEBDFC424ABF13F0097094F /* Project+CoreDataProperties.swift */; };
-		2CEBDFC924ABF13F0097094F /* Task+CoreDataClass.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2CEBDFC524ABF13F0097094F /* Task+CoreDataClass.swift */; };
-		2CEBDFCA24ABF13F0097094F /* Task+CoreDataProperties.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2CEBDFC624ABF13F0097094F /* Task+CoreDataProperties.swift */; };
+		2CCD2E0724B3C00700A9940B /* Task+CoreDataClass.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2CCD2E0324B3C00700A9940B /* Task+CoreDataClass.swift */; };
+		2CCD2E0824B3C00700A9940B /* Task+CoreDataProperties.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2CCD2E0424B3C00700A9940B /* Task+CoreDataProperties.swift */; };
+		2CCD2E0924B3C00700A9940B /* Project+CoreDataClass.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2CCD2E0524B3C00700A9940B /* Project+CoreDataClass.swift */; };
+		2CCD2E0A24B3C00700A9940B /* Project+CoreDataProperties.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2CCD2E0624B3C00700A9940B /* Project+CoreDataProperties.swift */; };
 		2CEBDFCC24ABF5240097094F /* TasksVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2CEBDFCB24ABF5240097094F /* TasksVC.swift */; };
 		2CEBDFD024AC19E40097094F /* NewTaskVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2CEBDFCF24AC19E40097094F /* NewTaskVC.swift */; };
 		2CEBDFD224AC45450097094F /* ProjectCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2CEBDFD124AC45450097094F /* ProjectCell.swift */; };
@@ -44,10 +44,10 @@
 		2C9BB4D724A9A55500936C1C /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		2C9BB4D924A9A55500936C1C /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		2C9BB4E424A9B48F00936C1C /* README.md */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = net.daringfireball.markdown; path = README.md; sourceTree = "<group>"; };
-		2CEBDFC324ABF13F0097094F /* Project+CoreDataClass.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Project+CoreDataClass.swift"; sourceTree = "<group>"; };
-		2CEBDFC424ABF13F0097094F /* Project+CoreDataProperties.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Project+CoreDataProperties.swift"; sourceTree = "<group>"; };
-		2CEBDFC524ABF13F0097094F /* Task+CoreDataClass.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Task+CoreDataClass.swift"; sourceTree = "<group>"; };
-		2CEBDFC624ABF13F0097094F /* Task+CoreDataProperties.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Task+CoreDataProperties.swift"; sourceTree = "<group>"; };
+		2CCD2E0324B3C00700A9940B /* Task+CoreDataClass.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Task+CoreDataClass.swift"; sourceTree = "<group>"; };
+		2CCD2E0424B3C00700A9940B /* Task+CoreDataProperties.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Task+CoreDataProperties.swift"; sourceTree = "<group>"; };
+		2CCD2E0524B3C00700A9940B /* Project+CoreDataClass.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Project+CoreDataClass.swift"; sourceTree = "<group>"; };
+		2CCD2E0624B3C00700A9940B /* Project+CoreDataProperties.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Project+CoreDataProperties.swift"; sourceTree = "<group>"; };
 		2CEBDFCB24ABF5240097094F /* TasksVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TasksVC.swift; sourceTree = "<group>"; };
 		2CEBDFCF24AC19E40097094F /* NewTaskVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewTaskVC.swift; sourceTree = "<group>"; };
 		2CEBDFD124AC45450097094F /* ProjectCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProjectCell.swift; sourceTree = "<group>"; };
@@ -68,10 +68,10 @@
 		2C8F175524ABE95B002B0352 /* Core Data */ = {
 			isa = PBXGroup;
 			children = (
-				2CEBDFC324ABF13F0097094F /* Project+CoreDataClass.swift */,
-				2CEBDFC524ABF13F0097094F /* Task+CoreDataClass.swift */,
-				2CEBDFC424ABF13F0097094F /* Project+CoreDataProperties.swift */,
-				2CEBDFC624ABF13F0097094F /* Task+CoreDataProperties.swift */,
+				2CCD2E0324B3C00700A9940B /* Task+CoreDataClass.swift */,
+				2CCD2E0424B3C00700A9940B /* Task+CoreDataProperties.swift */,
+				2CCD2E0524B3C00700A9940B /* Project+CoreDataClass.swift */,
+				2CCD2E0624B3C00700A9940B /* Project+CoreDataProperties.swift */,
 				2C8F175224ABE953002B0352 /* Project.xcdatamodeld */,
 				2C4ED4B524ABD6B800FD05D4 /* CoreDataStack.swift */,
 			);
@@ -223,18 +223,18 @@
 			files = (
 				2CECFAF824AB0B57006564AA /* UIColor.swift in Sources */,
 				2C5258D224B2D164005D662D /* ColorGrid.swift in Sources */,
-				2CEBDFC924ABF13F0097094F /* Task+CoreDataClass.swift in Sources */,
+				2CCD2E0724B3C00700A9940B /* Task+CoreDataClass.swift in Sources */,
 				2C8F175424ABE953002B0352 /* Project.xcdatamodeld in Sources */,
-				2CEBDFC824ABF13F0097094F /* Project+CoreDataProperties.swift in Sources */,
+				2CCD2E0824B3C00700A9940B /* Task+CoreDataProperties.swift in Sources */,
 				2C5258D424B2D4E6005D662D /* NewProjectVC.swift in Sources */,
 				2CEBDFD024AC19E40097094F /* NewTaskVC.swift in Sources */,
 				2C9BB4D024A9A55400936C1C /* ProjectsVC.swift in Sources */,
-				2CEBDFC724ABF13F0097094F /* Project+CoreDataClass.swift in Sources */,
 				2C9BB4CC24A9A55400936C1C /* AppDelegate.swift in Sources */,
+				2CCD2E0924B3C00700A9940B /* Project+CoreDataClass.swift in Sources */,
+				2CCD2E0A24B3C00700A9940B /* Project+CoreDataProperties.swift in Sources */,
 				2CEBDFD224AC45450097094F /* ProjectCell.swift in Sources */,
 				2CEBDFCC24ABF5240097094F /* TasksVC.swift in Sources */,
 				2C4ED4B624ABD6B800FD05D4 /* CoreDataStack.swift in Sources */,
-				2CEBDFCA24ABF13F0097094F /* Task+CoreDataProperties.swift in Sources */,
 				2C5258D624B2E419005D662D /* ColorEnum.swift in Sources */,
 				2C9BB4CE24A9A55400936C1C /* SceneDelegate.swift in Sources */,
 			);

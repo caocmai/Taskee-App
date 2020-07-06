@@ -17,8 +17,8 @@ class TasksVC: UIViewController {
         }
     }
     var tasks = [Task]()
-    var coreData: NSManagedObjectContext?
-    var coredataSTack = CoreDataStack()
+    var managedContext: NSManagedObjectContext?
+//    var coredataSTack = CoreDataStack()
     var testCD: CoreDataStack!
     
     lazy var dateFormatter: DateFormatter = {
@@ -46,9 +46,16 @@ class TasksVC: UIViewController {
         self.configureTable()
 //        self.loadItems()
         test()
-        print("passed coredata", coreData)
+//        print("passed coredata", managedContext)
         
         
+    }
+    
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+//        self.loadItems()
+        test()
+        self.taskTable.reloadData()
     }
     
     func test() {
@@ -63,7 +70,7 @@ class TasksVC: UIViewController {
     }
     
     func addSegmentControl() {
-       let segmentItems = ["First", "Second"]
+       let segmentItems = ["Pending", "Finished"]
     segmentControl = UISegmentedControl(items: segmentItems)
 //       control.frame = CGRect(x: 10, y: 250, width: (self.view.frame.width - 20), height: 50)
        segmentControl.addTarget(self, action: #selector(segmentControl(_:)), for: .valueChanged)
@@ -110,7 +117,7 @@ class TasksVC: UIViewController {
 //        testCD.saveContext()
         
         let destinationVC = NewTaskVC()
-        destinationVC.coreData = coreData
+        destinationVC.coreData = testCD.managedContext
         destinationVC.parentObject = selectedProject
         self.navigationController?.pushViewController(destinationVC, animated: true)
         
@@ -150,7 +157,7 @@ class TasksVC: UIViewController {
 
     
         do {
-            tasks = try coreData!.fetch(request)
+            tasks = try managedContext!.fetch(request)
         } catch {
             print("Error fetching data from context \(error)")
         }
@@ -181,7 +188,7 @@ extension TasksVC: UITableViewDelegate, UITableViewDataSource {
         tasks[indexPath.row].status = !tasks[indexPath.row].status
         tableView.deselectRow(at: indexPath, animated: true)
 
-        coredataSTack.saveContext()
+        testCD.saveContext()
         taskTable.reloadData()
 //        test()
         

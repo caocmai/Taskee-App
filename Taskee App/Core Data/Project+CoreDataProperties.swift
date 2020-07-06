@@ -2,7 +2,7 @@
 //  Project+CoreDataProperties.swift
 //  Taskee App
 //
-//  Created by Cao Mai on 6/30/20.
+//  Created by Cao Mai on 7/6/20.
 //  Copyright © 2020 Make School. All rights reserved.
 //
 //

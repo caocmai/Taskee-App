@@ -11,9 +11,9 @@ import CoreData
 
 class ProjectsVC: UIViewController, NSFetchedResultsControllerDelegate {
     
-    var coreData = CoreDataStack()
+    var coreDataStack = CoreDataStack()
     
-//    var testCDStack: CoreDataStack!
+    var testCDStack: NSManagedObjectContext?
     
     var projects = [Project]()
     
@@ -30,7 +30,7 @@ class ProjectsVC: UIViewController, NSFetchedResultsControllerDelegate {
         
         let fetchedResultsController = NSFetchedResultsController(
             fetchRequest: fetchRequest,
-            managedObjectContext: coreData.managedContext, sectionNameKeyPath: nil,
+            managedObjectContext: coreDataStack.managedContext, sectionNameKeyPath: nil,
             cacheName: nil)
         
         fetchedResultsController.delegate = self // Use to detect changes and don't have to manually reload data
@@ -77,7 +77,7 @@ class ProjectsVC: UIViewController, NSFetchedResultsControllerDelegate {
     }
     
     private func fetchProjects() {
-        coreData.fetchPersistedData { (results) in
+        coreDataStack.fetchPersistedData { (results) in
             switch results {
             case .success(let allProjects):
                 self.projects = allProjects
@@ -98,14 +98,22 @@ class ProjectsVC: UIViewController, NSFetchedResultsControllerDelegate {
     }
     
     @objc func addProjectTapped(){
-        
+//
         let newProjectVC = NewProjectVC()
+        newProjectVC.coreDataStack = coreDataStack
         self.present(newProjectVC, animated: true, completion: nil)
 //        print("hello")
-//        let newProject = Project(context: testCDStack.managedContext)
-//        newProject.name = "AOO"
+//        let newProject = Project(context: coreDataStack.managedContext)
+//        newProject.name = "Project 3"
 //        newProject.color = UIColor.color(red: 13, green: 7, blue: 126, alpha: 0.50)
-//        self.testCDStack.saveContext()
+        
+//        do {
+//            try         testCDStack?.save()
+//
+//        } catch{
+//            print("error")
+//        }
+//        self.coreDataStack.saveContext()
 //        print("saved")
        
     }
@@ -147,8 +155,8 @@ extension ProjectsVC: UITableViewDelegate, UITableViewDataSource {
         let destinationVC = TasksVC()
         let project = fetchedResultsController.object(at: indexPath)
         destinationVC.selectedProject = project
-        destinationVC.coreData = coreData.managedContext
-        destinationVC.testCD = coreData
+//        destinationVC.managedContext = coreDataStack.managedContext
+        destinationVC.testCD = coreDataStack
         self.navigationController?.pushViewController(destinationVC, animated: true)
 
     }
@@ -156,7 +164,8 @@ extension ProjectsVC: UITableViewDelegate, UITableViewDataSource {
     func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCell.EditingStyle, forRowAt indexPath: IndexPath) {
           let project = fetchedResultsController.object(at: indexPath)
         //        do {
-        self.coreData.managedContext.delete(project)
+        self.coreDataStack.managedContext.delete(project)
+        self.coreDataStack.saveContext()
     }
     
 }

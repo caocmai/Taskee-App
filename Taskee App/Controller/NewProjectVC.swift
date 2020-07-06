@@ -15,6 +15,7 @@ class NewProjectVC: UIViewController, ButtonBackgroundColorDelegate {
     
     
     let colorGrid = ColorGrid()
+    var coreDataStack: CoreDataStack? = nil
     
     let getProjectName: UITextField = {
        let textfield = UITextField()
@@ -65,6 +66,7 @@ class NewProjectVC: UIViewController, ButtonBackgroundColorDelegate {
     
     func addSaveButton() {
         view.addSubview(saveButton)
+        
         
         NSLayoutConstraint.activate([
             self.saveButton.topAnchor.constraint(equalTo: self.colorGrid.bottomAnchor, constant: 10),
