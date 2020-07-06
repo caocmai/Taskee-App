@@ -34,11 +34,11 @@ class TasksVC: UIViewController {
         return table
     }()
     
-    var control: UISegmentedControl!
+    var segmentControl: UISegmentedControl!
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        addControl()
+        addSegmentControl()
 
         self.configureNavBar()
 //        let tasks = selectedProject?.projectTasks[0] as? Task
@@ -62,19 +62,19 @@ class TasksVC: UIViewController {
         }
     }
     
-    func addControl() {
+    func addSegmentControl() {
        let segmentItems = ["First", "Second"]
-    control = UISegmentedControl(items: segmentItems)
+    segmentControl = UISegmentedControl(items: segmentItems)
 //       control.frame = CGRect(x: 10, y: 250, width: (self.view.frame.width - 20), height: 50)
-       control.addTarget(self, action: #selector(segmentControl(_:)), for: .valueChanged)
-       control.selectedSegmentIndex = 1
-       view.addSubview(control)
-        control.translatesAutoresizingMaskIntoConstraints = false
+       segmentControl.addTarget(self, action: #selector(segmentControl(_:)), for: .valueChanged)
+       segmentControl.selectedSegmentIndex = 1
+       view.addSubview(segmentControl)
+        segmentControl.translatesAutoresizingMaskIntoConstraints = false
         NSLayoutConstraint.activate([
-            control.topAnchor.constraint(equalTo: self.view.safeAreaLayoutGuide.topAnchor),
-            control.centerXAnchor.constraint(equalTo: self.view.safeAreaLayoutGuide.centerXAnchor, constant: 0),
-            control.widthAnchor.constraint(equalToConstant: self.view.frame.width - 20.0),
-            control.heightAnchor.constraint(equalToConstant: 50.0)
+            segmentControl.topAnchor.constraint(equalTo: self.view.safeAreaLayoutGuide.topAnchor),
+            segmentControl.centerXAnchor.constraint(equalTo: self.view.safeAreaLayoutGuide.centerXAnchor, constant: 0),
+            segmentControl.widthAnchor.constraint(equalToConstant: self.view.frame.width - 20.0),
+            segmentControl.heightAnchor.constraint(equalToConstant: 50.0)
             
         ])
     }
@@ -127,7 +127,7 @@ class TasksVC: UIViewController {
         self.taskTable.separatorStyle = .none
         
         NSLayoutConstraint.activate([
-            self.taskTable.topAnchor.constraint(equalTo: self.control.bottomAnchor),
+            self.taskTable.topAnchor.constraint(equalTo: self.segmentControl.bottomAnchor),
             self.taskTable.leadingAnchor.constraint(equalTo: self.view.safeAreaLayoutGuide.leadingAnchor, constant: 0),
             self.taskTable.trailingAnchor.constraint(equalTo: self.view.safeAreaLayoutGuide.trailingAnchor, constant: 0),
             self.taskTable.bottomAnchor.constraint(equalTo: self.view.safeAreaLayoutGuide.bottomAnchor, constant: 0)

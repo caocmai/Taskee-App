@@ -16,6 +16,21 @@ class NewProjectVC: UIViewController, ButtonBackgroundColorDelegate {
     
     let colorGrid = ColorGrid()
     
+    let getProjectName: UITextField = {
+       let textfield = UITextField()
+        textfield.textColor = .blue
+        textfield.placeholder = "Project Name"
+        textfield.translatesAutoresizingMaskIntoConstraints = false
+        return textfield
+    }()
+    
+    let saveButton: UIButton = {
+        let button = UIButton()
+        button.translatesAutoresizingMaskIntoConstraints = false
+        button.setTitle("SAVE", for: .normal)
+        button.backgroundColor = .yellow
+        return button
+    }()
     
     
     override func viewDidLoad() {
@@ -23,7 +38,8 @@ class NewProjectVC: UIViewController, ButtonBackgroundColorDelegate {
         view.backgroundColor = .white
         addContraints()
         colorGrid.delegate = self
-        
+        addProjectName()
+        addSaveButton()
     }
     
     func addContraints() {
@@ -35,5 +51,25 @@ class NewProjectVC: UIViewController, ButtonBackgroundColorDelegate {
             self.colorGrid.centerYAnchor.constraint(equalTo: self.view.centerYAnchor)
         ])
         
+    }
+    
+    func addProjectName() {
+        view.addSubview(getProjectName)
+        
+        NSLayoutConstraint.activate([
+            self.getProjectName.bottomAnchor.constraint(equalTo: self.colorGrid.topAnchor, constant: -10),
+            self.getProjectName.widthAnchor.constraint(equalToConstant: 50.0),
+            self.getProjectName.centerXAnchor.constraint(equalTo: self.view.centerXAnchor)
+        ])
+    }
+    
+    func addSaveButton() {
+        view.addSubview(saveButton)
+        
+        NSLayoutConstraint.activate([
+            self.saveButton.topAnchor.constraint(equalTo: self.colorGrid.bottomAnchor, constant: 10),
+            self.saveButton.widthAnchor.constraint(equalToConstant: 50.0),
+            self.saveButton.centerXAnchor.constraint(equalTo: self.view.centerXAnchor)
+        ])
     }
 }
