@@ -22,12 +22,9 @@ class ProjectsVC: UIViewController, NSFetchedResultsControllerDelegate {
         return newTable
     }()
     
-    var sample = ["a", "s", "d", "d", "s"]
     
     lazy var fetchedResultsController: NSFetchedResultsController<Project> = {
         let fetchRequest: NSFetchRequest<Project> = Project.fetchRequest()
-        //      let zoneSort = NSSortDescriptor(key: #keyPath(Team.qualifyingZone), ascending: true)
-        //      let winsSort = NSSortDescriptor(key: #keyPath(Team.wins), ascending: false)
         let nameSort = NSSortDescriptor(key: #keyPath(Project.name), ascending: true)
         fetchRequest.sortDescriptors = [nameSort]
         
@@ -46,7 +43,6 @@ class ProjectsVC: UIViewController, NSFetchedResultsControllerDelegate {
         // Do any additional setup after loading the view.
         self.configureNavBar()
         
-        //        self.fetchProjects()
         self.configureTable()
         
         
@@ -144,15 +140,16 @@ extension ProjectsVC: UITableViewDelegate, UITableViewDataSource {
         return cell
     }
     
-//    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-//
-//        let destinationVC = TasksVC()
-//        destinationVC.selectedProject = projects[indexPath.row]
-//        destinationVC.coreData = coreData.managedContext
-//        destinationVC.testCD = coreData
-//        self.navigationController?.pushViewController(destinationVC, animated: true)
-//
-//    }
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+
+        let destinationVC = TasksVC()
+        let project = fetchedResultsController.object(at: indexPath)
+        destinationVC.selectedProject = project
+        destinationVC.coreData = coreData.managedContext
+        destinationVC.testCD = coreData
+        self.navigationController?.pushViewController(destinationVC, animated: true)
+
+    }
     
     func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCell.EditingStyle, forRowAt indexPath: IndexPath) {
           let project = fetchedResultsController.object(at: indexPath)

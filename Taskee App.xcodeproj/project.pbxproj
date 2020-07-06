@@ -8,6 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		2C4ED4B624ABD6B800FD05D4 /* CoreDataStack.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C4ED4B524ABD6B800FD05D4 /* CoreDataStack.swift */; };
+		2C5258D224B2D164005D662D /* ColorGrid.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C5258D124B2D164005D662D /* ColorGrid.swift */; };
 		2C8F175424ABE953002B0352 /* Project.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 2C8F175224ABE953002B0352 /* Project.xcdatamodeld */; };
 		2C9BB4CC24A9A55400936C1C /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C9BB4CB24A9A55400936C1C /* AppDelegate.swift */; };
 		2C9BB4CE24A9A55400936C1C /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C9BB4CD24A9A55400936C1C /* SceneDelegate.swift */; };
@@ -28,6 +29,7 @@
 
 /* Begin PBXFileReference section */
 		2C4ED4B524ABD6B800FD05D4 /* CoreDataStack.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CoreDataStack.swift; sourceTree = "<group>"; };
+		2C5258D124B2D164005D662D /* ColorGrid.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ColorGrid.swift; sourceTree = "<group>"; };
 		2C8F175324ABE953002B0352 /* Project.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = Project.xcdatamodel; sourceTree = "<group>"; };
 		2C9BB4C824A9A55400936C1C /* Taskee App.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Taskee App.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		2C9BB4CB24A9A55400936C1C /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
@@ -121,6 +123,7 @@
 			children = (
 				2C9BB4D124A9A55400936C1C /* Main.storyboard */,
 				2CEBDFD124AC45450097094F /* ProjectCell.swift */,
+				2C5258D124B2D164005D662D /* ColorGrid.swift */,
 			);
 			path = View;
 			sourceTree = "<group>";
@@ -213,6 +216,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				2CECFAF824AB0B57006564AA /* UIColor.swift in Sources */,
+				2C5258D224B2D164005D662D /* ColorGrid.swift in Sources */,
 				2CEBDFC924ABF13F0097094F /* Task+CoreDataClass.swift in Sources */,
 				2C8F175424ABE953002B0352 /* Project.xcdatamodeld in Sources */,
 				2CEBDFC824ABF13F0097094F /* Project+CoreDataProperties.swift in Sources */,
