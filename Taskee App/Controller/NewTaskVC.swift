@@ -11,9 +11,35 @@ import CoreData
 
 class NewTaskVC: UIViewController {
     var datePicker = UIDatePicker()
+    var imagePicker = UIImagePickerController()
     var dateTextField = UITextField()
     var parentObject: Project!
     var coreData: NSManagedObjectContext!
+    
+    let setTitle: UITextField = {
+        let textField = UITextField()
+        textField.translatesAutoresizingMaskIntoConstraints = false
+        textField.placeholder = "Title?"
+        return textField
+    }()
+    
+    let saveButton: UIButton = {
+        let button = UIButton()
+        button.translatesAutoresizingMaskIntoConstraints = false
+        button.setTitle("SAVE", for: .normal)
+        button.backgroundColor = .orange
+        return button
+    }()
+    
+    
+    let imageView: UIImageView = {
+        let image = UIImageView()
+        image.translatesAutoresizingMaskIntoConstraints = false
+        image.image = UIImage(named: "no item image")
+        image.contentMode = .scaleToFill
+        image.isUserInteractionEnabled = true
+        return image
+    }()
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -25,15 +51,59 @@ class NewTaskVC: UIViewController {
         
     }
     
+    @objc func imageViewTapped() {
+        print("Imageview Clicked")
+        imagePicker.delegate = self
+        imagePicker.sourceType = .photoLibrary
+        imagePicker.allowsEditing = true
+        present(imagePicker, animated: true, completion: nil)
+    }
+    
+    
     private func setupUI() {
+        view.addSubview(setTitle)
         view.addSubview(dateTextField)
+        view.addSubview(imageView)
+        view.addSubview(saveButton)
         dateTextField.translatesAutoresizingMaskIntoConstraints = false
         dateTextField.inputView = datePicker
         dateTextField.placeholder = "Pick time"
         
+        let singleTap = UITapGestureRecognizer(target: self, action: #selector(imageViewTapped))
+        imageView.addGestureRecognizer(singleTap)
+        
+        self.saveButton.addTarget(self, action: #selector(saveButtonTapped), for: .touchUpInside)
+
+        
+        
+        NSLayoutConstraint.activate([
+            self.imageView.widthAnchor.constraint(equalToConstant: 150),
+            self.imageView.heightAnchor.constraint(equalToConstant: 150),
+            self.imageView.centerXAnchor.constraint(equalTo: self.view.centerXAnchor),
+            self.imageView.centerYAnchor.constraint(equalTo: self.view.centerYAnchor, constant: -150)
+        ])
+        
+        NSLayoutConstraint.activate([
+            self.setTitle.topAnchor.constraint(equalTo: self.imageView.bottomAnchor, constant: 10)
+        ])
+        
         NSLayoutConstraint.activate([
             dateTextField.centerYAnchor.constraint(equalTo: view.centerYAnchor)
         ])
+        
+        NSLayoutConstraint.activate([
+            self.saveButton.topAnchor.constraint(equalTo: dateTextField.bottomAnchor, constant: 4)
+        ])
+    }
+    
+    @objc func saveButtonTapped() {
+        let newTask = Task(context: self.coreData)
+        newTask.dueDate = datePicker.date
+        newTask.status = false
+        newTask.title = setTitle.text
+        newTask.taskImage = imageView.image!.pngData()
+        newTask.parentProject = self.parentObject
+        
     }
     
     func createToolbar() {
@@ -119,6 +189,23 @@ class NewTaskVC: UIViewController {
         catch{
             print(error)
         }
+    }
+    
+}
+
+
+extension NewTaskVC: UINavigationControllerDelegate, UIImagePickerControllerDelegate {
+
+    func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [UIImagePickerController.InfoKey : Any]) {
+        if let image = info[UIImagePickerController.InfoKey.editedImage] as? UIImage {
+            imageView.image = image
+        }
+        dismiss(animated: true, completion: nil)
+    }
+    
+    func imagePickerControllerDidCancel(_ picker: UIImagePickerController) {
+        // Dismiss the picker if the user canceled.
+        dismiss(animated: true, completion: nil)
     }
     
 }

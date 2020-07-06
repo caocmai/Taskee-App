@@ -74,7 +74,7 @@ class TasksVC: UIViewController {
     segmentControl = UISegmentedControl(items: segmentItems)
 //       control.frame = CGRect(x: 10, y: 250, width: (self.view.frame.width - 20), height: 50)
        segmentControl.addTarget(self, action: #selector(segmentControl(_:)), for: .valueChanged)
-       segmentControl.selectedSegmentIndex = 1
+       segmentControl.selectedSegmentIndex = 0
        view.addSubview(segmentControl)
         segmentControl.translatesAutoresizingMaskIntoConstraints = false
         NSLayoutConstraint.activate([

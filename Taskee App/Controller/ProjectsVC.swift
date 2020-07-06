@@ -43,6 +43,8 @@ class ProjectsVC: UIViewController, NSFetchedResultsControllerDelegate {
         // Do any additional setup after loading the view.
         self.configureNavBar()
         self.configureTable()
+        self.table.estimatedRowHeight = 30
+        self.table.rowHeight = UITableView.automaticDimension
         
         
         do {
@@ -58,6 +60,9 @@ class ProjectsVC: UIViewController, NSFetchedResultsControllerDelegate {
         guard let cell = cell as? ProjectCell else { return }
         let project = fetchedResultsController.object(at: indexPath)
         cell.textLabel!.text = project.name
+        cell.textLabel!.textColor = project.color as? UIColor
+        cell.accessoryType = .disclosureIndicator
+        cell.textLabel?.numberOfLines = 0
         
     }
     
@@ -157,6 +162,8 @@ extension ProjectsVC: UITableViewDelegate, UITableViewDataSource {
         destinationVC.selectedProject = project
 //        destinationVC.managedContext = coreDataStack.managedContext
         destinationVC.testCD = coreDataStack
+        self.table.deselectRow(at: indexPath, animated: true)
+
         self.navigationController?.pushViewController(destinationVC, animated: true)
 
     }
