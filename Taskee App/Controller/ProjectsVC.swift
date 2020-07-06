@@ -11,9 +11,9 @@ import CoreData
 
 class ProjectsVC: UIViewController, NSFetchedResultsControllerDelegate {
     
-    var coreData = CoreDataStack(modelName: "Project")
+    var coreData = CoreDataStack()
     
-    var testCDStack: CoreDataStack!
+//    var testCDStack: CoreDataStack!
     
     var projects = [Project]()
     
@@ -30,7 +30,7 @@ class ProjectsVC: UIViewController, NSFetchedResultsControllerDelegate {
         
         let fetchedResultsController = NSFetchedResultsController(
             fetchRequest: fetchRequest,
-            managedObjectContext: testCDStack.managedContext, sectionNameKeyPath: nil,
+            managedObjectContext: coreData.managedContext, sectionNameKeyPath: nil,
             cacheName: nil)
         
         fetchedResultsController.delegate = self // Use to detect changes and don't have to manually reload data
@@ -42,7 +42,6 @@ class ProjectsVC: UIViewController, NSFetchedResultsControllerDelegate {
         super.viewDidLoad()
         // Do any additional setup after loading the view.
         self.configureNavBar()
-        
         self.configureTable()
         
         
@@ -157,7 +156,7 @@ extension ProjectsVC: UITableViewDelegate, UITableViewDataSource {
     func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCell.EditingStyle, forRowAt indexPath: IndexPath) {
           let project = fetchedResultsController.object(at: indexPath)
         //        do {
-        self.testCDStack.managedContext.delete(project)
+        self.coreData.managedContext.delete(project)
     }
     
 }

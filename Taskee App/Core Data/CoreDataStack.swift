@@ -11,11 +11,11 @@ import CoreData
 
 class CoreDataStack {
     
-    private let modelName: String
+    private let modelName: String = "Project"
 
-    init(modelName: String) {
-      self.modelName = modelName
-    }
+//    init(modelName: String) {
+//      self.modelName = modelName
+//    }
 
     private lazy var storeContainer: NSPersistentContainer = {
         let container = NSPersistentContainer(name: self.modelName)
@@ -28,7 +28,7 @@ class CoreDataStack {
     }()
     lazy var managedContext: NSManagedObjectContext = {
         // get location of stored core data file
-        print(self.storeContainer.persistentStoreDescriptions.first?.url)
+//        print(self.storeContainer.persistentStoreDescriptions.first?.url)
         return self.storeContainer.viewContext
     }()
 
@@ -56,8 +56,6 @@ class CoreDataStack {
     func fetchTasks(with request: NSFetchRequest<Task> = Task.fetchRequest(), predicate: NSPredicate? = nil, selectedProject: String, completion: @escaping(Result<[Task]>) -> Void) {
         
         let categoryPredicate = NSPredicate(format: "parentProject.name MATCHES %@", selectedProject)
-        
-
         
         if let addtionalPredicate = predicate {
             request.predicate = NSCompoundPredicate(andPredicateWithSubpredicates: [categoryPredicate, addtionalPredicate])

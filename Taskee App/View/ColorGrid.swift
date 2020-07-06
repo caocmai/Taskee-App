@@ -19,17 +19,32 @@ class ColorGrid: UIView {
     
     var firstRow = UIStackView()
     var secondRow = UIStackView()
-    //    var thirdRow = UIStackView()
+    var thirdRow = UIStackView()
     //    var fourthRow = UIStackView()
     
     var delegate: ButtonBackgroundColorDelegate!
     
+    let oneButton = UIButton()
+    let twoButton = UIButton()
+    let threeButton = UIButton()
+    let fourButton = UIButton()
+    let fiveButton = UIButton()
+    let sixButton = UIButton()
+    let sevenButton = UIButton()
+    let eightButton = UIButton()
+    let nineButton = UIButton()
+    
+    var buttons = [UIButton]()
+    
     override init(frame: CGRect) {
         super.init(frame:frame)
         translatesAutoresizingMaskIntoConstraints = false
+        createButtonList()
         configureFirstRow()
         configureSecondRow()
-        configureStackView()
+        configureThirdRow()
+        configureColumnStackView()
+        
         
     }
     
@@ -37,16 +52,26 @@ class ColorGrid: UIView {
         fatalError("init(coder:) has not been implemented")
     }
     
-    private func configureStackView(){
+    internal func createButtonList() {
+        self.buttons = [self.oneButton, self.twoButton, self.threeButton, self.fourButton,
+                        self.fiveButton, self.sixButton, self.sevenButton, self.eightButton, self.nineButton
+        ]
+        
+        for button in buttons {
+            createBorder(button)
+        }
+    }
+    
+    internal func configureColumnStackView(){
         addSubview(stackView)
         clipsToBounds = true
         stackView.addArrangedSubview(firstRow)
         stackView.addArrangedSubview(secondRow)
-        //        stackView.addArrangedSubview(thirdRow)
+        stackView.addArrangedSubview(thirdRow)
         //        stackView.addArrangedSubview(fourthRow)
         
         stackView.translatesAutoresizingMaskIntoConstraints = false
-        stackView.spacing = CGFloat(10.0)
+        stackView.spacing = CGFloat(4.0)
         stackView.distribution = .fillEqually
         stackView.axis = .vertical
         
@@ -58,16 +83,16 @@ class ColorGrid: UIView {
         ])
     }
     
-    private func configureFirstRow(){
-        
-        let oneButton = UIButton()
-        let twoButton = UIButton()
-        let threeButton = UIButton()
+    internal func configureFirstRow(){
         
         oneButton.backgroundColor = UIColor.color(red: 123, green: 12, blue: 12)
         twoButton.backgroundColor = UIColor.color(red: 12, green: 123, blue: 12)
         threeButton.backgroundColor = UIColor.color(red: 89, green: 78, blue: 23)
         
+        //        createBorder(oneButton)
+        //        createBorder(twoButton)
+        //        createBorder(threeButton)
+        //
         
         oneButton.addTarget(self, action: #selector(returnButtonValue), for: .touchUpInside)
         twoButton.addTarget(self, action: #selector(returnButtonValue), for: .touchUpInside)
@@ -76,21 +101,25 @@ class ColorGrid: UIView {
         firstRow.addArrangedSubview(oneButton)
         firstRow.addArrangedSubview(twoButton)
         firstRow.addArrangedSubview(threeButton)
-        firstRow.backgroundColor = .red
-        firstRow.translatesAutoresizingMaskIntoConstraints = false
-        firstRow.axis = .horizontal
-        firstRow.distribution = .fillEqually
+        
+        configureRowStack(firstRow)
+        
+        //        firstRow.translatesAutoresizingMaskIntoConstraints = false
+        //        firstRow.axis = .horizontal
+        //        firstRow.distribution = .fillEqually
+        //        firstRow.spacing = 4
         
     }
     
-    private func configureSecondRow(){
-        let fourButton = UIButton()
-        let fiveButton = UIButton()
-        let sixButton = UIButton()
+    internal func configureSecondRow(){
         
-        fourButton.backgroundColor = UIColor.color(red: 123, green: 12, blue: 12)
-        fiveButton.backgroundColor = UIColor.color(red: 12, green: 123, blue: 12)
+        fourButton.backgroundColor = customColor.myGreen.myCustomColor
+        fiveButton.backgroundColor = customColor.myYellow.myCustomColor
         sixButton.backgroundColor = UIColor.color(red: 89, green: 78, blue: 23)
+        
+        //        createBorder(fourButton)
+        //        createBorder(fiveButton)
+        //        createBorder(sixButton)
         
         fourButton.addTarget(self, action: #selector(returnButtonValue), for: .touchUpInside)
         fiveButton.addTarget(self, action: #selector(returnButtonValue), for: .touchUpInside)
@@ -101,17 +130,56 @@ class ColorGrid: UIView {
         secondRow.addArrangedSubview(fourButton)
         secondRow.addArrangedSubview(fiveButton)
         secondRow.addArrangedSubview(sixButton)
+        configureRowStack(secondRow)
+        //        secondRow.translatesAutoresizingMaskIntoConstraints = false
+        //        secondRow.axis = .horizontal
+        //        secondRow.distribution = .fillEqually
+        //        secondRow.spacing = 4
         
-        secondRow.translatesAutoresizingMaskIntoConstraints = false
-        secondRow.axis = .horizontal
-        secondRow.distribution = .fillEqually
+    }
+    
+    internal func configureThirdRow(){
         
+        sevenButton.backgroundColor = UIColor.color(red: 123, green: 12, blue: 12)
+        eightButton.backgroundColor = UIColor.color(red: 12, green: 123, blue: 12)
+        nineButton.backgroundColor = UIColor.color(red: 89, green: 78, blue: 23)
+        //
+        //        createBorder(sevenButton)
+        //        createBorder(eightButton)
+        //        createBorder(nineButton)
+        
+        sevenButton.addTarget(self, action: #selector(returnButtonValue), for: .touchUpInside)
+        eightButton.addTarget(self, action: #selector(returnButtonValue), for: .touchUpInside)
+        nineButton.addTarget(self, action: #selector(returnButtonValue), for: .touchUpInside)
+        
+        thirdRow.addArrangedSubview(sevenButton)
+        thirdRow.addArrangedSubview(eightButton)
+        thirdRow.addArrangedSubview(nineButton)
+        
+        self.configureRowStack(thirdRow)
+        
+    }
+    
+    internal func createBorder(_ button: UIButton) {
+        button.layer.borderWidth = 4
+        button.layer.borderColor = UIColor.black.cgColor
+    }
+    
+    internal func configureRowStack(_ stack: UIStackView) {
+        stack.translatesAutoresizingMaskIntoConstraints = false
+        stack.axis = .horizontal
+        stack.distribution = .fillEqually
+        stack.spacing = 4
     }
     
     @objc func returnButtonValue(_ sender: UIButton ) {
         let color = sender.backgroundColor! as UIColor
-        print("color", color)
+        sender.layer.borderColor = UIColor.yellow.cgColor
         self.delegate.getButtonColor(buttonColor: color)
+        
+        for buttonColor in buttons where buttonColor != sender {
+            createBorder(buttonColor)
+        }
         
     }
 }

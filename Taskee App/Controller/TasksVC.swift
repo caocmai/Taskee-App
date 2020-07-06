@@ -13,14 +13,12 @@ class TasksVC: UIViewController {
     
     var selectedProject: Project? {
         didSet{
-            self.loadItems()
-            
-
+//            self.loadItems()
         }
     }
     var tasks = [Task]()
-    var coreData: NSManagedObjectContext!
-    var coredataSTack = CoreDataStack(modelName: "Project")
+    var coreData: NSManagedObjectContext?
+    var coredataSTack = CoreDataStack()
     var testCD: CoreDataStack!
     
     lazy var dateFormatter: DateFormatter = {
@@ -36,13 +34,19 @@ class TasksVC: UIViewController {
         return table
     }()
     
+    var control: UISegmentedControl!
+    
     override func viewDidLoad() {
         super.viewDidLoad()
+        addControl()
+
         self.configureNavBar()
 //        let tasks = selectedProject?.projectTasks[0] as? Task
 //        print(selectedProject?.projectTasks)
         self.configureTable()
-//        test()
+//        self.loadItems()
+        test()
+        print("passed coredata", coreData)
         
         
     }
@@ -58,6 +62,36 @@ class TasksVC: UIViewController {
         }
     }
     
+    func addControl() {
+       let segmentItems = ["First", "Second"]
+    control = UISegmentedControl(items: segmentItems)
+//       control.frame = CGRect(x: 10, y: 250, width: (self.view.frame.width - 20), height: 50)
+       control.addTarget(self, action: #selector(segmentControl(_:)), for: .valueChanged)
+       control.selectedSegmentIndex = 1
+       view.addSubview(control)
+        control.translatesAutoresizingMaskIntoConstraints = false
+        NSLayoutConstraint.activate([
+            control.topAnchor.constraint(equalTo: self.view.safeAreaLayoutGuide.topAnchor),
+            control.centerXAnchor.constraint(equalTo: self.view.safeAreaLayoutGuide.centerXAnchor, constant: 0),
+            control.widthAnchor.constraint(equalToConstant: self.view.frame.width - 20.0),
+            control.heightAnchor.constraint(equalToConstant: 50.0)
+            
+        ])
+    }
+    
+    @objc func segmentControl(_ segmentedControl: UISegmentedControl) {
+       switch (segmentedControl.selectedSegmentIndex) {
+          case 0:
+             // First segment tapped
+            print("one")
+          case 1:
+             // Second segment tapped
+            print("two")
+          default:
+          break
+       }
+    }
+    
     private func configureNavBar() {
         self.view.backgroundColor = .white
         self.navigationController?.navigationBar.prefersLargeTitles = true
@@ -67,13 +101,13 @@ class TasksVC: UIViewController {
     }
     
     @objc func addTaskTapped(){
-        let newTask = Task(context: self.coreData)
-        newTask.dueDate = Date()
-        newTask.status = false
-        newTask.title = "Other task"
-        newTask.taskImage = UIImage(named: "mango")?.pngData()
-        newTask.parentProject = self.selectedProject
-        testCD.saveContext()
+//        let newTask = Task(context: self.coreData)
+//        newTask.dueDate = Date()
+//        newTask.status = false
+//        newTask.title = "Other task"
+//        newTask.taskImage = UIImage(named: "mango")?.pngData()
+//        newTask.parentProject = self.selectedProject
+//        testCD.saveContext()
         
         let destinationVC = NewTaskVC()
         destinationVC.coreData = coreData
@@ -89,8 +123,15 @@ class TasksVC: UIViewController {
         self.taskTable.dataSource = self
         self.taskTable.register(UITableViewCell.self, forCellReuseIdentifier: "Cell")
         self.view.addSubview(taskTable)
-        self.taskTable.frame = view.bounds
+//        self.taskTable.frame = view.bounds
         self.taskTable.separatorStyle = .none
+        
+        NSLayoutConstraint.activate([
+            self.taskTable.topAnchor.constraint(equalTo: self.control.bottomAnchor),
+            self.taskTable.leadingAnchor.constraint(equalTo: self.view.safeAreaLayoutGuide.leadingAnchor, constant: 0),
+            self.taskTable.trailingAnchor.constraint(equalTo: self.view.safeAreaLayoutGuide.trailingAnchor, constant: 0),
+            self.taskTable.bottomAnchor.constraint(equalTo: self.view.safeAreaLayoutGuide.bottomAnchor, constant: 0)
+        ])
 
         
     }
@@ -109,7 +150,7 @@ class TasksVC: UIViewController {
 
     
         do {
-            tasks = try coredataSTack.managedContext.fetch(request)
+            tasks = try coreData!.fetch(request)
         } catch {
             print("Error fetching data from context \(error)")
         }
@@ -138,11 +179,12 @@ extension TasksVC: UITableViewDelegate, UITableViewDataSource {
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         tasks[indexPath.row].status = !tasks[indexPath.row].status
-
-        testCD.saveContext()
-        test()
-        
         tableView.deselectRow(at: indexPath, animated: true)
+
+        coredataSTack.saveContext()
+        taskTable.reloadData()
+//        test()
+        
     }
     
     

@@ -29,7 +29,7 @@ class NewTaskVC: UIViewController {
         view.addSubview(dateTextField)
         dateTextField.translatesAutoresizingMaskIntoConstraints = false
         dateTextField.inputView = datePicker
-        dateTextField.placeholder = "PICk time"
+        dateTextField.placeholder = "Pick time"
         
         NSLayoutConstraint.activate([
             dateTextField.centerYAnchor.constraint(equalTo: view.centerYAnchor)
@@ -61,7 +61,7 @@ class NewTaskVC: UIViewController {
         let hide = UIBarButtonItem(barButtonSystemItem: UIBarButtonItem.SystemItem.close, target: nil, action: #selector(cancelBtnTapped))
         let flexSpace = UIBarButtonItem(barButtonSystemItem: UIBarButtonItem.SystemItem.flexibleSpace, target: nil, action: nil)
 
-        let done: UIBarButtonItem = UIBarButtonItem(title: "Check", style: UIBarButtonItem.Style.done, target: self, action: #selector(cancelBtnTapped))
+        let done: UIBarButtonItem = UIBarButtonItem(title: "Done", style: UIBarButtonItem.Style.done, target: self, action: #selector(doneBtnTapped))
 
 //        var items = [UIBarButtonItem]()
 //        items.append(hide)
@@ -82,12 +82,13 @@ class NewTaskVC: UIViewController {
         let formatter = DateFormatter()
         formatter.dateStyle = .short
         dateTextField.text = formatter.string(from: datePicker.date)
+        createNewTask()
     }
     
     private func createNewTask() {
         
         let newTask = Task(context: self.coreData)
-        newTask.dueDate = Date()
+        newTask.dueDate = datePicker.date
         newTask.status = false
         newTask.title = "A new task"
         newTask.taskImage = UIImage(named: "mango")?.pngData()

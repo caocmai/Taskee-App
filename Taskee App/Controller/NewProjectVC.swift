@@ -10,7 +10,7 @@ import UIKit
 
 class NewProjectVC: UIViewController, ButtonBackgroundColorDelegate {
     func getButtonColor(buttonColor: UIColor) {
-        print(buttonColor)
+        self.view.backgroundColor = buttonColor
     }
     
     
@@ -23,6 +23,7 @@ class NewProjectVC: UIViewController, ButtonBackgroundColorDelegate {
         view.backgroundColor = .white
         addContraints()
         colorGrid.delegate = self
+        
     }
     
     func addContraints() {
