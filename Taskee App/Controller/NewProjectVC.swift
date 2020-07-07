@@ -67,18 +67,15 @@ class NewProjectVC: UIViewController, ButtonBackgroundColorDelegate {
         if selectedProject != nil {
             getProjectName.text = selectedProject?.name
             view.backgroundColor = selectedProject?.color as? UIColor
+            self.title = "Edit \(selectedProject?.name ?? "Unnamed")"
         }
-        
-        
-        
+
     }
     
     func addNavBar() {
         let cancelButton = UIBarButtonItem(barButtonSystemItem: .close, target: self, action:
             #selector(closeButtonTapped))
         self.navigationItem.rightBarButtonItem = cancelButton
-        
-        
         
     }
     
@@ -134,21 +131,19 @@ class NewProjectVC: UIViewController, ButtonBackgroundColorDelegate {
     
     @objc func saveButtonTapped() {
         
-        if selectedProject != nil {
+        if selectedProject != nil { // To update/edit project
             selectedProject?.setValue(getProjectName.text, forKey: "name")
             if self.getColor != nil {
                 selectedProject?.setValue(self.getColor, forKey: "color")
             }
             coreDataStack?.saveContext()
             dismiss(animated: true, completion: nil)
-        }else {
-            
+        }else { // To save new project
             let newProject = Project(context: coreDataStack!.managedContext)
             newProject.name = getProjectName.text
             newProject.color = getColor
             coreDataStack?.saveContext()
             dismiss(animated: true, completion: nil)
         }
-        
     }
 }

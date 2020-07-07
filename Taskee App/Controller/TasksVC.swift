@@ -9,7 +9,11 @@
 import UIKit
 import CoreData
 
-class TasksVC: UIViewController {
+class TasksVC: UIViewController, UIContextMenuInteractionDelegate {
+    func contextMenuInteraction(_ interaction: UIContextMenuInteraction, configurationForMenuAtLocation location: CGPoint) -> UIContextMenuConfiguration? {
+        return nil
+    }
+    
     
     var selectedProject: Project? {
         didSet{
@@ -47,6 +51,8 @@ class TasksVC: UIViewController {
 //        self.loadItems()
         test()
 //        print("passed coredata", managedContext)
+        let interaction = UIContextMenuInteraction(delegate: self)
+        view.addInteraction(interaction)
         
         
     }
@@ -197,3 +203,54 @@ extension TasksVC: UITableViewDelegate, UITableViewDataSource {
     
 }
 
+
+extension TasksVC {
+    
+    func tableView(_ tableView: UITableView, contextMenuConfigurationForRowAt indexPath: IndexPath, point: CGPoint) -> UIContextMenuConfiguration? {
+        
+        let configuration = UIContextMenuConfiguration(identifier: nil, previewProvider: { () -> UIViewController? in
+            let preview = PreviewViewController()
+            let object = self.tasks[indexPath.row]
+            preview.labeltest.text = "MOney"
+            preview.imageView.image = UIImage(data: object.taskImage!)
+            return preview
+        }) { _ -> UIMenu? in
+            let action = UIAction(title: "Close", image: nil) { action in
+                self.dismiss(animated: false, completion: nil)
+            }
+            return UIMenu(title: "Menu", children: [action])
+        }
+        return configuration
+    }
+
+}
+
+
+class PreviewViewController: UIViewController {
+    
+    var labeltest = UILabel()
+    var imageView: UIImageView = {
+        let image = UIImageView()
+        image.translatesAutoresizingMaskIntoConstraints = false
+        return image
+    }()
+    
+    override func viewDidLoad() {
+        super.viewDidLoad()
+        view.backgroundColor = .white
+        view.addSubview(imageView)
+        
+        NSLayoutConstraint.activate([
+            imageView.centerYAnchor.constraint(equalTo: view.centerYAnchor),
+            imageView.centerXAnchor.constraint(equalTo: view.centerXAnchor)
+        ])
+        
+    }
+    
+    
+//    static func controller() -> PreviewViewController {
+//        let storyboard = UIStoryboard(name: "Main", bundle: nil)
+//        let controller = storyboard.instantiateViewController(withIdentifier: "PreviewViewController") as! PreviewViewController
+//        return controller
+//    }
+}

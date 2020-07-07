@@ -300,7 +300,7 @@ extension ProjectsVC: UIContextMenuInteractionDelegate {
                    point: CGPoint) -> UIContextMenuConfiguration? {
         
         
-        let favorite = UIAction(title: "Edit") { _ in
+        let favorite = UIAction(title: "Edit...") { _ in
             print(indexPath.row)
             let editVC = NewProjectVC()
             let project = self.fetchedResultsController.object(at: indexPath)
@@ -320,18 +320,15 @@ extension ProjectsVC: UIContextMenuInteractionDelegate {
             print("fav")
             
         }
-        let share = UIAction(title: "Share") { _ in
-            print("share")
-            
-        }
-        let delete = UIAction(title: "Delete") { _ in
+  
+        let delete = UIAction(title: "Delete", image: UIImage(systemName: "trash")) { _ in
             print("del")
             
         }
         
         return UIContextMenuConfiguration(identifier: nil,
                                           previewProvider: nil) { _ in
-                                            UIMenu(title: "Actions", children: [favorite, share, delete])
+                                            UIMenu(title: "Actions", children: [favorite, delete])
         }
     }
 }
