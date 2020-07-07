@@ -14,31 +14,30 @@ class NewProjectVC: UIViewController, ButtonBackgroundColorDelegate {
         self.getColor = buttonColor
     }
     
-    
+    var selectedProject: Project?
     let colorGrid = ColorGrid()
-    var coreDataStack: CoreDataStack? = nil
+    var coreDataStack: CoreDataStack?
     var getColor: UIColor? = nil
+    //
+    //    let closeButton: UIButton = {
+    //        let button = UIButton()
+    //        button.translatesAutoresizingMaskIntoConstraints = false
+    //        button.setImage(UIImage(systemName: "xmark"), for: .normal)
+    //        button.setTitle("CLOSE", for: .normal)
+    //        button.setTitleColor(.brown, for: .normal)
+    //        return button
+    //    }()
     
-    let closeButton: UIButton = {
-        let button = UIButton()
-        button.translatesAutoresizingMaskIntoConstraints = false
-        button.setImage(UIImage(systemName: "xmark"), for: .normal)
-        button.setTitle("CLOSE", for: .normal)
-        button.setTitleColor(.brown, for: .normal)
-        return button
-    }()
-
     
     let getProjectName: UITextField = {
-       let textField = UITextField()
+        let textField = UITextField()
         textField.textColor = .blue
         textField.placeholder = "Project Name"
         textField.translatesAutoresizingMaskIntoConstraints = false
         textField.textAlignment = .center
         textField.backgroundColor = .white
-//        textfield.layer.cornerRadius = 7
+        //        textfield.layer.cornerRadius = 7
         textField.borderStyle = .roundedRect
-        
         return textField
     }()
     
@@ -57,32 +56,43 @@ class NewProjectVC: UIViewController, ButtonBackgroundColorDelegate {
         view.backgroundColor = .white
         colorGridContraints()
         colorGrid.delegate = self
+        editProjectSetup()
         addProjectName()
         addSaveButton()
-        addCloseButton()
+        //        addCloseButton()
         addNavBar()
+    }
+    
+    func editProjectSetup(){
+        if selectedProject != nil {
+            getProjectName.text = selectedProject?.name
+            view.backgroundColor = selectedProject?.color as? UIColor
+        }
+        
+        
+        
     }
     
     func addNavBar() {
         let cancelButton = UIBarButtonItem(barButtonSystemItem: .close, target: self, action:
-        #selector(closeButtonTapped))
+            #selector(closeButtonTapped))
         self.navigationItem.rightBarButtonItem = cancelButton
-
         
         
-    }
-    
-    
-    func addCloseButton(){
-        self.closeButton.addTarget(self, action: #selector(closeButtonTapped), for: .touchUpInside)
-        self.view.addSubview(self.closeButton)
-        NSLayoutConstraint.activate([
-            self.closeButton.topAnchor.constraint(equalTo: self.view.topAnchor, constant: 10),
-            self.closeButton.trailingAnchor.constraint(equalTo: self.view.trailingAnchor, constant: -10)
-        ])
-    
         
     }
+    
+    
+    //    func addCloseButton(){
+    //        self.closeButton.addTarget(self, action: #selector(closeButtonTapped), for: .touchUpInside)
+    //        self.view.addSubview(self.closeButton)
+    //        NSLayoutConstraint.activate([
+    //            self.closeButton.topAnchor.constraint(equalTo: self.view.topAnchor, constant: 10),
+    //            self.closeButton.trailingAnchor.constraint(equalTo: self.view.trailingAnchor, constant: -10)
+    //        ])
+    //
+    //
+    //    }
     
     @objc func closeButtonTapped() {
         dismiss(animated: true, completion: nil)
@@ -123,10 +133,22 @@ class NewProjectVC: UIViewController, ButtonBackgroundColorDelegate {
     }
     
     @objc func saveButtonTapped() {
-        let newProject = Project(context: coreDataStack!.managedContext)
-        newProject.name = getProjectName.text
-        newProject.color = getColor
-        coreDataStack?.saveContext()
-        dismiss(animated: true, completion: nil)
+        
+        if selectedProject != nil {
+            selectedProject?.setValue(getProjectName.text, forKey: "name")
+            if self.getColor != nil {
+                selectedProject?.setValue(self.getColor, forKey: "color")
+            }
+            coreDataStack?.saveContext()
+            dismiss(animated: true, completion: nil)
+        }else {
+            
+            let newProject = Project(context: coreDataStack!.managedContext)
+            newProject.name = getProjectName.text
+            newProject.color = getColor
+            coreDataStack?.saveContext()
+            dismiss(animated: true, completion: nil)
+        }
+        
     }
 }

@@ -15,7 +15,7 @@ class ProjectsVC: UIViewController, NSFetchedResultsControllerDelegate {
     
     var testCDStack: NSManagedObjectContext?
     
-    var projects = [Project]()
+    //    var projects = [Project]()
     
     var table: UITableView = {
         let newTable = UITableView()
@@ -46,15 +46,14 @@ class ProjectsVC: UIViewController, NSFetchedResultsControllerDelegate {
         self.configureTable()
         self.table.estimatedRowHeight = 30
         self.table.rowHeight = UITableView.automaticDimension
-
+        
         do {
             try fetchedResultsController.performFetch()
-          } catch let error as NSError {
+        } catch let error as NSError {
             print("Fetching error: \(error), \(error.userInfo)")
         }
         
         
-
     }
     
     func configureCell(cell: UITableViewCell, for indexPath: IndexPath) {
@@ -65,8 +64,8 @@ class ProjectsVC: UIViewController, NSFetchedResultsControllerDelegate {
         cell.accessoryType = .disclosureIndicator
         cell.textLabel?.numberOfLines = 0
         
-        let interaction = UIContextMenuInteraction(delegate: self)
-        cell.addInteraction(interaction)
+        //        let interaction = UIContextMenuInteraction(delegate: self)
+        //        cell.addInteraction(interaction)
         
     }
     
@@ -85,16 +84,16 @@ class ProjectsVC: UIViewController, NSFetchedResultsControllerDelegate {
         //        self.navigationItem.rightBarButtonItem = camera
     }
     
-    private func fetchProjects() {
-        coreDataStack.fetchPersistedData { (results) in
-            switch results {
-            case .success(let allProjects):
-                self.projects = allProjects
-            case .failure(let error):
-                print(error)
-            }
-        }
-    }
+    //    private func fetchProjects() {
+    //        coreDataStack.fetchPersistedData { (results) in
+    //            switch results {
+    //            case .success(let allProjects):
+    //                self.projects = allProjects
+    //            case .failure(let error):
+    //                print(error)
+    //            }
+    //        }
+    //    }
     
     private func configureTable() {
         self.view.addSubview(self.table)
@@ -107,25 +106,25 @@ class ProjectsVC: UIViewController, NSFetchedResultsControllerDelegate {
     }
     
     @objc func addProjectTapped(){
-//
+        //
         let newProjectVC = NewProjectVC()
         newProjectVC.coreDataStack = coreDataStack
         let navController = UINavigationController(rootViewController: newProjectVC)
         self.present(navController, animated: true, completion: nil)
-//        print("hello")
-//        let newProject = Project(context: coreDataStack.managedContext)
-//        newProject.name = "Project 3"
-//        newProject.color = UIColor.color(red: 13, green: 7, blue: 126, alpha: 0.50)
+        //        print("hello")
+        //        let newProject = Project(context: coreDataStack.managedContext)
+        //        newProject.name = "Project 3"
+        //        newProject.color = UIColor.color(red: 13, green: 7, blue: 126, alpha: 0.50)
         
-//        do {
-//            try         testCDStack?.save()
-//
-//        } catch{
-//            print("error")
-//        }
-//        self.coreDataStack.saveContext()
-//        print("saved")
-       
+        //        do {
+        //            try         testCDStack?.save()
+        //
+        //        } catch{
+        //            print("error")
+        //        }
+        //        self.coreDataStack.saveContext()
+        //        print("saved")
+        
     }
     
 }
@@ -134,9 +133,9 @@ class ProjectsVC: UIViewController, NSFetchedResultsControllerDelegate {
 extension ProjectsVC: UITableViewDelegate, UITableViewDataSource {
     
     func numberOfSections(in tableView: UITableView) -> Int {
-
-       return fetchedResultsController.sections?.count ?? 0
-     }
+        
+        return fetchedResultsController.sections?.count ?? 0
+    }
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         //        return projects.count
@@ -161,20 +160,20 @@ extension ProjectsVC: UITableViewDelegate, UITableViewDataSource {
     }
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-
+        
         let destinationVC = TasksVC()
         let project = fetchedResultsController.object(at: indexPath)
         destinationVC.selectedProject = project
-//        destinationVC.managedContext = coreDataStack.managedContext
+        //        destinationVC.managedContext = coreDataStack.managedContext
         destinationVC.testCD = coreDataStack
         self.table.deselectRow(at: indexPath, animated: true)
-
+        
         self.navigationController?.pushViewController(destinationVC, animated: true)
-
+        
     }
     
     func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCell.EditingStyle, forRowAt indexPath: IndexPath) {
-          let project = fetchedResultsController.object(at: indexPath)
+        let project = fetchedResultsController.object(at: indexPath)
         //        do {
         self.coreDataStack.managedContext.delete(project)
         self.coreDataStack.saveContext()
@@ -183,80 +182,156 @@ extension ProjectsVC: UITableViewDelegate, UITableViewDataSource {
 }
 
 extension ProjectsVC {
-
-  func controllerWillChangeContent(_ controller: NSFetchedResultsController<NSFetchRequestResult>) {
-    table.beginUpdates()
-  }
-
-  func controller(_ controller: NSFetchedResultsController<NSFetchRequestResult>,
-                  didChange anObject: Any,
-                  at indexPath: IndexPath?,
-                  for type: NSFetchedResultsChangeType,
-                  newIndexPath: IndexPath?) {
-
-    switch type {
-    case .insert:
-      table.insertRows(at: [newIndexPath!], with: .automatic)
-    case .delete:
-      table.deleteRows(at: [indexPath!], with: .automatic)
-    case .update:
-      let cell = table.cellForRow(at: indexPath!) as! ProjectCell
-      configureCell(cell: cell, for: indexPath!)
-    case .move:
-      table.deleteRows(at: [indexPath!], with: .automatic)
-      table.insertRows(at: [newIndexPath!], with: .automatic)
+    
+    func controllerWillChangeContent(_ controller: NSFetchedResultsController<NSFetchRequestResult>) {
+        table.beginUpdates()
     }
-  }
-
-  func controllerDidChangeContent(_ controller: NSFetchedResultsController<NSFetchRequestResult>) {
-    table.endUpdates()
-  }
-
-  func controller(_ controller: NSFetchedResultsController<NSFetchRequestResult>,
-                  didChange sectionInfo: NSFetchedResultsSectionInfo,
-                  atSectionIndex sectionIndex: Int,
-                  for type: NSFetchedResultsChangeType) {
-
-    let indexSet = IndexSet(integer: sectionIndex)
-
-    switch type {
-    case .insert:
-      table.insertSections(indexSet, with: .automatic)
-    case .delete:
-      table.deleteSections(indexSet, with: .automatic)
-    default: break
+    
+    func controller(_ controller: NSFetchedResultsController<NSFetchRequestResult>,
+                    didChange anObject: Any,
+                    at indexPath: IndexPath?,
+                    for type: NSFetchedResultsChangeType,
+                    newIndexPath: IndexPath?) {
+        
+        switch type {
+        case .insert:
+            table.insertRows(at: [newIndexPath!], with: .automatic)
+        case .delete:
+            table.deleteRows(at: [indexPath!], with: .automatic)
+        case .update:
+            let cell = table.cellForRow(at: indexPath!) as! ProjectCell
+            configureCell(cell: cell, for: indexPath!)
+        case .move:
+            table.deleteRows(at: [indexPath!], with: .automatic)
+            table.insertRows(at: [newIndexPath!], with: .automatic)
+        }
     }
-  }
+    
+    func controllerDidChangeContent(_ controller: NSFetchedResultsController<NSFetchRequestResult>) {
+        table.endUpdates()
+    }
+    
+    func controller(_ controller: NSFetchedResultsController<NSFetchRequestResult>,
+                    didChange sectionInfo: NSFetchedResultsSectionInfo,
+                    atSectionIndex sectionIndex: Int,
+                    for type: NSFetchedResultsChangeType) {
+        
+        let indexSet = IndexSet(integer: sectionIndex)
+        
+        switch type {
+        case .insert:
+            table.insertSections(indexSet, with: .automatic)
+        case .delete:
+            table.deleteSections(indexSet, with: .automatic)
+        default: break
+        }
+    }
 }
 
 extension ProjectsVC: UIContextMenuInteractionDelegate {
     
-    func contextMenuInteraction(_ interaction: UIContextMenuInteraction, configurationForMenuAtLocation location: CGPoint) -> UIContextMenuConfiguration? {
-        return UIContextMenuConfiguration(identifier: nil, previewProvider: nil, actionProvider: { suggestedActions in
-            return self.makeContextMenu()
-        })
-        
+    func contextMenuInteraction(_ interaction: UIContextMenuInteraction,
+                                configurationForMenuAtLocation location: CGPoint)
+        -> UIContextMenuConfiguration? {
+            return nil
     }
     
-    func makeContextMenu() -> UIMenu {
-
-        // Create a UIAction for sharing
-        let share = UIAction(title: "Edit...") { action in
-            // Show system share sheet
-            print("edit")
-            let indexPath = self.table.indexPathForSelectedRow
-            let projectToEdit = self.fetchedResultsController.object(at: indexPath!)
+    //    func contextMenuInteraction(_ interaction: UIContextMenuInteraction, configurationForMenuAtLocation location: CGPoint) -> UIContextMenuConfiguration? {
+    //        return UIContextMenuConfiguration(identifier: nil, previewProvider: nil) { suggestedActions in
+    //
+    //            // Create an action for sharing
+    //            let share = UIAction(title: "Share", image: UIImage(systemName: "square.and.arrow.up")) { action in
+    //                // Show system share sheet
+    //                let index = self.table.indexPathForSelectedRow
+    //                print(index)
+    //                print("share")
+    //            }
+    //
+    //            // Create an action for renaming
+    //            let rename = UIAction(title: "Rename", image: UIImage(systemName: "square.and.pencil")) { action in
+    //                // Perform renaming
+    //                print("rename")
+    //            }
+    //
+    //            // Here we specify the "destructive" attribute to show that it’s destructive in nature
+    //            let delete = UIAction(title: "Delete", image: UIImage(systemName: "trash"), attributes: .destructive) { action in
+    //                // Perform delete
+    //            }
+    //
+    //            // Create and return a UIMenu with all of the actions as children
+    //            return UIMenu(title: "", children: [share, rename, delete])
+    //        }
+    //    }
+    
+    //    func makeContextMenu(for: Project) -> UIMenu? {
+    //
+    //        // Create a UIAction for sharing
+    //        let share = UIAction(title: "Edit...") { action in
+    //            // Show system share sheet
+    //            print("edit")
+    //            let indexPath = self.table.indexPathForSelectedRow
+    //            print(indexPath)
+    //            let projectToEdit = self.fetchedResultsController.object(at: indexPath!)
+    //
+    //            let editProjectVC = NewProjectVC()
+    //            editProjectVC.coreDataStack = self.coreDataStack
+    //
+    //            let navController = UINavigationController(rootViewController: editProjectVC)
+    //            self.present(navController, animated: true, completion: nil)
+    //
+    //        }
+    //
+    //        // Create and return a UIMenu with the share action
+    //        return UIMenu(title: "Main Menu", children: [share])
+    //    }
+    
+    //    func tableView(_ tableView: UITableView, contextMenuConfigurationForRowAt indexPath: IndexPath, point: CGPoint) -> UIMenu? {
+    //        let item = projects[indexPath.row]
+    //
+    //
+    //          return UIContextMenuConfiguration(identifier: nil, previewProvider: nil, actionProvider: { suggestedActions in
+    //
+    //                // "puppers" is the array backing the collection view
+    //                return self.makeContextMenu(for: self.projects[indexPath.row])
+    //            })
+    
+    func tableView(_ tableView: UITableView,
+                   contextMenuConfigurationForRowAt indexPath: IndexPath,
+                   point: CGPoint) -> UIContextMenuConfiguration? {
+        
+        
+        let favorite = UIAction(title: "Edit") { _ in
+            print(indexPath.row)
+            let editVC = NewProjectVC()
+            let project = self.fetchedResultsController.object(at: indexPath)
+            editVC.selectedProject = project
+            //        destinationVC.managedContext = coreDataStack.managedContext
+            editVC.coreDataStack = self.coreDataStack
+            self.table.deselectRow(at: indexPath, animated: true)
             
-            let editProjectVC = NewProjectVC()
-            editProjectVC.coreDataStack = self.coreDataStack
-            
-            let navController = UINavigationController(rootViewController: editProjectVC)
+            let navController = UINavigationController(rootViewController: editVC)
             self.present(navController, animated: true, completion: nil)
             
+            
+            
+            //            print(self.projects)
+            
+            //            print(self.projects[indexPath.row])
+            print("fav")
+            
         }
-
-        // Create and return a UIMenu with the share action
-        return UIMenu(title: "Main Menu", children: [share])
+        let share = UIAction(title: "Share") { _ in
+            print("share")
+            
+        }
+        let delete = UIAction(title: "Delete") { _ in
+            print("del")
+            
+        }
+        
+        return UIContextMenuConfiguration(identifier: nil,
+                                          previewProvider: nil) { _ in
+                                            UIMenu(title: "Actions", children: [favorite, share, delete])
+        }
     }
-    
 }
