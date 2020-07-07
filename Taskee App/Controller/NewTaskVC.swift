@@ -12,14 +12,21 @@ import CoreData
 class NewTaskVC: UIViewController {
     var datePicker = UIDatePicker()
     var imagePicker = UIImagePickerController()
-    var dateTextField = UITextField()
+    var dateTextField: UITextField = {
+        let textField = UITextField()
+        textField.translatesAutoresizingMaskIntoConstraints = false
+        textField.borderStyle = .roundedRect
+        textField.placeholder = "Pick time"
+        return textField
+    }()
     var parentObject: Project!
     var coreData: NSManagedObjectContext!
     
     let setTitle: UITextField = {
         let textField = UITextField()
         textField.translatesAutoresizingMaskIntoConstraints = false
-        textField.placeholder = "Title?"
+        textField.placeholder = "Add Title"
+        textField.borderStyle = .roundedRect
         return textField
     }()
     
@@ -65,9 +72,7 @@ class NewTaskVC: UIViewController {
         view.addSubview(dateTextField)
         view.addSubview(imageView)
         view.addSubview(saveButton)
-        dateTextField.translatesAutoresizingMaskIntoConstraints = false
         dateTextField.inputView = datePicker
-        dateTextField.placeholder = "Pick time"
         
         let singleTap = UITapGestureRecognizer(target: self, action: #selector(imageViewTapped))
         imageView.addGestureRecognizer(singleTap)
@@ -97,12 +102,22 @@ class NewTaskVC: UIViewController {
     }
     
     @objc func saveButtonTapped() {
+        
+//        createNewTask()
+        
         let newTask = Task(context: self.coreData)
         newTask.dueDate = datePicker.date
         newTask.status = false
         newTask.title = setTitle.text
         newTask.taskImage = imageView.image!.pngData()
         newTask.parentProject = self.parentObject
+        self.navigationController?.popViewController(animated: true)
+        
+        do{
+            try self.coreData.save()
+        }catch{
+            print("error")
+        }
         
     }
     
@@ -152,7 +167,6 @@ class NewTaskVC: UIViewController {
         let formatter = DateFormatter()
         formatter.dateStyle = .short
         dateTextField.text = formatter.string(from: datePicker.date)
-        createNewTask()
     }
     
     private func createNewTask() {
@@ -160,7 +174,7 @@ class NewTaskVC: UIViewController {
         let newTask = Task(context: self.coreData)
         newTask.dueDate = datePicker.date
         newTask.status = false
-        newTask.title = "Some Task"
+        newTask.title = "New task"
         newTask.taskImage = UIImage(named: "mango")?.pngData()
         newTask.parentProject = self.parentObject
         

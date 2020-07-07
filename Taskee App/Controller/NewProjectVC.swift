@@ -30,16 +30,16 @@ class NewProjectVC: UIViewController, ButtonBackgroundColorDelegate {
 
     
     let getProjectName: UITextField = {
-       let textfield = UITextField()
-        textfield.textColor = .blue
-        textfield.placeholder = "Project Name"
-        textfield.translatesAutoresizingMaskIntoConstraints = false
-        textfield.textAlignment = .center
-        textfield.backgroundColor = .white
+       let textField = UITextField()
+        textField.textColor = .blue
+        textField.placeholder = "Project Name"
+        textField.translatesAutoresizingMaskIntoConstraints = false
+        textField.textAlignment = .center
+        textField.backgroundColor = .white
 //        textfield.layer.cornerRadius = 7
-        textfield.borderStyle = .roundedRect
+        textField.borderStyle = .roundedRect
         
-        return textfield
+        return textField
     }()
     
     let saveButton: UIButton = {
@@ -60,7 +60,18 @@ class NewProjectVC: UIViewController, ButtonBackgroundColorDelegate {
         addProjectName()
         addSaveButton()
         addCloseButton()
+        addNavBar()
     }
+    
+    func addNavBar() {
+        let cancelButton = UIBarButtonItem(barButtonSystemItem: .close, target: self, action:
+        #selector(closeButtonTapped))
+        self.navigationItem.rightBarButtonItem = cancelButton
+
+        
+        
+    }
+    
     
     func addCloseButton(){
         self.closeButton.addTarget(self, action: #selector(closeButtonTapped), for: .touchUpInside)

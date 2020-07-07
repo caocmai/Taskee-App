@@ -38,6 +38,7 @@ class ProjectsVC: UIViewController, NSFetchedResultsControllerDelegate {
         return fetchedResultsController
     }()
     
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         // Do any additional setup after loading the view.
@@ -45,8 +46,7 @@ class ProjectsVC: UIViewController, NSFetchedResultsControllerDelegate {
         self.configureTable()
         self.table.estimatedRowHeight = 30
         self.table.rowHeight = UITableView.automaticDimension
-        
-        
+
         do {
             try fetchedResultsController.performFetch()
           } catch let error as NSError {
@@ -54,6 +54,7 @@ class ProjectsVC: UIViewController, NSFetchedResultsControllerDelegate {
         }
         
         
+
     }
     
     func configureCell(cell: UITableViewCell, for indexPath: IndexPath) {
@@ -63,6 +64,9 @@ class ProjectsVC: UIViewController, NSFetchedResultsControllerDelegate {
         cell.textLabel!.textColor = project.color as? UIColor
         cell.accessoryType = .disclosureIndicator
         cell.textLabel?.numberOfLines = 0
+        
+        let interaction = UIContextMenuInteraction(delegate: self)
+        cell.addInteraction(interaction)
         
     }
     
@@ -106,7 +110,8 @@ class ProjectsVC: UIViewController, NSFetchedResultsControllerDelegate {
 //
         let newProjectVC = NewProjectVC()
         newProjectVC.coreDataStack = coreDataStack
-        self.present(newProjectVC, animated: true, completion: nil)
+        let navController = UINavigationController(rootViewController: newProjectVC)
+        self.present(navController, animated: true, completion: nil)
 //        print("hello")
 //        let newProject = Project(context: coreDataStack.managedContext)
 //        newProject.name = "Project 3"
@@ -222,4 +227,36 @@ extension ProjectsVC {
     default: break
     }
   }
+}
+
+extension ProjectsVC: UIContextMenuInteractionDelegate {
+    
+    func contextMenuInteraction(_ interaction: UIContextMenuInteraction, configurationForMenuAtLocation location: CGPoint) -> UIContextMenuConfiguration? {
+        return UIContextMenuConfiguration(identifier: nil, previewProvider: nil, actionProvider: { suggestedActions in
+            return self.makeContextMenu()
+        })
+        
+    }
+    
+    func makeContextMenu() -> UIMenu {
+
+        // Create a UIAction for sharing
+        let share = UIAction(title: "Edit...") { action in
+            // Show system share sheet
+            print("edit")
+            let indexPath = self.table.indexPathForSelectedRow
+            let projectToEdit = self.fetchedResultsController.object(at: indexPath!)
+            
+            let editProjectVC = NewProjectVC()
+            editProjectVC.coreDataStack = self.coreDataStack
+            
+            let navController = UINavigationController(rootViewController: editProjectVC)
+            self.present(navController, animated: true, completion: nil)
+            
+        }
+
+        // Create and return a UIMenu with the share action
+        return UIMenu(title: "Main Menu", children: [share])
+    }
+    
 }
