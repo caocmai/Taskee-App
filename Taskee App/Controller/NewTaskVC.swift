@@ -16,7 +16,7 @@ class NewTaskVC: UIViewController {
         let textField = UITextField()
         textField.translatesAutoresizingMaskIntoConstraints = false
         textField.borderStyle = .roundedRect
-        textField.placeholder = "Pick time"
+        textField.placeholder = "Date Date"
         return textField
     }()
     //    var managedContext: NSManagedObjectContext!
@@ -24,7 +24,7 @@ class NewTaskVC: UIViewController {
     let setTitle: UITextField = {
         let textField = UITextField()
         textField.translatesAutoresizingMaskIntoConstraints = false
-        textField.placeholder = "Add Title"
+        textField.placeholder = "Task Title"
         textField.borderStyle = .roundedRect
         return textField
     }()
@@ -63,7 +63,7 @@ class NewTaskVC: UIViewController {
         setupEditUI()
         setupUI()
         //        createToolbar()
-        addDoneButtonOnKeyboard()
+        datePickerToolbar()
         
         
     }
@@ -151,25 +151,25 @@ class NewTaskVC: UIViewController {
         self.navigationController?.popViewController(animated: true)
     }
     
-    func createToolbar() {
-        let pickerToolbar: UIToolbar = UIToolbar(frame: CGRect(x:38, y: 100, width: 244, height: 30))
-        pickerToolbar.autoresizingMask = .flexibleHeight // This or the bottom works the same
-        //        pickerToolbar.sizeToFit()
-        //add buttons
-        let cancelButton = UIBarButtonItem(barButtonSystemItem: .close, target: self, action:
-            #selector(cancelButtonTapped))
-        //        cancelButton.tintColor = UIColor.white
-        let flexSpace = UIBarButtonItem(barButtonSystemItem: .flexibleSpace, target: nil, action: nil)
-        let doneButton = UIBarButtonItem(barButtonSystemItem: .done, target: self, action:
-            #selector(doneButtonTapped))
-        //        doneButton.tintColor = UIColor.white
-        
-        //add the items to the toolbar
-        pickerToolbar.items = [cancelButton, flexSpace, doneButton]
-        self.dateTextField.inputAccessoryView = pickerToolbar
-    }
+//    func createToolbar() {
+//        let pickerToolbar: UIToolbar = UIToolbar(frame: CGRect(x:38, y: 100, width: 244, height: 30))
+//        pickerToolbar.autoresizingMask = .flexibleHeight // This or the bottom works the same
+//        //        pickerToolbar.sizeToFit()
+//        //add buttons
+//        let cancelButton = UIBarButtonItem(barButtonSystemItem: .close, target: self, action:
+//            #selector(cancelButtonTapped))
+//        //        cancelButton.tintColor = UIColor.white
+//        let flexSpace = UIBarButtonItem(barButtonSystemItem: .flexibleSpace, target: nil, action: nil)
+//        let doneButton = UIBarButtonItem(barButtonSystemItem: .done, target: self, action:
+//            #selector(doneButtonTapped))
+//        //        doneButton.tintColor = UIColor.white
+//
+//        //add the items to the toolbar
+//        pickerToolbar.items = [cancelButton, flexSpace, doneButton]
+//        self.dateTextField.inputAccessoryView = pickerToolbar
+//    }
     
-    func addDoneButtonOnKeyboard() {
+    func datePickerToolbar() {
         let doneToolbar: UIToolbar = UIToolbar(frame: CGRect(x:38, y: 100, width: 244, height: 30))
         doneToolbar.barStyle = UIBarStyle.default
         
