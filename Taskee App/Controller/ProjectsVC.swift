@@ -13,7 +13,7 @@ class ProjectsVC: UIViewController, NSFetchedResultsControllerDelegate {
     
     var coreDataStack = CoreDataStack()
     
-    var testCDStack: NSManagedObjectContext?
+    //    var testCDStack: NSManagedObjectContext?
     
     //    var projects = [Project]()
     
@@ -320,7 +320,7 @@ extension ProjectsVC: UIContextMenuInteractionDelegate {
             print("fav")
             
         }
-  
+        
         let delete = UIAction(title: "Delete", image: UIImage(systemName: "trash")) { _ in
             print("del")
             

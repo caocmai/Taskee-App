@@ -69,7 +69,7 @@ class NewProjectVC: UIViewController, ButtonBackgroundColorDelegate {
             view.backgroundColor = selectedProject?.color as? UIColor
             self.title = "Edit \(selectedProject?.name ?? "Unnamed")"
         }
-
+        
     }
     
     func addNavBar() {

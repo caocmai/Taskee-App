@@ -17,12 +17,12 @@ class TasksVC: UIViewController, UIContextMenuInteractionDelegate {
     
     var selectedProject: Project? {
         didSet{
-//            self.loadItems()
+            //            self.loadItems()
         }
     }
     var tasks = [Task]()
-    var managedContext: NSManagedObjectContext?
-//    var coredataSTack = CoreDataStack()
+    //    var managedContext: NSManagedObjectContext?
+    //    var coredataSTack = CoreDataStack()
     var coreDataStack: CoreDataStack!
     
     lazy var dateFormatter: DateFormatter = {
@@ -43,14 +43,14 @@ class TasksVC: UIViewController, UIContextMenuInteractionDelegate {
     override func viewDidLoad() {
         super.viewDidLoad()
         addSegmentControl()
-
+        
         self.configureNavBar()
-//        let tasks = selectedProject?.projectTasks[0] as? Task
-//        print(selectedProject?.projectTasks)
+        //        let tasks = selectedProject?.projectTasks[0] as? Task
+        //        print(selectedProject?.projectTasks)
         self.configureTable()
-//        self.loadItems()
+        //        self.loadItems()
         test()
-//        print("passed coredata", managedContext)
+        //        print("passed coredata", managedContext)
         let interaction = UIContextMenuInteraction(delegate: self)
         view.addInteraction(interaction)
         
@@ -59,7 +59,7 @@ class TasksVC: UIViewController, UIContextMenuInteractionDelegate {
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-//        self.loadItems()
+        //        self.loadItems()
         test()
         self.taskTable.reloadData()
     }
@@ -76,12 +76,12 @@ class TasksVC: UIViewController, UIContextMenuInteractionDelegate {
     }
     
     func addSegmentControl() {
-       let segmentItems = ["Pending", "Finished"]
-    segmentControl = UISegmentedControl(items: segmentItems)
-//       control.frame = CGRect(x: 10, y: 250, width: (self.view.frame.width - 20), height: 50)
-       segmentControl.addTarget(self, action: #selector(segmentControl(_:)), for: .valueChanged)
-       segmentControl.selectedSegmentIndex = 0
-       view.addSubview(segmentControl)
+        let segmentItems = ["Pending", "Finished"]
+        segmentControl = UISegmentedControl(items: segmentItems)
+        //       control.frame = CGRect(x: 10, y: 250, width: (self.view.frame.width - 20), height: 50)
+        segmentControl.addTarget(self, action: #selector(segmentControl(_:)), for: .valueChanged)
+        segmentControl.selectedSegmentIndex = 0
+        view.addSubview(segmentControl)
         segmentControl.translatesAutoresizingMaskIntoConstraints = false
         NSLayoutConstraint.activate([
             segmentControl.topAnchor.constraint(equalTo: self.view.safeAreaLayoutGuide.topAnchor),
@@ -93,16 +93,16 @@ class TasksVC: UIViewController, UIContextMenuInteractionDelegate {
     }
     
     @objc func segmentControl(_ segmentedControl: UISegmentedControl) {
-       switch (segmentedControl.selectedSegmentIndex) {
-          case 0:
-             // First segment tapped
+        switch (segmentedControl.selectedSegmentIndex) {
+        case 0:
+            // First segment tapped
             print("one")
-          case 1:
-             // Second segment tapped
+        case 1:
+            // Second segment tapped
             print("two")
-          default:
-          break
-       }
+        default:
+            break
+        }
     }
     
     private func configureNavBar() {
@@ -114,20 +114,21 @@ class TasksVC: UIViewController, UIContextMenuInteractionDelegate {
     }
     
     @objc func addTaskTapped(){
-//        let newTask = Task(context: self.coreData)
-//        newTask.dueDate = Date()
-//        newTask.status = false
-//        newTask.title = "Other task"
-//        newTask.taskImage = UIImage(named: "mango")?.pngData()
-//        newTask.parentProject = self.selectedProject
-//        testCD.saveContext()
+        //        let newTask = Task(context: self.coreData)
+        //        newTask.dueDate = Date()
+        //        newTask.status = false
+        //        newTask.title = "Other task"
+        //        newTask.taskImage = UIImage(named: "mango")?.pngData()
+        //        newTask.parentProject = self.selectedProject
+        //        coreDataStack.saveContext()
         
         let destinationVC = NewTaskVC()
-        destinationVC.managedContext = coreDataStack.managedContext
+        //        destinationVC.managedContext = coreDataStack.managedContext
+        destinationVC.coreDataStack = coreDataStack
         destinationVC.parentObject = selectedProject
         self.navigationController?.pushViewController(destinationVC, animated: true)
         
-      
+        
         
     }
     
@@ -136,7 +137,7 @@ class TasksVC: UIViewController, UIContextMenuInteractionDelegate {
         self.taskTable.dataSource = self
         self.taskTable.register(UITableViewCell.self, forCellReuseIdentifier: "Cell")
         self.view.addSubview(taskTable)
-//        self.taskTable.frame = view.bounds
+        //        self.taskTable.frame = view.bounds
         self.taskTable.separatorStyle = .none
         
         NSLayoutConstraint.activate([
@@ -145,32 +146,32 @@ class TasksVC: UIViewController, UIContextMenuInteractionDelegate {
             self.taskTable.trailingAnchor.constraint(equalTo: self.view.safeAreaLayoutGuide.trailingAnchor, constant: 0),
             self.taskTable.bottomAnchor.constraint(equalTo: self.view.safeAreaLayoutGuide.bottomAnchor, constant: 0)
         ])
-
+        
         
     }
     
-    func loadItems(with request: NSFetchRequest<Task> = Task.fetchRequest(), predicate: NSPredicate? = nil) {
-        
-        let categoryPredicate = NSPredicate(format: "parentProject.name MATCHES %@", selectedProject!.name!)
-        
-
-        
-        if let addtionalPredicate = predicate {
-            request.predicate = NSCompoundPredicate(andPredicateWithSubpredicates: [categoryPredicate, addtionalPredicate])
-        } else {
-            request.predicate = categoryPredicate
-        }
-
-    
-        do {
-            tasks = try managedContext!.fetch(request)
-        } catch {
-            print("Error fetching data from context \(error)")
-        }
-        
-        taskTable.reloadData()
-        
-    }
+    //    func loadItems(with request: NSFetchRequest<Task> = Task.fetchRequest(), predicate: NSPredicate? = nil) {
+    //
+    //        let categoryPredicate = NSPredicate(format: "parentProject.name MATCHES %@", selectedProject!.name!)
+    //
+    //
+    //
+    //        if let addtionalPredicate = predicate {
+    //            request.predicate = NSCompoundPredicate(andPredicateWithSubpredicates: [categoryPredicate, addtionalPredicate])
+    //        } else {
+    //            request.predicate = categoryPredicate
+    //        }
+    //
+    //
+    //        do {
+    //            tasks = try managedContext!.fetch(request)
+    //        } catch {
+    //            print("Error fetching data from context \(error)")
+    //        }
+    //
+    //        taskTable.reloadData()
+    //
+    //    }
     
     
 }
@@ -182,21 +183,21 @@ extension TasksVC: UITableViewDelegate, UITableViewDataSource {
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "Cell", for: indexPath)
-//        cell.textLabel!.text = dateFormatter.string(from: tasks[indexPath.row].dueDate!)
+        //        cell.textLabel!.text = dateFormatter.string(from: tasks[indexPath.row].dueDate!)
         let task = tasks[indexPath.row]
         cell.textLabel!.text = task.title
         cell.accessoryType = task.status ? .checkmark : .none
-
+        
         return cell
     }
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         tasks[indexPath.row].status = !tasks[indexPath.row].status
         tableView.deselectRow(at: indexPath, animated: true)
-
+        
         coreDataStack.saveContext()
         taskTable.reloadData()
-//        test()
+        //        test()
         
     }
     
@@ -227,7 +228,7 @@ extension TasksVC {
         }
         return configuration
     }
-
+    
 }
 
 
@@ -253,9 +254,9 @@ class PreviewViewController: UIViewController {
     }
     
     
-//    static func controller() -> PreviewViewController {
-//        let storyboard = UIStoryboard(name: "Main", bundle: nil)
-//        let controller = storyboard.instantiateViewController(withIdentifier: "PreviewViewController") as! PreviewViewController
-//        return controller
-//    }
+    //    static func controller() -> PreviewViewController {
+    //        let storyboard = UIStoryboard(name: "Main", bundle: nil)
+    //        let controller = storyboard.instantiateViewController(withIdentifier: "PreviewViewController") as! PreviewViewController
+    //        return controller
+    //    }
 }
