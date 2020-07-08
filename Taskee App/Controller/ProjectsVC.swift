@@ -165,7 +165,7 @@ extension ProjectsVC: UITableViewDelegate, UITableViewDataSource {
         let project = fetchedResultsController.object(at: indexPath)
         destinationVC.selectedProject = project
         //        destinationVC.managedContext = coreDataStack.managedContext
-        destinationVC.testCD = coreDataStack
+        destinationVC.coreDataStack = coreDataStack
         self.table.deselectRow(at: indexPath, animated: true)
         
         self.navigationController?.pushViewController(destinationVC, animated: true)

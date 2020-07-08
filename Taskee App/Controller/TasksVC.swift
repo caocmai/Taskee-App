@@ -23,7 +23,7 @@ class TasksVC: UIViewController, UIContextMenuInteractionDelegate {
     var tasks = [Task]()
     var managedContext: NSManagedObjectContext?
 //    var coredataSTack = CoreDataStack()
-    var testCD: CoreDataStack!
+    var coreDataStack: CoreDataStack!
     
     lazy var dateFormatter: DateFormatter = {
         let formatter = DateFormatter()
@@ -65,7 +65,7 @@ class TasksVC: UIViewController, UIContextMenuInteractionDelegate {
     }
     
     func test() {
-        testCD.fetchTasks(selectedProject: (selectedProject?.name)!) { (restuls) in
+        coreDataStack.fetchTasks(selectedProject: (selectedProject?.name)!) { (restuls) in
             switch restuls {
             case .success(let yes):
                 self.tasks = yes
@@ -123,7 +123,7 @@ class TasksVC: UIViewController, UIContextMenuInteractionDelegate {
 //        testCD.saveContext()
         
         let destinationVC = NewTaskVC()
-        destinationVC.coreData = testCD.managedContext
+        destinationVC.managedContext = coreDataStack.managedContext
         destinationVC.parentObject = selectedProject
         self.navigationController?.pushViewController(destinationVC, animated: true)
         
@@ -194,7 +194,7 @@ extension TasksVC: UITableViewDelegate, UITableViewDataSource {
         tasks[indexPath.row].status = !tasks[indexPath.row].status
         tableView.deselectRow(at: indexPath, animated: true)
 
-        testCD.saveContext()
+        coreDataStack.saveContext()
         taskTable.reloadData()
 //        test()
         
@@ -215,8 +215,13 @@ extension TasksVC {
             preview.imageView.image = UIImage(data: object.taskImage!)
             return preview
         }) { _ -> UIMenu? in
-            let action = UIAction(title: "Close", image: nil) { action in
+            let action = UIAction(title: "Edit", image: nil) { action in
                 self.dismiss(animated: false, completion: nil)
+                let editVC = NewTaskVC()
+                editVC.taskToEdit = self.tasks[indexPath.row]
+                editVC.coreDataStack = self.coreDataStack
+                self.navigationController?.pushViewController(editVC, animated: true)
+                
             }
             return UIMenu(title: "Menu", children: [action])
         }

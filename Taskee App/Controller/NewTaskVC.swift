@@ -20,7 +20,7 @@ class NewTaskVC: UIViewController {
         return textField
     }()
     var parentObject: Project!
-    var coreData: NSManagedObjectContext!
+    var managedContext: NSManagedObjectContext!
     
     let setTitle: UITextField = {
         let textField = UITextField()
@@ -48,14 +48,36 @@ class NewTaskVC: UIViewController {
         return image
     }()
     
+    let dateFormatter: DateFormatter = {
+        let dateFormat = DateFormatter()
+        dateFormat.dateStyle = .short
+        return dateFormat
+    }()
+    
+    var taskToEdit: Task?
+    var coreDataStack: CoreDataStack?
+    
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         view.backgroundColor = .white
+        setupEditUI()
         setupUI()
-//        createToolbar()
+        //        createToolbar()
         addDoneButtonOnKeyboard()
         
         
+    }
+    
+    func setupEditUI() {
+        
+        //        formatter.dateStyle = .short
+        
+        if taskToEdit != nil {
+            setTitle.text = taskToEdit?.title
+            imageView.image = UIImage(data: (taskToEdit?.taskImage)!)
+            dateTextField.text = dateFormatter.string(from: (taskToEdit?.dueDate)!)
+        }
     }
     
     @objc func imageViewTapped() {
@@ -78,7 +100,7 @@ class NewTaskVC: UIViewController {
         imageView.addGestureRecognizer(singleTap)
         
         self.saveButton.addTarget(self, action: #selector(saveButtonTapped), for: .touchUpInside)
-
+        
         
         
         NSLayoutConstraint.activate([
@@ -103,36 +125,46 @@ class NewTaskVC: UIViewController {
     
     @objc func saveButtonTapped() {
         
-//        createNewTask()
-        
-        let newTask = Task(context: self.coreData)
-        newTask.dueDate = datePicker.date
-        newTask.status = false
-        newTask.title = setTitle.text
-        newTask.taskImage = imageView.image!.pngData()
-        newTask.parentProject = self.parentObject
-        self.navigationController?.popViewController(animated: true)
-        
-        do{
-            try self.coreData.save()
-        }catch{
-            print("error")
+//        let newTask = Task(context: self.coreData)
+//        newTask.dueDate = datePicker.date
+//        newTask.status = false
+//        newTask.title = setTitle.text
+//        newTask.taskImage = imageView.image!.pngData()
+//        newTask.parentProject = self.parentObject
+//        self.navigationController?.popViewController(animated: true)
+//
+//        do{
+//            try self.coreData.save()
+//        }catch{
+//            print("error")
+//        }
+//
+        if taskToEdit != nil {
+            taskToEdit?.setValue(setTitle.text, forKey: "title")
+            if self.dateTextField.text != dateFormatter.string(from: (taskToEdit?.dueDate)!) {
+                taskToEdit?.setValue(self.datePicker.date, forKey: "dueDate")
+            }
+            taskToEdit?.setValue(imageView.image?.pngData(), forKey: "taskImage")
+            
+            coreDataStack?.saveContext()
+        } else {
+            createNewTask()
         }
-        
+        self.navigationController?.popViewController(animated: true)
     }
     
     func createToolbar() {
         let pickerToolbar: UIToolbar = UIToolbar(frame: CGRect(x:38, y: 100, width: 244, height: 30))
         pickerToolbar.autoresizingMask = .flexibleHeight // This or the bottom works the same
-//        pickerToolbar.sizeToFit()
+        //        pickerToolbar.sizeToFit()
         //add buttons
         let cancelButton = UIBarButtonItem(barButtonSystemItem: .close, target: self, action:
             #selector(cancelBtnTapped))
-//        cancelButton.tintColor = UIColor.white
+        //        cancelButton.tintColor = UIColor.white
         let flexSpace = UIBarButtonItem(barButtonSystemItem: .flexibleSpace, target: nil, action: nil)
         let doneButton = UIBarButtonItem(barButtonSystemItem: .done, target: self, action:
             #selector(doneBtnTapped))
-//        doneButton.tintColor = UIColor.white
+        //        doneButton.tintColor = UIColor.white
         
         //add the items to the toolbar
         pickerToolbar.items = [cancelButton, flexSpace, doneButton]
@@ -142,17 +174,17 @@ class NewTaskVC: UIViewController {
     func addDoneButtonOnKeyboard() {
         let doneToolbar: UIToolbar = UIToolbar(frame: CGRect(x:38, y: 100, width: 244, height: 30))
         doneToolbar.barStyle = UIBarStyle.default
-
+        
         let hide = UIBarButtonItem(barButtonSystemItem: UIBarButtonItem.SystemItem.close, target: nil, action: #selector(cancelBtnTapped))
         let flexSpace = UIBarButtonItem(barButtonSystemItem: UIBarButtonItem.SystemItem.flexibleSpace, target: nil, action: nil)
-
+        
         let done: UIBarButtonItem = UIBarButtonItem(title: "Done", style: UIBarButtonItem.Style.done, target: self, action: #selector(doneBtnTapped))
-
-//        var items = [UIBarButtonItem]()
-//        items.append(hide)
-//        items.append(flexSpace)
-//        items.append(done)
-//
+        
+        //        var items = [UIBarButtonItem]()
+        //        items.append(hide)
+        //        items.append(flexSpace)
+        //        items.append(done)
+        //
         doneToolbar.items = [hide, flexSpace, done]
         doneToolbar.sizeToFit()
         self.dateTextField.inputAccessoryView = doneToolbar
@@ -171,15 +203,15 @@ class NewTaskVC: UIViewController {
     
     private func createNewTask() {
         
-        let newTask = Task(context: self.coreData)
+        let newTask = Task(context: self.managedContext)
         newTask.dueDate = datePicker.date
         newTask.status = false
-        newTask.title = "New task"
-        newTask.taskImage = UIImage(named: "mango")?.pngData()
+        newTask.title = setTitle.text
+        newTask.taskImage = imageView.image!.pngData()
         newTask.parentProject = self.parentObject
         
         do {
-            try coreData.save()
+            try managedContext.save()
             print("saved")
         }
         catch{
@@ -187,29 +219,29 @@ class NewTaskVC: UIViewController {
         }
     }
     
-    @objc func datePickerSelected() {
-        dateTextField.text =  datePicker.date.description
-        let newTask = Task(context: self.coreData)
-        newTask.dueDate = datePicker.date
-        newTask.status = false
-        newTask.title = "Other task"
-        newTask.taskImage = UIImage(named: "mango")?.pngData()
-        newTask.parentProject = self.parentObject
-        
-        do {
-            try coreData.save()
-            print("saved")
-        }
-        catch{
-            print(error)
-        }
-    }
+    //    @objc func datePickerSelected() {
+    //        dateTextField.text =  datePicker.date.description
+    //        let newTask = Task(context: self.coreData)
+    //        newTask.dueDate = datePicker.date
+    //        newTask.status = false
+    //        newTask.title = "Other task"
+    //        newTask.taskImage = UIImage(named: "mango")?.pngData()
+    //        newTask.parentProject = self.parentObject
+    //
+    //        do {
+    //            try coreData.save()
+    //            print("saved")
+    //        }
+    //        catch{
+    //            print(error)
+    //        }
+    //    }
     
 }
 
 
 extension NewTaskVC: UINavigationControllerDelegate, UIImagePickerControllerDelegate {
-
+    
     func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [UIImagePickerController.InfoKey : Any]) {
         if let image = info[UIImagePickerController.InfoKey.editedImage] as? UIImage {
             imageView.image = image
