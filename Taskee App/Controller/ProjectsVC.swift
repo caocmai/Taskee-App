@@ -204,7 +204,10 @@ extension ProjectsVC {
         case .move:
             table.deleteRows(at: [indexPath!], with: .automatic)
             table.insertRows(at: [newIndexPath!], with: .automatic)
+        default:
+            fatalError("not valid action")
         }
+       
     }
     
     func controllerDidChangeContent(_ controller: NSFetchedResultsController<NSFetchRequestResult>) {

@@ -49,7 +49,7 @@ class TasksVC: UIViewController, UIContextMenuInteractionDelegate {
         //        print(selectedProject?.projectTasks)
         self.configureTable()
         //        self.loadItems()
-        test()
+        getPendingTasks()
         //        print("passed coredata", managedContext)
         let interaction = UIContextMenuInteraction(delegate: self)
         view.addInteraction(interaction)
@@ -60,15 +60,34 @@ class TasksVC: UIViewController, UIContextMenuInteractionDelegate {
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         //        self.loadItems()
-        test()
+        if segmentControl.selectedSegmentIndex == 0 {
+            getPendingTasks()
+        } else {
+            getFinshedTasks()
+        }
         self.taskTable.reloadData()
     }
     
-    func test() {
-        coreDataStack.fetchTasks(selectedProject: (selectedProject?.name)!) { (restuls) in
-            switch restuls {
-            case .success(let yes):
-                self.tasks = yes
+    func getPendingTasks() {
+        let categoryPredicate = NSPredicate(format: "status = false")
+        coreDataStack.fetchTasks(predicate: categoryPredicate, selectedProject: (selectedProject?.name)!) { results in
+            switch results {
+            case .success(let tasks):
+                self.tasks = tasks
+                self.taskTable.reloadData()
+            case .failure(let error):
+                print(error)
+            }
+        }
+    }
+    
+    func getFinshedTasks() {
+        let categoryPredicate = NSPredicate(format: "status = true")
+        coreDataStack.fetchTasks(predicate: categoryPredicate, selectedProject: (selectedProject?.name)!) { results in
+            switch results {
+            case .success(let tasks):
+                self.tasks = tasks
+                self.taskTable.reloadData()
             case .failure(let error):
                 print(error)
             }
@@ -87,7 +106,7 @@ class TasksVC: UIViewController, UIContextMenuInteractionDelegate {
             segmentControl.topAnchor.constraint(equalTo: self.view.safeAreaLayoutGuide.topAnchor),
             segmentControl.centerXAnchor.constraint(equalTo: self.view.safeAreaLayoutGuide.centerXAnchor, constant: 0),
             segmentControl.widthAnchor.constraint(equalToConstant: self.view.frame.width - 20.0),
-            segmentControl.heightAnchor.constraint(equalToConstant: 50.0)
+            segmentControl.heightAnchor.constraint(equalToConstant: 45.0)
             
         ])
     }
@@ -97,9 +116,13 @@ class TasksVC: UIViewController, UIContextMenuInteractionDelegate {
         case 0:
             // First segment tapped
             print("one")
+            getPendingTasks()
         case 1:
             // Second segment tapped
             print("two")
+            getFinshedTasks()
+            
+            
         default:
             break
         }
@@ -199,6 +222,15 @@ extension TasksVC: UITableViewDelegate, UITableViewDataSource {
         taskTable.reloadData()
         //        test()
         
+    }
+    
+    func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCell.EditingStyle, forRowAt indexPath: IndexPath) {
+        
+        let task = tasks[indexPath.row]
+        self.coreDataStack.managedContext.delete(task)
+        self.tasks.remove(at: indexPath.row)
+        self.taskTable.deleteRows(at: [indexPath], with: .fade)
+        self.coreDataStack.saveContext()
     }
     
     
