@@ -239,64 +239,6 @@ extension ProjectsVC: UIContextMenuInteractionDelegate {
             return nil
     }
     
-    //    func contextMenuInteraction(_ interaction: UIContextMenuInteraction, configurationForMenuAtLocation location: CGPoint) -> UIContextMenuConfiguration? {
-    //        return UIContextMenuConfiguration(identifier: nil, previewProvider: nil) { suggestedActions in
-    //
-    //            // Create an action for sharing
-    //            let share = UIAction(title: "Share", image: UIImage(systemName: "square.and.arrow.up")) { action in
-    //                // Show system share sheet
-    //                let index = self.table.indexPathForSelectedRow
-    //                print(index)
-    //                print("share")
-    //            }
-    //
-    //            // Create an action for renaming
-    //            let rename = UIAction(title: "Rename", image: UIImage(systemName: "square.and.pencil")) { action in
-    //                // Perform renaming
-    //                print("rename")
-    //            }
-    //
-    //            // Here we specify the "destructive" attribute to show that it’s destructive in nature
-    //            let delete = UIAction(title: "Delete", image: UIImage(systemName: "trash"), attributes: .destructive) { action in
-    //                // Perform delete
-    //            }
-    //
-    //            // Create and return a UIMenu with all of the actions as children
-    //            return UIMenu(title: "", children: [share, rename, delete])
-    //        }
-    //    }
-    
-    //    func makeContextMenu(for: Project) -> UIMenu? {
-    //
-    //        // Create a UIAction for sharing
-    //        let share = UIAction(title: "Edit...") { action in
-    //            // Show system share sheet
-    //            print("edit")
-    //            let indexPath = self.table.indexPathForSelectedRow
-    //            print(indexPath)
-    //            let projectToEdit = self.fetchedResultsController.object(at: indexPath!)
-    //
-    //            let editProjectVC = NewProjectVC()
-    //            editProjectVC.coreDataStack = self.coreDataStack
-    //
-    //            let navController = UINavigationController(rootViewController: editProjectVC)
-    //            self.present(navController, animated: true, completion: nil)
-    //
-    //        }
-    //
-    //        // Create and return a UIMenu with the share action
-    //        return UIMenu(title: "Main Menu", children: [share])
-    //    }
-    
-    //    func tableView(_ tableView: UITableView, contextMenuConfigurationForRowAt indexPath: IndexPath, point: CGPoint) -> UIMenu? {
-    //        let item = projects[indexPath.row]
-    //
-    //
-    //          return UIContextMenuConfiguration(identifier: nil, previewProvider: nil, actionProvider: { suggestedActions in
-    //
-    //                // "puppers" is the array backing the collection view
-    //                return self.makeContextMenu(for: self.projects[indexPath.row])
-    //            })
     
     func tableView(_ tableView: UITableView,
                    contextMenuConfigurationForRowAt indexPath: IndexPath,
@@ -316,12 +258,6 @@ extension ProjectsVC: UIContextMenuInteractionDelegate {
             self.present(navController, animated: true, completion: nil)
             
             
-            
-            //            print(self.projects)
-            
-            //            print(self.projects[indexPath.row])
-            print("fav")
-            
         }
         
         let delete = UIAction(title: "Delete", image: UIImage(systemName: "trash")) { _ in
@@ -329,8 +265,7 @@ extension ProjectsVC: UIContextMenuInteractionDelegate {
             
         }
         
-        return UIContextMenuConfiguration(identifier: nil,
-                                          previewProvider: nil) { _ in
+        return UIContextMenuConfiguration(identifier: nil, previewProvider: nil) { _ in
                                             UIMenu(title: "Actions", children: [favorite, delete])
         }
     }

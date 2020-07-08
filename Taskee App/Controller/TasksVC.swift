@@ -15,11 +15,7 @@ class TasksVC: UIViewController, UIContextMenuInteractionDelegate {
     }
     
     
-    var selectedProject: Project? {
-        didSet{
-            //            self.loadItems()
-        }
-    }
+    var selectedProject: Project?
     var tasks = [Task]()
     //    var managedContext: NSManagedObjectContext?
     //    var coredataSTack = CoreDataStack()
@@ -137,22 +133,11 @@ class TasksVC: UIViewController, UIContextMenuInteractionDelegate {
     }
     
     @objc func addTaskTapped(){
-        //        let newTask = Task(context: self.coreData)
-        //        newTask.dueDate = Date()
-        //        newTask.status = false
-        //        newTask.title = "Other task"
-        //        newTask.taskImage = UIImage(named: "mango")?.pngData()
-        //        newTask.parentProject = self.selectedProject
-        //        coreDataStack.saveContext()
-        
         let destinationVC = NewTaskVC()
         //        destinationVC.managedContext = coreDataStack.managedContext
         destinationVC.coreDataStack = coreDataStack
         destinationVC.parentObject = selectedProject
         self.navigationController?.pushViewController(destinationVC, animated: true)
-        
-        
-        
     }
     
     func configureTable() {
@@ -172,30 +157,6 @@ class TasksVC: UIViewController, UIContextMenuInteractionDelegate {
         
         
     }
-    
-    //    func loadItems(with request: NSFetchRequest<Task> = Task.fetchRequest(), predicate: NSPredicate? = nil) {
-    //
-    //        let categoryPredicate = NSPredicate(format: "parentProject.name MATCHES %@", selectedProject!.name!)
-    //
-    //
-    //
-    //        if let addtionalPredicate = predicate {
-    //            request.predicate = NSCompoundPredicate(andPredicateWithSubpredicates: [categoryPredicate, addtionalPredicate])
-    //        } else {
-    //            request.predicate = categoryPredicate
-    //        }
-    //
-    //
-    //        do {
-    //            tasks = try managedContext!.fetch(request)
-    //        } catch {
-    //            print("Error fetching data from context \(error)")
-    //        }
-    //
-    //        taskTable.reloadData()
-    //
-    //    }
-    
     
 }
 
@@ -315,10 +276,4 @@ class PreviewViewController: UIViewController {
         
     }
     
-    
-    //    static func controller() -> PreviewViewController {
-    //        let storyboard = UIStoryboard(name: "Main", bundle: nil)
-    //        let controller = storyboard.instantiateViewController(withIdentifier: "PreviewViewController") as! PreviewViewController
-    //        return controller
-    //    }
 }

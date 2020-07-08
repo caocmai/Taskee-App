@@ -18,16 +18,7 @@ class NewProjectVC: UIViewController, ButtonBackgroundColorDelegate {
     let colorGrid = ColorGrid()
     var coreDataStack: CoreDataStack?
     var getColor: UIColor? = nil
-    //
-    //    let closeButton: UIButton = {
-    //        let button = UIButton()
-    //        button.translatesAutoresizingMaskIntoConstraints = false
-    //        button.setImage(UIImage(systemName: "xmark"), for: .normal)
-    //        button.setTitle("CLOSE", for: .normal)
-    //        button.setTitleColor(.brown, for: .normal)
-    //        return button
-    //    }()
-    
+
     
     let getProjectName: UITextField = {
         let textField = UITextField()
@@ -83,17 +74,6 @@ class NewProjectVC: UIViewController, ButtonBackgroundColorDelegate {
         
     }
     
-    
-    //    func addCloseButton(){
-    //        self.closeButton.addTarget(self, action: #selector(closeButtonTapped), for: .touchUpInside)
-    //        self.view.addSubview(self.closeButton)
-    //        NSLayoutConstraint.activate([
-    //            self.closeButton.topAnchor.constraint(equalTo: self.view.topAnchor, constant: 10),
-    //            self.closeButton.trailingAnchor.constraint(equalTo: self.view.trailingAnchor, constant: -10)
-    //        ])
-    //
-    //
-    //    }
     
     @objc func closeButtonTapped() {
         dismiss(animated: true, completion: nil)
