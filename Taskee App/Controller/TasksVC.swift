@@ -244,11 +244,12 @@ extension TasksVC {
         let configuration = UIContextMenuConfiguration(identifier: nil, previewProvider: { () -> UIViewController? in
             let preview = PreviewViewController()
             let object = self.tasks[indexPath.row]
-            preview.labeltest.text = "MOney"
+            preview.taskTitleLabel.text = object.title //Testing
             preview.imageView.image = UIImage(data: object.taskImage!)
+            preview.taskDueDateLabel.text = self.dateFormatter.string(from: object.dueDate!)
             return preview
         }) { _ -> UIMenu? in
-            let action = UIAction(title: "Edit", image: nil) { action in
+            let action = UIAction(title: "Edit...", image: nil) { action in
                 self.dismiss(animated: false, completion: nil)
                 let editVC = NewTaskVC()
                 editVC.taskToEdit = self.tasks[indexPath.row]
@@ -266,24 +267,50 @@ extension TasksVC {
 
 class PreviewViewController: UIViewController {
     
-    var labeltest = UILabel()
+    var taskTitleLabel: UILabel = {
+        let label = UILabel()
+        label.translatesAutoresizingMaskIntoConstraints = false
+        return label
+    }()
     var imageView: UIImageView = {
         let image = UIImageView()
         image.translatesAutoresizingMaskIntoConstraints = false
         image.contentMode = .scaleAspectFit
         return image
     }()
+    var taskDueDateLabel: UILabel = {
+        let label = UILabel()
+        label.translatesAutoresizingMaskIntoConstraints = false
+
+        label.text = "testing"
+        return label
+    }()
+    
     
     override func viewDidLoad() {
         super.viewDidLoad()
         view.backgroundColor = .white
         view.addSubview(imageView)
+
+        view.addSubview(taskTitleLabel)
+        view.addSubview(taskDueDateLabel)
         
         NSLayoutConstraint.activate([
             imageView.centerYAnchor.constraint(equalTo: view.centerYAnchor),
             imageView.centerXAnchor.constraint(equalTo: view.centerXAnchor),
-            imageView.heightAnchor.constraint(equalToConstant: 150),
-            
+            imageView.heightAnchor.constraint(equalToConstant: 200),
+            imageView.widthAnchor.constraint(equalToConstant: 200)
+
+        ])
+        
+        NSLayoutConstraint.activate([
+            taskTitleLabel.centerXAnchor.constraint(equalTo: view.centerXAnchor),
+            taskTitleLabel.bottomAnchor.constraint(equalTo: imageView.topAnchor, constant: -20)
+        ])
+        
+        NSLayoutConstraint.activate([
+            taskDueDateLabel.centerXAnchor.constraint(equalTo: view.centerXAnchor),
+            taskDueDateLabel.topAnchor.constraint(equalTo: imageView.bottomAnchor, constant: 20)
         ])
         
     }

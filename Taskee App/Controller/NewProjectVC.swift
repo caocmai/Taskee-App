@@ -67,7 +67,11 @@ class NewProjectVC: UIViewController, ButtonBackgroundColorDelegate {
         if selectedProject != nil {
             getProjectName.text = selectedProject?.name
             view.backgroundColor = selectedProject?.color as? UIColor
-            self.title = "Edit \(selectedProject?.name ?? "Unnamed")"
+            self.title = "Editing \(selectedProject?.name ?? "Unnamed")"
+            self.saveButton.setTitle("Update", for: .normal)
+
+        } else {
+            self.title = "Create A New Project"
         }
         
     }
@@ -124,7 +128,7 @@ class NewProjectVC: UIViewController, ButtonBackgroundColorDelegate {
         
         NSLayoutConstraint.activate([
             self.saveButton.topAnchor.constraint(equalTo: self.colorGrid.bottomAnchor, constant: 10),
-            self.saveButton.widthAnchor.constraint(equalToConstant: 50.0),
+//            self.saveButton.widthAnchor.constraint(equalToConstant: 50.0),
             self.saveButton.centerXAnchor.constraint(equalTo: self.view.centerXAnchor)
         ])
     }

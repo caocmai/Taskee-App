@@ -76,6 +76,11 @@ class NewTaskVC: UIViewController {
             setTitle.text = taskToEdit?.title
             imageView.image = UIImage(data: (taskToEdit?.taskImage)!)
             dateTextField.text = dateFormatter.string(from: (taskToEdit?.dueDate)!)
+            self.title = "Editing \(taskToEdit?.title ?? "UnNamed")"
+            self.saveButton.setTitle("Update", for: .normal)
+
+        } else {
+            self.title = "Create A New Task"
         }
     }
     
