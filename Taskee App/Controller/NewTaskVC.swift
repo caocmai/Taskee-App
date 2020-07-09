@@ -16,7 +16,7 @@ class NewTaskVC: UIViewController {
         let textField = UITextField()
         textField.translatesAutoresizingMaskIntoConstraints = false
         textField.borderStyle = .roundedRect
-        textField.placeholder = "Date Date"
+        textField.placeholder = "Due Date"
         return textField
     }()
     //    var managedContext: NSManagedObjectContext!
@@ -34,6 +34,8 @@ class NewTaskVC: UIViewController {
         button.translatesAutoresizingMaskIntoConstraints = false
         button.setTitle("SAVE", for: .normal)
         button.backgroundColor = .orange
+        button.layer.cornerRadius = 10
+        button.layer.masksToBounds = true
         return button
     }()
     
@@ -44,6 +46,10 @@ class NewTaskVC: UIViewController {
         image.image = UIImage(named: "no item image")
         image.contentMode = .scaleToFill
         image.isUserInteractionEnabled = true
+        image.layer.borderColor = UIColor.color(red: 123, green: 12, blue: 12)?.cgColor
+        image.layer.borderWidth = 5
+        image.layer.cornerRadius = 5
+        image.layer.masksToBounds = true
         return image
     }()
     
@@ -111,19 +117,33 @@ class NewTaskVC: UIViewController {
             self.imageView.widthAnchor.constraint(equalToConstant: 150),
             self.imageView.heightAnchor.constraint(equalToConstant: 150),
             self.imageView.centerXAnchor.constraint(equalTo: self.view.centerXAnchor),
-            self.imageView.centerYAnchor.constraint(equalTo: self.view.centerYAnchor, constant: -150)
+            self.imageView.centerYAnchor.constraint(equalTo: self.view.centerYAnchor, constant: -120)
+//            self.imageView.topAnchor.constraint(equalTo: self.view.safeAreaLayoutGuide.topAnchor, constant: 10)
         ])
         
         NSLayoutConstraint.activate([
-            self.setTitle.topAnchor.constraint(equalTo: self.imageView.bottomAnchor, constant: 10)
+            self.setTitle.topAnchor.constraint(equalTo: self.imageView.bottomAnchor, constant: 25),
+            self.setTitle.centerXAnchor.constraint(equalTo: self.view.centerXAnchor)
+
         ])
         
         NSLayoutConstraint.activate([
-            dateTextField.centerYAnchor.constraint(equalTo: view.centerYAnchor)
+            dateTextField.centerXAnchor.constraint(equalTo: view.centerXAnchor),
+            dateTextField.topAnchor.constraint(equalTo: setTitle.bottomAnchor, constant: 20),
+
         ])
         
+        saveButton.alpha = 0.5
+        
+        UIView.animate(withDuration: 0.5, delay: 0.2, options: [], animations: {
+            self.saveButton.alpha = 1.0
+        },completion: nil)
+        
         NSLayoutConstraint.activate([
-            self.saveButton.topAnchor.constraint(equalTo: dateTextField.bottomAnchor, constant: 4)
+            self.saveButton.topAnchor.constraint(equalTo: dateTextField.bottomAnchor, constant: 25),
+            self.saveButton.heightAnchor.constraint(equalToConstant: 48),
+            self.saveButton.widthAnchor.constraint(equalToConstant: 150),
+            self.saveButton.centerXAnchor.constraint(equalTo: self.view.centerXAnchor)
         ])
     }
     

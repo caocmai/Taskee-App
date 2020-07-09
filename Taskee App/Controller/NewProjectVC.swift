@@ -37,6 +37,8 @@ class NewProjectVC: UIViewController, ButtonBackgroundColorDelegate {
         button.translatesAutoresizingMaskIntoConstraints = false
         button.setTitle("SAVE", for: .normal)
         button.backgroundColor = .orange
+        button.layer.cornerRadius = 10
+        button.layer.masksToBounds = true
         return button
     }()
     
@@ -60,6 +62,7 @@ class NewProjectVC: UIViewController, ButtonBackgroundColorDelegate {
             view.backgroundColor = selectedProject?.color as? UIColor
             self.title = "Editing \(selectedProject?.name ?? "Unnamed")"
             self.saveButton.setTitle("Update", for: .normal)
+            colorGrid.checkMatchAndHighlight(with: (selectedProject?.color as? UIColor)!)
 
         } else {
             self.title = "Create A New Project"
@@ -107,8 +110,9 @@ class NewProjectVC: UIViewController, ButtonBackgroundColorDelegate {
         self.saveButton.addTarget(self, action: #selector(saveButtonTapped), for: .touchUpInside)
         
         NSLayoutConstraint.activate([
-            self.saveButton.topAnchor.constraint(equalTo: self.colorGrid.bottomAnchor, constant: 10),
-//            self.saveButton.widthAnchor.constraint(equalToConstant: 50.0),
+            self.saveButton.topAnchor.constraint(equalTo: self.colorGrid.bottomAnchor, constant: 20),
+            self.saveButton.heightAnchor.constraint(equalToConstant: 48),
+            self.saveButton.widthAnchor.constraint(equalToConstant: 150),
             self.saveButton.centerXAnchor.constraint(equalTo: self.view.centerXAnchor)
         ])
     }
