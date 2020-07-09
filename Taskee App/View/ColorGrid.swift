@@ -87,9 +87,9 @@ class ColorGrid: UIView {
     
     private func configureFirstRow(){
             
-        colorOne.backgroundColor = UIColor.color(red: 123, green: 12, blue: 12)
-        colorTwo.backgroundColor = UIColor.color(red: 12, green: 123, blue: 12)
-        colorThree.backgroundColor = UIColor.color(red: 89, green: 78, blue: 23)
+        colorOne.backgroundColor = customColor.colorOne.myCustomColor
+        colorTwo.backgroundColor = customColor.colorTwo.myCustomColor
+        colorThree.backgroundColor = customColor.colorThree.myCustomColor
         
         //        createBorder(oneButton)
         //        createBorder(twoButton)
@@ -116,9 +116,9 @@ class ColorGrid: UIView {
     
     private func configureSecondRow(){
         
-        colorFour.backgroundColor = customColor.myGreen.myCustomColor
-        colorFive.backgroundColor = customColor.myYellow.myCustomColor
-        colorSix.backgroundColor = UIColor.color(red: 89, green: 78, blue: 23)
+        colorFour.backgroundColor = customColor.colorFour.myCustomColor
+        colorFive.backgroundColor = customColor.colorFive.myCustomColor
+        colorSix.backgroundColor = customColor.colorSix.myCustomColor
         
         //        createBorder(fourButton)
         //        createBorder(fiveButton)
@@ -143,9 +143,9 @@ class ColorGrid: UIView {
     
     private func configureThirdRow(){
         
-        colorSeven.backgroundColor = UIColor.color(red: 123, green: 12, blue: 12)
-        colorEight.backgroundColor = UIColor.color(red: 12, green: 123, blue: 12)
-        colorNine.backgroundColor = UIColor.color(red: 89, green: 78, blue: 23)
+        colorSeven.backgroundColor = customColor.colorSeven.myCustomColor
+        colorEight.backgroundColor = customColor.colorEight.myCustomColor
+        colorNine.backgroundColor = customColor.colorNine.myCustomColor
         //
         //        createBorder(sevenButton)
         //        createBorder(eightButton)

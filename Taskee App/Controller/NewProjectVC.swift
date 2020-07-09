@@ -62,7 +62,7 @@ class NewProjectVC: UIViewController, ButtonBackgroundColorDelegate {
         if selectedProject != nil {
             getProjectName.text = selectedProject?.name
             view.backgroundColor = selectedProject?.color as? UIColor
-            self.title = "Editing \(selectedProject?.name ?? "Unnamed")"
+            self.title = "Edit \(selectedProject?.name ?? "Unnamed")"
             self.saveButton.setTitle("Update", for: .normal)
             colorGrid.checkMatchAndHighlight(with: (selectedProject?.color as? UIColor)!)
 
