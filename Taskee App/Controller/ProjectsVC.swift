@@ -246,7 +246,7 @@ extension ProjectsVC: UIContextMenuInteractionDelegate {
         
         
         let favorite = UIAction(title: "Edit...") { _ in
-            print(indexPath.row)
+//            print(indexPath.row)
             let editVC = NewProjectVC()
             let project = self.fetchedResultsController.object(at: indexPath)
             editVC.selectedProject = project

@@ -15,44 +15,37 @@ protocol ButtonBackgroundColorDelegate {
 
 class ColorGrid: UIView {
     
-    private let stackView = UIStackView()
+     private let stackView = UIStackView()
     
-    private var firstRow = UIStackView()
-    private var secondRow = UIStackView()
-    private var thirdRow = UIStackView()
+     private var firstRow = UIStackView()
+     private var secondRow = UIStackView()
+     private var thirdRow = UIStackView()
     //    var fourthRow = UIStackView()
     
     var delegate: ButtonBackgroundColorDelegate!
     
-    private let colorOne = UIButton()
-    private let colorTwo = UIButton()
-    private let colorThree = UIButton()
-    private let colorFour = UIButton()
-    private let colorFive = UIButton()
-    private let colorSix = UIButton()
-    private let colorSeven = UIButton()
-    private let colorEight = UIButton()
-    private let colorNine = UIButton()
+     private let colorOne = UIButton()
+     private let colorTwo = UIButton()
+     private let colorThree = UIButton()
+     private let colorFour = UIButton()
+     private let colorFive = UIButton()
+     private let colorSix = UIButton()
+     private let colorSeven = UIButton()
+     private let colorEight = UIButton()
+     private let colorNine = UIButton()
     
-    private var buttons = [UIButton]()
+     private var buttons = [UIButton]()
     
     override init(frame: CGRect) {
         super.init(frame:frame)
         translatesAutoresizingMaskIntoConstraints = false
+        createButtonList()
         configureFirstRow()
         configureSecondRow()
         configureThirdRow()
         configureColumnStackView()
         
         
-    }
-    
-    override func layoutSubviews() {
-        super.layoutSubviews()
-        //self.frame will be correct here
-//        oneButton.layer.cornerRadius = oneButton.frame.width / 2
-        createButtonList()
-
     }
     
     
@@ -80,8 +73,8 @@ class ColorGrid: UIView {
         
         
         stackView.translatesAutoresizingMaskIntoConstraints = false
-        stackView.spacing = CGFloat(4.0)
-        stackView.distribution = .fillEqually
+//        stackView.spacing = 2
+        stackView.distribution = .equalSpacing
         stackView.axis = .vertical
         
         NSLayoutConstraint.activate([
@@ -172,17 +165,21 @@ class ColorGrid: UIView {
     
     private func createBorder(_ button: UIButton) {
         button.translatesAutoresizingMaskIntoConstraints = false
-        button.layer.borderWidth = 4
+        button.layer.borderWidth = 3
         button.layer.borderColor = UIColor.black.cgColor
-        button.layer.cornerRadius = button.frame.width / 2
+        NSLayoutConstraint.activate([
+            button.widthAnchor.constraint(equalToConstant: 60),
+            button.heightAnchor.constraint(equalToConstant: 60)
+        ])
+        button.layer.cornerRadius = 30
         
     }
     
     private func configureRowStack(_ stack: UIStackView) {
         stack.translatesAutoresizingMaskIntoConstraints = false
         stack.axis = .horizontal
-        stack.distribution = .fillEqually
-        stack.spacing = 4
+        stack.distribution = .equalSpacing
+//        stack.spacing = 2
     }
     
     @objc func returnButtonValue(_ sender: UIButton ) {
