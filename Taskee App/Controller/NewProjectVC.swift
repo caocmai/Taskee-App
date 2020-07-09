@@ -42,6 +42,8 @@ class NewProjectVC: UIViewController, ButtonBackgroundColorDelegate {
         return button
     }()
     
+    override func viewDidLayoutSubviews() {
+    }
     
     
     override func viewDidLoad() {
@@ -84,7 +86,6 @@ class NewProjectVC: UIViewController, ButtonBackgroundColorDelegate {
     
     func colorGridContraints() {
         view.addSubview(colorGrid)
-        colorGrid.translatesAutoresizingMaskIntoConstraints = false
         
         NSLayoutConstraint.activate([
             self.colorGrid.centerXAnchor.constraint(equalTo: self.view.centerXAnchor),
@@ -99,7 +100,7 @@ class NewProjectVC: UIViewController, ButtonBackgroundColorDelegate {
         view.addSubview(getProjectName)
         
         NSLayoutConstraint.activate([
-            self.getProjectName.bottomAnchor.constraint(equalTo: self.colorGrid.topAnchor, constant: -10),
+            self.getProjectName.bottomAnchor.constraint(equalTo: self.colorGrid.topAnchor, constant: -30),
             self.getProjectName.widthAnchor.constraint(equalToConstant: 150.0),
             self.getProjectName.centerXAnchor.constraint(equalTo: self.view.centerXAnchor)
         ])
@@ -110,7 +111,7 @@ class NewProjectVC: UIViewController, ButtonBackgroundColorDelegate {
         self.saveButton.addTarget(self, action: #selector(saveButtonTapped), for: .touchUpInside)
         
         NSLayoutConstraint.activate([
-            self.saveButton.topAnchor.constraint(equalTo: self.colorGrid.bottomAnchor, constant: 20),
+            self.saveButton.topAnchor.constraint(equalTo: self.colorGrid.bottomAnchor, constant: 40),
             self.saveButton.heightAnchor.constraint(equalToConstant: 48),
             self.saveButton.widthAnchor.constraint(equalToConstant: 150),
             self.saveButton.centerXAnchor.constraint(equalTo: self.view.centerXAnchor)
