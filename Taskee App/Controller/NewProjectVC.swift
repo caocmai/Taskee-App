@@ -12,6 +12,7 @@ class NewProjectVC: UIViewController, ButtonBackgroundColorDelegate {
     func getButtonColor(buttonColor: UIColor) {
         self.view.backgroundColor = buttonColor
         self.getColor = buttonColor
+        print(buttonColor)
     }
     
     var selectedProject: Project?
@@ -118,6 +119,7 @@ class NewProjectVC: UIViewController, ButtonBackgroundColorDelegate {
     }
     
     @objc func saveButtonTapped() {
+//        print(self.getColor)
         
         if selectedProject != nil { // To update/edit project
             selectedProject?.setValue(getProjectName.text, forKey: "name")

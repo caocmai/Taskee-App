@@ -26,8 +26,9 @@ class ProjectsVC: UIViewController, NSFetchedResultsControllerDelegate {
     lazy var fetchedResultsController: NSFetchedResultsController<Project> = {
         let fetchRequest: NSFetchRequest<Project> = Project.fetchRequest()
         let nameSort = NSSortDescriptor(key: #keyPath(Project.name), ascending: true)
+        // Will crash when save object if activated; seems like can't sort by color
         let colorSort = NSSortDescriptor(key: #keyPath(Project.color), ascending: true)
-        fetchRequest.sortDescriptors = [colorSort, nameSort]
+        fetchRequest.sortDescriptors = [nameSort]
         
         let fetchedResultsController = NSFetchedResultsController(
             fetchRequest: fetchRequest,
@@ -45,8 +46,6 @@ class ProjectsVC: UIViewController, NSFetchedResultsControllerDelegate {
         // Do any additional setup after loading the view.
         self.configureNavBar()
         self.configureTable()
-        self.table.estimatedRowHeight = 30
-        self.table.rowHeight = UITableView.automaticDimension
         self.fetchProjects()
         
       
@@ -83,7 +82,7 @@ class ProjectsVC: UIViewController, NSFetchedResultsControllerDelegate {
             }
         }
         
-        cell.pendingTasksLabel.text = "\(pendingTaskCount) Pending task\(pendingTaskCount == 0 ? "" : "s")"
+        cell.pendingTasksLabel.text = "\(pendingTaskCount == 0 ? "No" : "\(pendingTaskCount)") Pending task\(pendingTaskCount <= 1 ? "" : "s")"
 //        cell.textLabel?.numberOfLines = 0
         
         //        let interaction = UIContextMenuInteraction(delegate: self)
@@ -209,7 +208,7 @@ extension ProjectsVC: UITableViewDelegate, UITableViewDataSource {
     }
     
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
-        return 75
+        return 80
     }
     
 }

@@ -91,7 +91,6 @@ class NewTaskVC: UIViewController {
     }
     
     @objc func imageViewTapped() {
-        print("Imageview Clicked")
         imagePicker.delegate = self
         imagePicker.sourceType = .photoLibrary
         imagePicker.allowsEditing = true

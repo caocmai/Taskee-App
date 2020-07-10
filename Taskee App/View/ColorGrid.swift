@@ -34,7 +34,7 @@ class ColorGrid: UIView {
      private let colorEight = UIButton()
      private let colorNine = UIButton()
     
-     private var buttons = [UIButton]()
+    var buttons = [UIButton]()
     
     override init(frame: CGRect) {
         super.init(frame:frame)

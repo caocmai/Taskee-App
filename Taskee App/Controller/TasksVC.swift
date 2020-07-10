@@ -109,16 +109,10 @@ class TasksVC: UIViewController, UIContextMenuInteractionDelegate {
     
     @objc func segmentControl(_ segmentedControl: UISegmentedControl) {
         switch (segmentedControl.selectedSegmentIndex) {
-        case 0:
-            // First segment tapped
-            print("one")
+        case 0:  // First segment tapped
             getPendingTasks()
-        case 1:
-            // Second segment tapped
-            print("two")
+        case 1:  // Second segment tapped
             getFinshedTasks()
-            
-            
         default:
             break
         }
@@ -154,8 +148,6 @@ class TasksVC: UIViewController, UIContextMenuInteractionDelegate {
             self.taskTable.trailingAnchor.constraint(equalTo: self.view.safeAreaLayoutGuide.trailingAnchor, constant: 0),
             self.taskTable.bottomAnchor.constraint(equalTo: self.view.safeAreaLayoutGuide.bottomAnchor, constant: 0)
         ])
-        
-        
     }
     
 }
@@ -177,7 +169,7 @@ extension TasksVC: UITableViewDelegate, UITableViewDataSource {
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         tasks[indexPath.row].status = !tasks[indexPath.row].status
-        tableView.deselectRow(at: indexPath, animated: true)
+//        tableView.deselectRow(at: indexPath, animated: true)
         
         coreDataStack.saveContext()
         taskTable.reloadData()
