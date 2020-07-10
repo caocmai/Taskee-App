@@ -26,7 +26,8 @@ class ProjectsVC: UIViewController, NSFetchedResultsControllerDelegate {
     lazy var fetchedResultsController: NSFetchedResultsController<Project> = {
         let fetchRequest: NSFetchRequest<Project> = Project.fetchRequest()
         let nameSort = NSSortDescriptor(key: #keyPath(Project.name), ascending: true)
-        fetchRequest.sortDescriptors = [nameSort]
+        let colorSort = NSSortDescriptor(key: #keyPath(Project.color), ascending: true)
+        fetchRequest.sortDescriptors = [colorSort, nameSort]
         
         let fetchedResultsController = NSFetchedResultsController(
             fetchRequest: fetchRequest,
@@ -46,23 +47,44 @@ class ProjectsVC: UIViewController, NSFetchedResultsControllerDelegate {
         self.configureTable()
         self.table.estimatedRowHeight = 30
         self.table.rowHeight = UITableView.automaticDimension
+        self.fetchProjects()
         
+      
+        
+    }
+    
+    @objc func refresh() {
+//        fetchProjects()
+        table.reloadData()
+        self.table.refreshControl?.endRefreshing()
+
+    }
+    
+    func fetchProjects() {
         do {
             try fetchedResultsController.performFetch()
         } catch let error as NSError {
             print("Fetching error: \(error), \(error.userInfo)")
         }
         
-        
     }
     
     func configureCell(cell: UITableViewCell, for indexPath: IndexPath) {
         guard let cell = cell as? ProjectCell else { return }
         let project = fetchedResultsController.object(at: indexPath)
-        cell.textLabel!.text = project.name
-        cell.textLabel!.textColor = project.color as? UIColor
+        cell.projectLabel.text = project.name
+        cell.projectLabel.textColor = project.color as? UIColor
         cell.accessoryType = .disclosureIndicator
-        cell.textLabel?.numberOfLines = 0
+        
+        var pendingTaskCount = 0
+        for task in project.projectTasks! {
+            if (task as! Task).status == false {
+                pendingTaskCount += 1
+            }
+        }
+        
+        cell.pendingTasksLabel.text = "\(pendingTaskCount) Pending task\(pendingTaskCount == 0 ? "" : "s")"
+//        cell.textLabel?.numberOfLines = 0
         
         //        let interaction = UIContextMenuInteraction(delegate: self)
         //        cell.addInteraction(interaction)
@@ -98,10 +120,17 @@ class ProjectsVC: UIViewController, NSFetchedResultsControllerDelegate {
     private func configureTable() {
         self.view.addSubview(self.table)
         self.table.frame = self.view.bounds
-        self.table.register(ProjectCell.self, forCellReuseIdentifier: "Cell")
+        self.table.register(ProjectCell.self, forCellReuseIdentifier: ProjectCell.identifier)
         self.table.delegate = self
         self.table.dataSource = self
         self.table.separatorStyle = .none
+        let refreshControl = UIRefreshControl()
+              refreshControl.addTarget(
+                  self,
+                  action: #selector(refresh),
+                  for: .valueChanged
+              )
+        self.table.refreshControl = refreshControl
         
     }
     
@@ -154,7 +183,7 @@ extension ProjectsVC: UITableViewDelegate, UITableViewDataSource {
         //        cell.textLabel?.text = project.name
         //        cell.textLabel?.backgroundColor = project.color as? UIColor
         //        return cell
-        let cell = tableView.dequeueReusableCell(withIdentifier: "Cell", for: indexPath)
+        let cell = tableView.dequeueReusableCell(withIdentifier: ProjectCell.identifier, for: indexPath)
         configureCell(cell: cell, for: indexPath)
         return cell
     }
@@ -177,6 +206,10 @@ extension ProjectsVC: UITableViewDelegate, UITableViewDataSource {
         //        do {
         self.coreDataStack.managedContext.delete(project)
         self.coreDataStack.saveContext()
+    }
+    
+    func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
+        return 75
     }
     
 }

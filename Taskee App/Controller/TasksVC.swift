@@ -218,7 +218,7 @@ extension TasksVC {
                 self.navigationController?.pushViewController(editVC, animated: true)
                 
             }
-            return UIMenu(title: "Menu", children: [action])
+            return UIMenu(title: "Action", children: [action])
         }
         return configuration
     }

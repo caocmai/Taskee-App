@@ -38,7 +38,7 @@ enum customColor {
         case .colorEight:
             return UIColor.color(red: 196, green: 69, blue: 54)
         case .colorNine:
-            return UIColor.color(red: 154, green: 140, blue: 152)
+            return UIColor.color(red: 67, green: 97, blue: 255)
         }
             
     }

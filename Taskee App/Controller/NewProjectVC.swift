@@ -22,7 +22,6 @@ class NewProjectVC: UIViewController, ButtonBackgroundColorDelegate {
     
     let getProjectName: UITextField = {
         let textField = UITextField()
-        textField.textColor = .blue
         textField.placeholder = "Project Name"
         textField.translatesAutoresizingMaskIntoConstraints = false
         textField.textAlignment = .center
