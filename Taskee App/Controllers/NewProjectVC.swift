@@ -21,7 +21,7 @@ class NewProjectVC: UIViewController, ButtonBackgroundColorDelegate {
     var getColor: UIColor? = nil
 
     
-    let getProjectName: UITextField = {
+    let setProjectName: UITextField = {
         let textField = UITextField()
         textField.placeholder = "Project Name"
         textField.translatesAutoresizingMaskIntoConstraints = false
@@ -56,11 +56,13 @@ class NewProjectVC: UIViewController, ButtonBackgroundColorDelegate {
         addSaveButton()
         //        addCloseButton()
         addNavBar()
+        UITextField.connectFields(fields: [setProjectName])
+
     }
     
     func editProjectSetup(){
         if selectedProject != nil {
-            getProjectName.text = selectedProject?.name
+            setProjectName.text = selectedProject?.name
             view.backgroundColor = selectedProject?.color as? UIColor
             self.title = "Edit \(selectedProject?.name ?? "Unnamed")"
             self.saveButton.setTitle("Update", for: .normal)
@@ -97,12 +99,12 @@ class NewProjectVC: UIViewController, ButtonBackgroundColorDelegate {
     }
     
     func addProjectName() {
-        view.addSubview(getProjectName)
+        view.addSubview(setProjectName)
         
         NSLayoutConstraint.activate([
-            self.getProjectName.bottomAnchor.constraint(equalTo: self.colorGrid.topAnchor, constant: -30),
-            self.getProjectName.widthAnchor.constraint(equalToConstant: 150.0),
-            self.getProjectName.centerXAnchor.constraint(equalTo: self.view.centerXAnchor)
+            self.setProjectName.bottomAnchor.constraint(equalTo: self.colorGrid.topAnchor, constant: -30),
+            self.setProjectName.widthAnchor.constraint(equalToConstant: 150.0),
+            self.setProjectName.centerXAnchor.constraint(equalTo: self.view.centerXAnchor)
         ])
     }
     
@@ -122,7 +124,7 @@ class NewProjectVC: UIViewController, ButtonBackgroundColorDelegate {
 //        print(self.getColor)
         
         if selectedProject != nil { // To update/edit project
-            selectedProject?.setValue(getProjectName.text, forKey: "name")
+            selectedProject?.setValue(setProjectName.text, forKey: "name")
             if self.getColor != nil {
                 selectedProject?.setValue(self.getColor, forKey: "color")
             }
@@ -130,7 +132,7 @@ class NewProjectVC: UIViewController, ButtonBackgroundColorDelegate {
             dismiss(animated: true, completion: nil)
         }else { // To save new project
             let newProject = Project(context: coreDataStack!.managedContext)
-            newProject.name = getProjectName.text
+            newProject.name = setProjectName.text
             newProject.color = getColor
             coreDataStack?.saveContext()
             dismiss(animated: true, completion: nil)

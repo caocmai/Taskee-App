@@ -7,10 +7,11 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		2C37381C24B9762E00E05654 /* UITextField.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C37381B24B9762E00E05654 /* UITextField.swift */; };
 		2C4ED4B624ABD6B800FD05D4 /* CoreDataStack.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C4ED4B524ABD6B800FD05D4 /* CoreDataStack.swift */; };
 		2C5258D224B2D164005D662D /* ColorGrid.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C5258D124B2D164005D662D /* ColorGrid.swift */; };
 		2C5258D424B2D4E6005D662D /* NewProjectVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C5258D324B2D4E6005D662D /* NewProjectVC.swift */; };
-		2C5258D624B2E419005D662D /* ColorEnum.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C5258D524B2E419005D662D /* ColorEnum.swift */; };
+		2C5258D624B2E419005D662D /* CustomColor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C5258D524B2E419005D662D /* CustomColor.swift */; };
 		2C8F175424ABE953002B0352 /* Project.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 2C8F175224ABE953002B0352 /* Project.xcdatamodeld */; };
 		2C9BB4CC24A9A55400936C1C /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C9BB4CB24A9A55400936C1C /* AppDelegate.swift */; };
 		2C9BB4CE24A9A55400936C1C /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C9BB4CD24A9A55400936C1C /* SceneDelegate.swift */; };
@@ -30,10 +31,11 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		2C37381B24B9762E00E05654 /* UITextField.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UITextField.swift; sourceTree = "<group>"; };
 		2C4ED4B524ABD6B800FD05D4 /* CoreDataStack.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CoreDataStack.swift; sourceTree = "<group>"; };
 		2C5258D124B2D164005D662D /* ColorGrid.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ColorGrid.swift; sourceTree = "<group>"; };
 		2C5258D324B2D4E6005D662D /* NewProjectVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewProjectVC.swift; sourceTree = "<group>"; };
-		2C5258D524B2E419005D662D /* ColorEnum.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ColorEnum.swift; sourceTree = "<group>"; };
+		2C5258D524B2E419005D662D /* CustomColor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomColor.swift; sourceTree = "<group>"; };
 		2C8F175324ABE953002B0352 /* Project.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = Project.xcdatamodel; sourceTree = "<group>"; };
 		2C9BB4C824A9A55400936C1C /* Taskee App.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Taskee App.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		2C9BB4CB24A9A55400936C1C /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
@@ -101,10 +103,10 @@
 				2C9BB4CB24A9A55400936C1C /* AppDelegate.swift */,
 				2C9BB4CD24A9A55400936C1C /* SceneDelegate.swift */,
 				2C8F175524ABE95B002B0352 /* Core Data */,
-				2CECFAF924AB0B5B006564AA /* Extension */,
-				2C9BB4E124A9B45F00936C1C /* Controller */,
+				2CECFAF924AB0B5B006564AA /* Extensions */,
+				2C9BB4E124A9B45F00936C1C /* Controllers */,
 				2C9BB4E324A9B47400936C1C /* Model */,
-				2C9BB4E224A9B46A00936C1C /* View */,
+				2C9BB4E224A9B46A00936C1C /* Views */,
 				2C9BB4D424A9A55500936C1C /* Assets.xcassets */,
 				2C9BB4D624A9A55500936C1C /* LaunchScreen.storyboard */,
 				2C9BB4D924A9A55500936C1C /* Info.plist */,
@@ -112,7 +114,7 @@
 			path = "Taskee App";
 			sourceTree = "<group>";
 		};
-		2C9BB4E124A9B45F00936C1C /* Controller */ = {
+		2C9BB4E124A9B45F00936C1C /* Controllers */ = {
 			isa = PBXGroup;
 			children = (
 				2C9BB4CF24A9A55400936C1C /* ProjectsVC.swift */,
@@ -120,33 +122,34 @@
 				2CEBDFCB24ABF5240097094F /* TasksVC.swift */,
 				2CEBDFCF24AC19E40097094F /* NewTaskVC.swift */,
 			);
-			path = Controller;
+			path = Controllers;
 			sourceTree = "<group>";
 		};
-		2C9BB4E224A9B46A00936C1C /* View */ = {
+		2C9BB4E224A9B46A00936C1C /* Views */ = {
 			isa = PBXGroup;
 			children = (
 				2C9BB4D124A9A55400936C1C /* Main.storyboard */,
 				2CEBDFD124AC45450097094F /* ProjectCell.swift */,
 				2C5258D124B2D164005D662D /* ColorGrid.swift */,
 			);
-			path = View;
+			path = Views;
 			sourceTree = "<group>";
 		};
 		2C9BB4E324A9B47400936C1C /* Model */ = {
 			isa = PBXGroup;
 			children = (
-				2C5258D524B2E419005D662D /* ColorEnum.swift */,
+				2C5258D524B2E419005D662D /* CustomColor.swift */,
 			);
 			path = Model;
 			sourceTree = "<group>";
 		};
-		2CECFAF924AB0B5B006564AA /* Extension */ = {
+		2CECFAF924AB0B5B006564AA /* Extensions */ = {
 			isa = PBXGroup;
 			children = (
 				2CECFAF724AB0B57006564AA /* UIColor.swift */,
+				2C37381B24B9762E00E05654 /* UITextField.swift */,
 			);
-			path = Extension;
+			path = Extensions;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -235,7 +238,8 @@
 				2CEBDFD224AC45450097094F /* ProjectCell.swift in Sources */,
 				2CEBDFCC24ABF5240097094F /* TasksVC.swift in Sources */,
 				2C4ED4B624ABD6B800FD05D4 /* CoreDataStack.swift in Sources */,
-				2C5258D624B2E419005D662D /* ColorEnum.swift in Sources */,
+				2C5258D624B2E419005D662D /* CustomColor.swift in Sources */,
+				2C37381C24B9762E00E05654 /* UITextField.swift in Sources */,
 				2C9BB4CE24A9A55400936C1C /* SceneDelegate.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
