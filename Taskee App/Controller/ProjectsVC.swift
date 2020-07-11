@@ -46,14 +46,17 @@ class ProjectsVC: UIViewController, NSFetchedResultsControllerDelegate {
         // Do any additional setup after loading the view.
         self.configureNavBar()
         self.configureTable()
-        self.fetchProjects()
-        
-      
+//        self.fetchProjects()
         
     }
     
+    override func viewWillAppear(_ animated: Bool) {
+        self.fetchProjects()
+        table.reloadData()
+    }
+    
     @objc func refresh() {
-//        fetchProjects()
+        fetchProjects()
         table.reloadData()
         self.table.refreshControl?.endRefreshing()
 
@@ -81,8 +84,11 @@ class ProjectsVC: UIViewController, NSFetchedResultsControllerDelegate {
                 pendingTaskCount += 1
             }
         }
-        
-        cell.pendingTasksLabel.text = "\(pendingTaskCount == 0 ? "No" : "\(pendingTaskCount)") Pending task\(pendingTaskCount <= 1 ? "" : "s")"
+        if pendingTaskCount == 0 {
+            cell.pendingTasksLabel.text = "Tasks completed!"
+        }else{
+        cell.pendingTasksLabel.text = "\(pendingTaskCount) Pending task\(pendingTaskCount <= 1 ? "" : "s")"
+    }
 //        cell.textLabel?.numberOfLines = 0
         
         //        let interaction = UIContextMenuInteraction(delegate: self)
@@ -208,7 +214,7 @@ extension ProjectsVC: UITableViewDelegate, UITableViewDataSource {
     }
     
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
-        return 80
+        return 90
     }
     
 }
@@ -302,3 +308,5 @@ extension ProjectsVC: UIContextMenuInteractionDelegate {
         }
     }
 }
+
+

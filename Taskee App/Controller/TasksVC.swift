@@ -91,7 +91,7 @@ class TasksVC: UIViewController, UIContextMenuInteractionDelegate {
     }
     
     func addSegmentControl() {
-        let segmentItems = ["Pending", "Finished"]
+        let segmentItems = ["Pending", "Completed"]
         segmentControl = UISegmentedControl(items: segmentItems)
         //       control.frame = CGRect(x: 10, y: 250, width: (self.view.frame.width - 20), height: 50)
         segmentControl.addTarget(self, action: #selector(segmentControl(_:)), for: .valueChanged)
@@ -137,7 +137,7 @@ class TasksVC: UIViewController, UIContextMenuInteractionDelegate {
     func configureTable() {
         self.taskTable.delegate = self
         self.taskTable.dataSource = self
-        self.taskTable.register(UITableViewCell.self, forCellReuseIdentifier: "Cell")
+        self.taskTable.register(ProjectCell.self, forCellReuseIdentifier: ProjectCell.identifier)
         self.view.addSubview(taskTable)
         //        self.taskTable.frame = view.bounds
         self.taskTable.separatorStyle = .none
@@ -158,10 +158,18 @@ extension TasksVC: UITableViewDelegate, UITableViewDataSource {
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCell(withIdentifier: "Cell", for: indexPath)
+        let cell = tableView.dequeueReusableCell(withIdentifier: ProjectCell.identifier, for: indexPath) as! ProjectCell
         //        cell.textLabel!.text = dateFormatter.string(from: tasks[indexPath.row].dueDate!)
         let task = tasks[indexPath.row]
-        cell.textLabel!.text = task.title
+        
+       
+   
+        cell.projectLabel.text = task.title
+        
+       
+            cell.pendingTasksLabel.text = "Due: \(dateFormatter.string(from: task.dueDate!))"
+       
+        
         cell.accessoryType = task.status ? .checkmark : .none
         
         return cell
@@ -186,6 +194,9 @@ extension TasksVC: UITableViewDelegate, UITableViewDataSource {
         self.coreDataStack.saveContext()
     }
     
+    func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
+        return 80
+    }
     
 }
 
@@ -269,3 +280,18 @@ class PreviewViewController: UIViewController {
     }
     
 }
+
+
+extension String {
+
+/// Apply strike font on text
+func strikeThrough() -> NSAttributedString {
+  let attributeString = NSMutableAttributedString(string: self)
+  attributeString.addAttribute(
+    NSAttributedString.Key.strikethroughStyle,
+    value: 1,
+    range: NSRange(location: 0, length: attributeString.length))
+
+    return attributeString
+   }
+ }
