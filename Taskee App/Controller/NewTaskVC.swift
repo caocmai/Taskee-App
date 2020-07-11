@@ -46,9 +46,9 @@ class NewTaskVC: UIViewController {
         image.image = UIImage(named: "no item image")
         image.contentMode = .scaleToFill
         image.isUserInteractionEnabled = true
-        image.layer.borderColor = UIColor.color(red: 123, green: 12, blue: 12)?.cgColor
-        image.layer.borderWidth = 5
-        image.layer.cornerRadius = 5
+//        image.layer.borderColor = UIColor.color(red: 123, green: 12, blue: 12)?.cgColor
+//        image.layer.borderWidth = 5
+        image.layer.cornerRadius = 75
         image.layer.masksToBounds = true
         return image
     }()

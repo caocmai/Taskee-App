@@ -142,6 +142,14 @@ class TasksVC: UIViewController, UIContextMenuInteractionDelegate {
         //        self.taskTable.frame = view.bounds
         self.taskTable.separatorStyle = .none
         
+        let refreshControl = UIRefreshControl()
+              refreshControl.addTarget(
+                  self,
+                  action: #selector(refresh),
+                  for: .valueChanged
+              )
+        self.taskTable.refreshControl = refreshControl
+        
         NSLayoutConstraint.activate([
             self.taskTable.topAnchor.constraint(equalTo: self.segmentControl.bottomAnchor),
             self.taskTable.leadingAnchor.constraint(equalTo: self.view.safeAreaLayoutGuide.leadingAnchor, constant: 0),
@@ -149,6 +157,17 @@ class TasksVC: UIViewController, UIContextMenuInteractionDelegate {
             self.taskTable.bottomAnchor.constraint(equalTo: self.view.safeAreaLayoutGuide.bottomAnchor, constant: 0)
         ])
     }
+    
+    @objc func refresh() {
+        if segmentControl.selectedSegmentIndex == 0 {
+            getPendingTasks()
+        } else {
+            getFinshedTasks()
+        }
+        self.taskTable.reloadData()
+        self.taskTable.refreshControl?.endRefreshing()
+
+       }
     
 }
 

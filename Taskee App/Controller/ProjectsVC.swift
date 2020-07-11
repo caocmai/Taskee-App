@@ -55,12 +55,7 @@ class ProjectsVC: UIViewController, NSFetchedResultsControllerDelegate {
         table.reloadData()
     }
     
-    @objc func refresh() {
-        fetchProjects()
-        table.reloadData()
-        self.table.refreshControl?.endRefreshing()
-
-    }
+   
     
     func fetchProjects() {
         do {
@@ -129,13 +124,7 @@ class ProjectsVC: UIViewController, NSFetchedResultsControllerDelegate {
         self.table.delegate = self
         self.table.dataSource = self
         self.table.separatorStyle = .none
-        let refreshControl = UIRefreshControl()
-              refreshControl.addTarget(
-                  self,
-                  action: #selector(refresh),
-                  for: .valueChanged
-              )
-        self.table.refreshControl = refreshControl
+        
         
     }
     

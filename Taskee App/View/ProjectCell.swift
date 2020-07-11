@@ -40,7 +40,7 @@ class ProjectCell: UITableViewCell {
         self.contentView.addSubview(projectLabel)
         self.contentView.addSubview(pendingTasksLabel)
         NSLayoutConstraint.activate([
-            projectLabel.centerYAnchor.constraint(equalTo: self.contentView.centerYAnchor),
+            projectLabel.centerYAnchor.constraint(equalTo: self.contentView.centerYAnchor, constant: -1),
             projectLabel.leadingAnchor.constraint(equalTo: self.contentView.leadingAnchor, constant: 15)
         ])
         
