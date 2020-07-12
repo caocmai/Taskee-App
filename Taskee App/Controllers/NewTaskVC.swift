@@ -21,7 +21,7 @@ class NewTaskVC: UIViewController {
         textField.placeholder = "Task Title"
         textField.borderStyle = .roundedRect
         textField.tag = 0
-//        textField.keyboardType = .default //keyboard type
+        //        textField.keyboardType = .default //keyboard type
         
         return textField
     }()
@@ -32,7 +32,7 @@ class NewTaskVC: UIViewController {
         textField.borderStyle = .roundedRect
         textField.placeholder = "Done By"
         textField.tag = 1
-//        textField.keyboardType = .default
+        //        textField.keyboardType = .default
         return textField
     }()
     
@@ -77,11 +77,11 @@ class NewTaskVC: UIViewController {
         setupUI()
         //        createToolbar()
         datePickerToolbar()
-//        setTitle.delegate = self
-//        dateTextField.delegate = self
+        //        setTitle.delegate = self
+        //        dateTextField.delegate = self
         addDoneButtonOnKeyboard()
         UITextField.connectFields(fields: [setTitle, dateTextField])
-
+        
         
         
     }
@@ -197,8 +197,43 @@ class NewTaskVC: UIViewController {
         //            print("error")
         //        }
         
+        if !checkForEmptyFields() {
+            if taskToEdit != nil {
+                taskToEdit?.setValue(setTitle.text, forKey: "title")
+                if self.dateTextField.text != dateFormatter.string(from: (taskToEdit?.dueDate)!) {
+                    taskToEdit?.setValue(self.datePicker.date, forKey: "dueDate")
+                }
+                taskToEdit?.setValue(imageView.image?.pngData(), forKey: "taskImage")
+                coreDataStack?.saveContext()
+            } else {
+                createNewTask()
+            }
+            self.navigationController?.popViewController(animated: true)
+        }
+        
+        
+    }
+    
+    //    func createToolbar() {
+    //        let pickerToolbar: UIToolbar = UIToolbar(frame: CGRect(x:38, y: 100, width: 244, height: 30))
+    //        pickerToolbar.autoresizingMask = .flexibleHeight // This or the bottom works the same
+    //        //        pickerToolbar.sizeToFit()
+    //        //add buttons
+    //        let cancelButton = UIBarButtonItem(barButtonSystemItem: .close, target: self, action:
+    //            #selector(cancelButtonTapped))
+    //        //        cancelButton.tintColor = UIColor.white
+    //        let flexSpace = UIBarButtonItem(barButtonSystemItem: .flexibleSpace, target: nil, action: nil)
+    //        let doneButton = UIBarButtonItem(barButtonSystemItem: .done, target: self, action:
+    //            #selector(doneButtonTapped))
+    //        //        doneButton.tintColor = UIColor.white
+    //
+    //        //add the items to the toolbar
+    //        pickerToolbar.items = [cancelButton, flexSpace, doneButton]
+    //        self.dateTextField.inputAccessoryView = pickerToolbar
+    //    }
+    
+    func checkForEmptyFields() -> Bool {
         if setTitle.text == "" {
-            print("nals")
             setTitle.layer.borderWidth = 2
             setTitle.layer.cornerRadius = 7
             setTitle.layer.borderColor = UIColor.red.cgColor
@@ -220,36 +255,12 @@ class NewTaskVC: UIViewController {
             dateTextField.borderStyle = .roundedRect
         }
         
-//        if taskToEdit != nil {
-//            taskToEdit?.setValue(setTitle.text, forKey: "title")
-//            if self.dateTextField.text != dateFormatter.string(from: (taskToEdit?.dueDate)!) {
-//                taskToEdit?.setValue(self.datePicker.date, forKey: "dueDate")
-//            }
-//            taskToEdit?.setValue(imageView.image?.pngData(), forKey: "taskImage")
-//            coreDataStack?.saveContext()
-//        } else {
-//            createNewTask()
-//        }
-//        self.navigationController?.popViewController(animated: true)
+        if setTitle.text != "" && dateTextField.text != "" {
+            return false
+        }
+        
+        return true
     }
-    
-    //    func createToolbar() {
-    //        let pickerToolbar: UIToolbar = UIToolbar(frame: CGRect(x:38, y: 100, width: 244, height: 30))
-    //        pickerToolbar.autoresizingMask = .flexibleHeight // This or the bottom works the same
-    //        //        pickerToolbar.sizeToFit()
-    //        //add buttons
-    //        let cancelButton = UIBarButtonItem(barButtonSystemItem: .close, target: self, action:
-    //            #selector(cancelButtonTapped))
-    //        //        cancelButton.tintColor = UIColor.white
-    //        let flexSpace = UIBarButtonItem(barButtonSystemItem: .flexibleSpace, target: nil, action: nil)
-    //        let doneButton = UIBarButtonItem(barButtonSystemItem: .done, target: self, action:
-    //            #selector(doneButtonTapped))
-    //        //        doneButton.tintColor = UIColor.white
-    //
-    //        //add the items to the toolbar
-    //        pickerToolbar.items = [cancelButton, flexSpace, doneButton]
-    //        self.dateTextField.inputAccessoryView = pickerToolbar
-    //    }
     
     func datePickerToolbar() {
         let doneToolbar: UIToolbar = UIToolbar(frame: CGRect(x:38, y: 100, width: 244, height: 30))

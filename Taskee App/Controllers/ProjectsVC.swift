@@ -13,6 +13,9 @@ class ProjectsVC: UIViewController, NSFetchedResultsControllerDelegate {
     
     var coreDataStack = CoreDataStack()
     
+    let searchController = UISearchController(searchResultsController: nil)
+
+    
     //    var testCDStack: NSManagedObjectContext?
     
     //    var projects = [Project]()
@@ -28,6 +31,7 @@ class ProjectsVC: UIViewController, NSFetchedResultsControllerDelegate {
         let nameSort = NSSortDescriptor(key: #keyPath(Project.name), ascending: true)
         // Will crash when save object if activated; seems like can't sort by color
         let colorSort = NSSortDescriptor(key: #keyPath(Project.color), ascending: true)
+
         fetchRequest.sortDescriptors = [nameSort]
         
         let fetchedResultsController = NSFetchedResultsController(
@@ -46,8 +50,36 @@ class ProjectsVC: UIViewController, NSFetchedResultsControllerDelegate {
         // Do any additional setup after loading the view.
         self.configureNavBar()
         self.configureTable()
-//        self.fetchProjects()
         
+        let refreshControl = UIRefreshControl()
+        refreshControl.addTarget(
+            self,
+            action: #selector(refresh),
+            for: .valueChanged
+        )
+        self.table.refreshControl = refreshControl
+        
+        
+        navigationItem.searchController = searchController
+        searchController.searchResultsUpdater = self
+        searchController.searchBar.placeholder = "Seach."
+        searchController.searchBar.delegate = self
+        searchController.dimsBackgroundDuringPresentation = false
+
+//        searchBar.sizeToFit()
+//        searchBar.translatesAutoresizingMaskIntoConstraints = false
+//        view.addSubview(searchBar)
+//
+//        NSLayoutConstraint.activate([
+//            searchBar.topAnchor.constraint(equalTo: self.view.safeAreaLayoutGuide.topAnchor),
+//            searchBar.widthAnchor.constraint(equalToConstant: 200)])
+//        searchBar.placeholder = " Search..."
+//
+//        searchBar.delegate = self
+        
+
+        
+
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -55,7 +87,14 @@ class ProjectsVC: UIViewController, NSFetchedResultsControllerDelegate {
         table.reloadData()
     }
     
-   
+    @objc func refresh() {
+           self.fetchProjects()
+           table.reloadData()
+        self.table.refreshControl?.endRefreshing()
+
+           
+       }
+    
     
     func fetchProjects() {
         do {
@@ -72,19 +111,26 @@ class ProjectsVC: UIViewController, NSFetchedResultsControllerDelegate {
         cell.projectLabel.text = project.name
         cell.projectLabel.textColor = project.color as? UIColor
         cell.accessoryType = .disclosureIndicator
-        
         var pendingTaskCount = 0
         for task in project.projectTasks! {
             if (task as! Task).status == false {
                 pendingTaskCount += 1
             }
         }
-        if pendingTaskCount == 0 {
+        
+        
+        if project.projectTasks?.count == 0 {
+            cell.pendingTasksLabel.text = "Tasks not set"
+            cell.pendingTasksLabel.textColor = #colorLiteral(red: 0.6000000238, green: 0.6000000238, blue: 0.6000000238, alpha: 0.7964469178)
+        }
+        else if pendingTaskCount == 0 {
             cell.pendingTasksLabel.text = "Tasks completed!"
-        }else{
-        cell.pendingTasksLabel.text = "\(pendingTaskCount) Pending task\(pendingTaskCount <= 1 ? "" : "s")"
-    }
-//        cell.textLabel?.numberOfLines = 0
+            cell.pendingTasksLabel.textColor = #colorLiteral(red: 0.8039215803, green: 0.8248440974, blue: 0.8039215803, alpha: 1)
+        } else {
+            cell.pendingTasksLabel.text = "\(pendingTaskCount) Pending task\(pendingTaskCount <= 1 ? "" : "s")"
+            cell.pendingTasksLabel.textColor = #colorLiteral(red: 0.6000000238, green: 0.6000000238, blue: 0.6000000238, alpha: 1)
+        }
+        //        cell.textLabel?.numberOfLines = 0
         
         //        let interaction = UIContextMenuInteraction(delegate: self)
         //        cell.addInteraction(interaction)
@@ -154,20 +200,22 @@ class ProjectsVC: UIViewController, NSFetchedResultsControllerDelegate {
 
 
 extension ProjectsVC: UITableViewDelegate, UITableViewDataSource {
+
     
-    func numberOfSections(in tableView: UITableView) -> Int {
-        
-        return fetchedResultsController.sections?.count ?? 0
-    }
     
+//    func numberOfSections(in tableView: UITableView) -> Int {
+//
+//        return fetchedResultsController.sections?.count ?? 0
+//    }
+//
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         //        return projects.count
-        
+
         guard let sectionInfo =
             fetchedResultsController.sections?[section] else {
                 return 0
         }
-        
+
         return sectionInfo.numberOfObjects
     }
     
@@ -181,6 +229,8 @@ extension ProjectsVC: UITableViewDelegate, UITableViewDataSource {
         configureCell(cell: cell, for: indexPath)
         return cell
     }
+    
+
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         
@@ -234,28 +284,30 @@ extension ProjectsVC {
         default:
             fatalError("not valid action")
         }
-       
+        
     }
     
     func controllerDidChangeContent(_ controller: NSFetchedResultsController<NSFetchRequestResult>) {
         table.endUpdates()
     }
     
-    func controller(_ controller: NSFetchedResultsController<NSFetchRequestResult>,
-                    didChange sectionInfo: NSFetchedResultsSectionInfo,
-                    atSectionIndex sectionIndex: Int,
-                    for type: NSFetchedResultsChangeType) {
-        
-        let indexSet = IndexSet(integer: sectionIndex)
-        
-        switch type {
-        case .insert:
-            table.insertSections(indexSet, with: .automatic)
-        case .delete:
-            table.deleteSections(indexSet, with: .automatic)
-        default: break
-        }
-    }
+//    func controller(_ controller: NSFetchedResultsController<NSFetchRequestResult>,
+//                    didChange sectionInfo: NSFetchedResultsSectionInfo,
+//                    atSectionIndex sectionIndex: Int,
+//                    for type: NSFetchedResultsChangeType) {
+//
+//        let indexSet = IndexSet(integer: sectionIndex)
+//
+//        switch type {
+//        case .insert:
+//            table.insertSections(indexSet, with: .automatic)
+//        case .delete:
+//            table.deleteSections(indexSet, with: .automatic)
+//        default: break
+//        }
+//    }
+    
+
 }
 
 extension ProjectsVC: UIContextMenuInteractionDelegate {
@@ -273,7 +325,7 @@ extension ProjectsVC: UIContextMenuInteractionDelegate {
         
         
         let favorite = UIAction(title: "Edit...") { _ in
-//            print(indexPath.row)
+            //            print(indexPath.row)
             let editVC = NewProjectVC()
             let project = self.fetchedResultsController.object(at: indexPath)
             editVC.selectedProject = project
@@ -293,9 +345,31 @@ extension ProjectsVC: UIContextMenuInteractionDelegate {
         }
         
         return UIContextMenuConfiguration(identifier: nil, previewProvider: nil) { _ in
-                                            UIMenu(title: "Actions", children: [favorite, delete])
+            UIMenu(title: "Actions", children: [favorite, delete])
         }
     }
 }
 
+extension ProjectsVC: UISearchBarDelegate, UISearchResultsUpdating {
+    
+    func updateSearchResults(for searchController: UISearchController) {
+        let text = searchController.searchBar.text
+        if (text?.isEmpty)! {
+            // This is needed to return to displying all projects
+            self.fetchedResultsController.fetchRequest.predicate = NSPredicate(value: true)
+        } else {
+            self.fetchedResultsController.fetchRequest.predicate = NSPredicate(format: "( name contains[cd] %@ )", text!)
+            do {
+                try self.fetchedResultsController.performFetch()
+                self.table.reloadData()
+            } catch {}
+        }
+        
+    }
+    
+    func searchBarCancelButtonClicked(_ searchBar: UISearchBar) {
+        searchController.resignFirstResponder()
+       }
+    
 
+}

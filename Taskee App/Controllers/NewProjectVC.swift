@@ -12,7 +12,6 @@ class NewProjectVC: UIViewController, ButtonBackgroundColorDelegate {
     func getButtonColor(buttonColor: UIColor) {
         self.view.backgroundColor = buttonColor
         self.getColor = buttonColor
-        print(buttonColor)
     }
     
     var selectedProject: Project?

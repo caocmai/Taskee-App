@@ -143,11 +143,11 @@ class TasksVC: UIViewController, UIContextMenuInteractionDelegate {
         self.taskTable.separatorStyle = .none
         
         let refreshControl = UIRefreshControl()
-              refreshControl.addTarget(
-                  self,
-                  action: #selector(refresh),
-                  for: .valueChanged
-              )
+        refreshControl.addTarget(
+            self,
+            action: #selector(refresh),
+            for: .valueChanged
+        )
         self.taskTable.refreshControl = refreshControl
         
         NSLayoutConstraint.activate([
@@ -166,8 +166,8 @@ class TasksVC: UIViewController, UIContextMenuInteractionDelegate {
         }
         self.taskTable.reloadData()
         self.taskTable.refreshControl?.endRefreshing()
-
-       }
+        
+    }
     
 }
 
@@ -181,14 +181,10 @@ extension TasksVC: UITableViewDelegate, UITableViewDataSource {
         //        cell.textLabel!.text = dateFormatter.string(from: tasks[indexPath.row].dueDate!)
         let task = tasks[indexPath.row]
         
-       
-   
+        
+        
         cell.projectLabel.text = task.title
-        
-       
-            cell.pendingTasksLabel.text = "Due: \(dateFormatter.string(from: task.dueDate!))"
-       
-        
+        cell.pendingTasksLabel.text = "Due: \(dateFormatter.string(from: task.dueDate!))"
         cell.accessoryType = task.status ? .checkmark : .none
         
         return cell
@@ -196,7 +192,7 @@ extension TasksVC: UITableViewDelegate, UITableViewDataSource {
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         tasks[indexPath.row].status = !tasks[indexPath.row].status
-//        tableView.deselectRow(at: indexPath, animated: true)
+        //        tableView.deselectRow(at: indexPath, animated: true)
         
         coreDataStack.saveContext()
         taskTable.reloadData()
@@ -264,7 +260,7 @@ class PreviewViewController: UIViewController {
     var taskDueDateLabel: UILabel = {
         let label = UILabel()
         label.translatesAutoresizingMaskIntoConstraints = false
-
+        
         label.text = "testing"
         return label
     }()
@@ -274,7 +270,7 @@ class PreviewViewController: UIViewController {
         super.viewDidLoad()
         view.backgroundColor = .white
         view.addSubview(imageView)
-
+        
         view.addSubview(taskTitleLabel)
         view.addSubview(taskDueDateLabel)
         
@@ -283,7 +279,7 @@ class PreviewViewController: UIViewController {
             imageView.centerXAnchor.constraint(equalTo: view.centerXAnchor),
             imageView.heightAnchor.constraint(equalToConstant: 200),
             imageView.widthAnchor.constraint(equalToConstant: 200)
-
+            
         ])
         
         NSLayoutConstraint.activate([
@@ -302,15 +298,15 @@ class PreviewViewController: UIViewController {
 
 
 extension String {
-
-/// Apply strike font on text
-func strikeThrough() -> NSAttributedString {
-  let attributeString = NSMutableAttributedString(string: self)
-  attributeString.addAttribute(
-    NSAttributedString.Key.strikethroughStyle,
-    value: 1,
-    range: NSRange(location: 0, length: attributeString.length))
-
-    return attributeString
-   }
- }
+    
+    /// Apply strike font on text
+    func strikeThrough() -> NSAttributedString {
+        let attributeString = NSMutableAttributedString(string: self)
+        attributeString.addAttribute(
+            NSAttributedString.Key.strikethroughStyle,
+            value: 1,
+            range: NSRange(location: 0, length: attributeString.length))
+        
+        return attributeString
+    }
+}
