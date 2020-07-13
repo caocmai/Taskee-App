@@ -53,8 +53,8 @@ class CoreDataStack {
         let fetchRequest: NSFetchRequest<Project> = Project.fetchRequest()
         
         do {
-            let allProduces = try managedContext.fetch(fetchRequest)
-            completion(.success(allProduces))
+            let allProjects = try managedContext.fetch(fetchRequest)
+            completion(.success(allProjects))
         } catch {
             completion(.failure(error))
         }

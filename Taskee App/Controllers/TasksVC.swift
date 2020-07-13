@@ -188,8 +188,11 @@ extension TasksVC: UITableViewDelegate, UITableViewDataSource {
         
         
         cell.projectLabel.text = task.title
+        cell.taskImage.isHidden = false
+        cell.taskImage.image = UIImage(data: task.taskImage!)
+
 //        cell.projectLabel.text = task.status ? "\(task.title ?? "Unknown") Completed" : task.title
-        cell.pendingTasksLabel.text = task.status ? "Due by \(dateFormatter.string(from: task.dueDate!)) Completed on " : "Due by \(dateFormatter.string(from: task.dueDate!))"
+        cell.pendingTasksLabel.text = task.status ? "Completed on \(dateFormatter.string(from: task.dueDate!))" : "Due by \(dateFormatter.string(from: task.dueDate!))"
         cell.pendingTasksLabel.textColor = #colorLiteral(red: 0.6000000238, green: 0.6000000238, blue: 0.6000000238, alpha: 1)
         cell.accessoryType = task.status ? .checkmark : .none
         
@@ -198,10 +201,10 @@ extension TasksVC: UITableViewDelegate, UITableViewDataSource {
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         tasks[indexPath.row].status = !tasks[indexPath.row].status
-        //        tableView.deselectRow(at: indexPath, animated: true)
+//        tasks[indexPath.row].setValue(Date(), forKey: "dueDate")
         
         coreDataStack.saveContext()
-        taskTable.reloadData()
+        taskTable.reloadData() // To get checkmark to show
         
     }
     
@@ -229,14 +232,14 @@ extension TasksVC: UITableViewDelegate, UITableViewDataSource {
     }
     
     
-    func tableView(_ tableView: UITableView, moveRowAt sourceIndexPath: IndexPath, to destinationIndexPath: IndexPath) {
-        
-        let habitToSwap = self.tasks[sourceIndexPath.row]
-        self.tasks.remove(at: sourceIndexPath.row)
-        self.tasks.insert(habitToSwap, at: destinationIndexPath.row)
-        self.coreDataStack.saveContext()
-
-    }
+//    func tableView(_ tableView: UITableView, moveRowAt sourceIndexPath: IndexPath, to destinationIndexPath: IndexPath) {
+//
+//        let habitToSwap = self.tasks[sourceIndexPath.row]
+//        self.tasks.remove(at: sourceIndexPath.row)
+//        self.tasks.insert(habitToSwap, at: destinationIndexPath.row)
+//        self.coreDataStack.saveContext()
+//
+//    }
 }
 
 

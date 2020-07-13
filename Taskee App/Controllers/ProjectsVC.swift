@@ -99,6 +99,7 @@ class ProjectsVC: UIViewController, NSFetchedResultsControllerDelegate {
     func configureCell(cell: UITableViewCell, for indexPath: IndexPath) {
         guard let cell = cell as? ProjectCell else { return }
         let project = fetchedResultsController.object(at: indexPath)
+        cell.taskImage.isHidden = true
         cell.projectLabel.text = project.name
         cell.projectLabel.textColor = project.color as? UIColor
         cell.accessoryType = .disclosureIndicator

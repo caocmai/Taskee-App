@@ -20,6 +20,15 @@ class ProjectCell: UITableViewCell {
         return label
     }()
     
+    let taskImage: UIImageView = {
+        let image = UIImageView()
+        image.translatesAutoresizingMaskIntoConstraints = false
+//        image.contentMode = .scaleAspectFit
+        
+
+        return image
+    }()
+    
     
     let pendingTasksLabel: UILabel = {
         let label = UILabel()
@@ -37,17 +46,41 @@ class ProjectCell: UITableViewCell {
     }
     
     func configureProjectUI() {
+        self.contentView.addSubview(taskImage)
         self.contentView.addSubview(projectLabel)
         self.contentView.addSubview(pendingTasksLabel)
         NSLayoutConstraint.activate([
             projectLabel.centerYAnchor.constraint(equalTo: self.contentView.centerYAnchor, constant: -1),
-            projectLabel.leadingAnchor.constraint(equalTo: self.contentView.leadingAnchor, constant: 15)
+//            projectLabel.leadingAnchor.constraint(equalTo: self.contentView.leadingAnchor, constant: 15)
         ])
         
         NSLayoutConstraint.activate([
             pendingTasksLabel.bottomAnchor.constraint(equalTo: self.contentView.bottomAnchor, constant: -5),
-            pendingTasksLabel.leadingAnchor.constraint(equalTo: self.contentView.leadingAnchor, constant: 15)
+//            pendingTasksLabel.leadingAnchor.constraint(equalTo: self.contentView.leadingAnchor, constant: 15)
         ])
+        
+        if taskImage.isHidden {
+            projectLabel.leadingAnchor.constraint(equalTo: self.contentView.leadingAnchor, constant: 15).isActive = true
+            pendingTasksLabel.leadingAnchor.constraint(equalTo: self.contentView.leadingAnchor, constant: 15).isActive = true
+            
+        }else {
+            
+
+
+            NSLayoutConstraint.activate([
+                taskImage.leadingAnchor.constraint(equalTo: self.contentView.leadingAnchor, constant: 5),
+                taskImage.centerYAnchor.constraint(equalTo: self.contentView.centerYAnchor),
+                taskImage.widthAnchor.constraint(equalToConstant: 60),
+                taskImage.heightAnchor.constraint(equalToConstant: 60),
+                projectLabel.leadingAnchor.constraint(equalTo: self.taskImage.trailingAnchor, constant: 5),
+                pendingTasksLabel.leadingAnchor.constraint(equalTo: self.taskImage.trailingAnchor, constant: 5)
+            ])
+
+            taskImage.layer.masksToBounds = true
+            taskImage.layer.cornerRadius = 30
+
+        }
+        
     }
 
     override func setSelected(_ selected: Bool, animated: Bool) {
