@@ -14,7 +14,7 @@ class ProjectsVC: UIViewController, NSFetchedResultsControllerDelegate {
     var coreDataStack = CoreDataStack()
     
     let searchController = UISearchController(searchResultsController: nil)
-
+    
     
     //    var testCDStack: NSManagedObjectContext?
     
@@ -31,7 +31,7 @@ class ProjectsVC: UIViewController, NSFetchedResultsControllerDelegate {
         let nameSort = NSSortDescriptor(key: #keyPath(Project.name), ascending: true)
         // Will crash when save object if activated; seems like can't sort by color
         let colorSort = NSSortDescriptor(key: #keyPath(Project.color), ascending: true)
-
+        
         fetchRequest.sortDescriptors = [nameSort]
         
         let fetchedResultsController = NSFetchedResultsController(
@@ -65,18 +65,26 @@ class ProjectsVC: UIViewController, NSFetchedResultsControllerDelegate {
         searchController.searchBar.placeholder = "Seach."
         searchController.searchBar.delegate = self
         searchController.dimsBackgroundDuringPresentation = false
-
+        
     }
     
     override func viewWillAppear(_ animated: Bool) {
         self.fetchProjects()
+        //        let teams = fetchedResultsController.fetchedObjects
+        //        for team in teams! {
+        //            if team.projectTasks?.count == 0 {
+        //            team.setValue("No taks", forKey: "name")
+        //          }
+        //        }
+        
+        
     }
     
     @objc func refresh() {
         self.fetchProjects()
         self.table.refreshControl?.endRefreshing()
-           
-       }
+        
+    }
     
     
     func fetchProjects() {
@@ -183,22 +191,22 @@ class ProjectsVC: UIViewController, NSFetchedResultsControllerDelegate {
 
 
 extension ProjectsVC: UITableViewDelegate, UITableViewDataSource {
-
     
     
-//    func numberOfSections(in tableView: UITableView) -> Int {
-//
-//        return fetchedResultsController.sections?.count ?? 0
-//    }
-//
+    
+    //    func numberOfSections(in tableView: UITableView) -> Int {
+    //
+    //        return fetchedResultsController.sections?.count ?? 0
+    //    }
+    //
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         //        return projects.count
-
+        
         guard let sectionInfo =
             fetchedResultsController.sections?[section] else {
                 return 0
         }
-
+        
         return sectionInfo.numberOfObjects
     }
     
@@ -213,7 +221,7 @@ extension ProjectsVC: UITableViewDelegate, UITableViewDataSource {
         return cell
     }
     
-
+    
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         
@@ -230,7 +238,6 @@ extension ProjectsVC: UITableViewDelegate, UITableViewDataSource {
     
     func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCell.EditingStyle, forRowAt indexPath: IndexPath) {
         let project = fetchedResultsController.object(at: indexPath)
-        //        do {
         self.coreDataStack.managedContext.delete(project)
         self.coreDataStack.saveContext()
     }
@@ -259,6 +266,8 @@ extension ProjectsVC {
         case .delete:
             table.deleteRows(at: [indexPath!], with: .automatic)
         case .update:
+            print("update")
+            //            table.reloadRows(at: [indexPath!], with: .automatic)
             let cell = table.cellForRow(at: indexPath!) as! ProjectCell
             configureCell(cell: cell, for: indexPath!)
         case .move:
@@ -274,23 +283,23 @@ extension ProjectsVC {
         table.endUpdates()
     }
     
-//    func controller(_ controller: NSFetchedResultsController<NSFetchRequestResult>,
-//                    didChange sectionInfo: NSFetchedResultsSectionInfo,
-//                    atSectionIndex sectionIndex: Int,
-//                    for type: NSFetchedResultsChangeType) {
-//
-//        let indexSet = IndexSet(integer: sectionIndex)
-//
-//        switch type {
-//        case .insert:
-//            table.insertSections(indexSet, with: .automatic)
-//        case .delete:
-//            table.deleteSections(indexSet, with: .automatic)
-//        default: break
-//        }
-//    }
+    //    func controller(_ controller: NSFetchedResultsController<NSFetchRequestResult>,
+    //                    didChange sectionInfo: NSFetchedResultsSectionInfo,
+    //                    atSectionIndex sectionIndex: Int,
+    //                    for type: NSFetchedResultsChangeType) {
+    //
+    //        let indexSet = IndexSet(integer: sectionIndex)
+    //
+    //        switch type {
+    //        case .insert:
+    //            table.insertSections(indexSet, with: .automatic)
+    //        case .delete:
+    //            table.deleteSections(indexSet, with: .automatic)
+    //        default: break
+    //        }
+    //    }
     
-
+    
 }
 
 extension ProjectsVC: UIContextMenuInteractionDelegate {
@@ -305,7 +314,6 @@ extension ProjectsVC: UIContextMenuInteractionDelegate {
     func tableView(_ tableView: UITableView,
                    contextMenuConfigurationForRowAt indexPath: IndexPath,
                    point: CGPoint) -> UIContextMenuConfiguration? {
-        
         
         let favorite = UIAction(title: "Edit...") { _ in
             //            print(indexPath.row)
@@ -323,7 +331,10 @@ extension ProjectsVC: UIContextMenuInteractionDelegate {
         }
         
         let delete = UIAction(title: "Delete", image: UIImage(systemName: "trash")) { _ in
-            print("del")
+            
+            let project = self.fetchedResultsController.object(at: indexPath)
+            self.coreDataStack.managedContext.delete(project)
+            self.coreDataStack.saveContext()
             
         }
         
@@ -352,7 +363,7 @@ extension ProjectsVC: UISearchBarDelegate, UISearchResultsUpdating {
     
     func searchBarCancelButtonClicked(_ searchBar: UISearchBar) {
         searchController.resignFirstResponder()
-       }
+    }
     
-
+    
 }

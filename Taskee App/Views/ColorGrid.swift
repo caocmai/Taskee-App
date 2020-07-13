@@ -165,7 +165,7 @@ class ColorGrid: UIView {
     
     private func createBorder(_ button: UIButton) {
         button.translatesAutoresizingMaskIntoConstraints = false
-        button.layer.borderWidth = 3
+        button.layer.borderWidth = 2
         button.layer.borderColor = UIColor.black.cgColor
         NSLayoutConstraint.activate([
             button.widthAnchor.constraint(equalToConstant: 60),

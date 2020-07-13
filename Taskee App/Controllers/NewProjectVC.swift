@@ -116,7 +116,9 @@ class NewProjectVC: UIViewController, ButtonBackgroundColorDelegate {
             self.saveButton.topAnchor.constraint(equalTo: self.colorGrid.bottomAnchor, constant: 40),
             self.saveButton.heightAnchor.constraint(equalToConstant: 48),
             self.saveButton.widthAnchor.constraint(equalToConstant: 150),
-            self.saveButton.centerXAnchor.constraint(equalTo: self.view.centerXAnchor)
+            self.saveButton.leadingAnchor.constraint(equalTo: self.view.leadingAnchor, constant: 45),
+            self.saveButton.trailingAnchor.constraint(equalTo: self.view.trailingAnchor, constant: -45),
+//            self.saveButton.centerXAnchor.constraint(equalTo: self.view.centerXAnchor)
         ])
     }
     

@@ -48,7 +48,8 @@ class CoreDataStack {
         }
     }
     
-    func fetchPersistedData(completion: @escaping(Result<[Project]>) -> Void) {
+    // currently not using
+    func fetchAllProjects(completion: @escaping(Result<[Project]>) -> Void) {
         let fetchRequest: NSFetchRequest<Project> = Project.fetchRequest()
         
         do {
@@ -62,9 +63,9 @@ class CoreDataStack {
     func fetchTasks(with request: NSFetchRequest<Task> = Task.fetchRequest(), predicate: NSPredicate? = nil, selectedProject: String, completion: @escaping(Result<[Task]>) -> Void) {
         
         let categoryPredicate = NSPredicate(format: "parentProject.name MATCHES %@", selectedProject)
-        //        let sectionSortDescriptor = NSSortDescriptor(key: "dueDate", ascending: true)
-        
-        //        request.sortDescriptors = [sectionSortDescriptor]
+//                let sectionSortDescriptor = NSSortDescriptor(key: "title", ascending: true)
+//        
+//                request.sortDescriptors = [sectionSortDescriptor]
         
         if let addtionalPredicate = predicate {
             request.predicate = NSCompoundPredicate(andPredicateWithSubpredicates: [categoryPredicate, addtionalPredicate])
