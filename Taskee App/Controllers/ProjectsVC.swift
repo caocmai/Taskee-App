@@ -66,32 +66,15 @@ class ProjectsVC: UIViewController, NSFetchedResultsControllerDelegate {
         searchController.searchBar.delegate = self
         searchController.dimsBackgroundDuringPresentation = false
 
-//        searchBar.sizeToFit()
-//        searchBar.translatesAutoresizingMaskIntoConstraints = false
-//        view.addSubview(searchBar)
-//
-//        NSLayoutConstraint.activate([
-//            searchBar.topAnchor.constraint(equalTo: self.view.safeAreaLayoutGuide.topAnchor),
-//            searchBar.widthAnchor.constraint(equalToConstant: 200)])
-//        searchBar.placeholder = " Search..."
-//
-//        searchBar.delegate = self
-        
-
-        
-
     }
     
     override func viewWillAppear(_ animated: Bool) {
         self.fetchProjects()
-        table.reloadData()
     }
     
     @objc func refresh() {
-           self.fetchProjects()
-           table.reloadData()
+        self.fetchProjects()
         self.table.refreshControl?.endRefreshing()
-
            
        }
     
@@ -102,7 +85,7 @@ class ProjectsVC: UIViewController, NSFetchedResultsControllerDelegate {
         } catch let error as NSError {
             print("Fetching error: \(error), \(error.userInfo)")
         }
-        
+        self.table.reloadData()
     }
     
     func configureCell(cell: UITableViewCell, for indexPath: IndexPath) {

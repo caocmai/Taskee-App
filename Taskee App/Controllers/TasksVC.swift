@@ -9,10 +9,7 @@
 import UIKit
 import CoreData
 
-class TasksVC: UIViewController, UIContextMenuInteractionDelegate {
-    func contextMenuInteraction(_ interaction: UIContextMenuInteraction, configurationForMenuAtLocation location: CGPoint) -> UIContextMenuConfiguration? {
-        return nil
-    }
+class TasksVC: UIViewController {
     
     
     var selectedProject: Project?
@@ -65,8 +62,8 @@ class TasksVC: UIViewController, UIContextMenuInteractionDelegate {
     }
     
     func getPendingTasks() {
-        let categoryPredicate = NSPredicate(format: "status = false")
-        coreDataStack.fetchTasks(predicate: categoryPredicate, selectedProject: (selectedProject?.name)!) { results in
+        let projectStatusPredicate = NSPredicate(format: "status = false")
+        coreDataStack.fetchTasks(predicate: projectStatusPredicate, selectedProject: (selectedProject?.name)!) { results in
             switch results {
             case .success(let tasks):
                 self.tasks = tasks
@@ -78,8 +75,8 @@ class TasksVC: UIViewController, UIContextMenuInteractionDelegate {
     }
     
     func getFinshedTasks() {
-        let categoryPredicate = NSPredicate(format: "status = true")
-        coreDataStack.fetchTasks(predicate: categoryPredicate, selectedProject: (selectedProject?.name)!) { results in
+        let projectStatusPredicate = NSPredicate(format: "status = true")
+        coreDataStack.fetchTasks(predicate: projectStatusPredicate, selectedProject: (selectedProject?.name)!) { results in
             switch results {
             case .success(let tasks):
                 self.tasks = tasks
@@ -94,7 +91,7 @@ class TasksVC: UIViewController, UIContextMenuInteractionDelegate {
         let segmentItems = ["Pending", "Completed"]
         segmentControl = UISegmentedControl(items: segmentItems)
         //       control.frame = CGRect(x: 10, y: 250, width: (self.view.frame.width - 20), height: 50)
-        segmentControl.addTarget(self, action: #selector(segmentControl(_:)), for: .valueChanged)
+        segmentControl.addTarget(self, action: #selector(segmentControlTapped(_:)), for: .valueChanged)
         segmentControl.selectedSegmentIndex = 0
         view.addSubview(segmentControl)
         segmentControl.translatesAutoresizingMaskIntoConstraints = false
@@ -107,7 +104,7 @@ class TasksVC: UIViewController, UIContextMenuInteractionDelegate {
         ])
     }
     
-    @objc func segmentControl(_ segmentedControl: UISegmentedControl) {
+    @objc func segmentControlTapped(_ segmentedControl: UISegmentedControl) {
         switch (segmentedControl.selectedSegmentIndex) {
         case 0:  // First segment tapped
             getPendingTasks()
@@ -123,7 +120,15 @@ class TasksVC: UIViewController, UIContextMenuInteractionDelegate {
         self.navigationController?.navigationBar.prefersLargeTitles = true
         self.title = "\(selectedProject!.name ?? "Unnamed") Tasks"
         let addButton = UIBarButtonItem(barButtonSystemItem: .add, target: self, action: #selector(addTaskTapped))
-        self.navigationItem.rightBarButtonItem = addButton
+        self.navigationItem.rightBarButtonItems = [addButton, self.editButtonItem]
+//        self.navigationItem.leftBarButtonItem = self.editButtonItem
+
+    }
+    
+    // This method is needed for edit button in navbar to work
+    override func setEditing(_ editing: Bool, animated: Bool){
+        super.setEditing(editing, animated: animated)
+        taskTable.setEditing(editing, animated: true)
     }
     
     @objc func addTaskTapped(){
@@ -182,9 +187,10 @@ extension TasksVC: UITableViewDelegate, UITableViewDataSource {
         let task = tasks[indexPath.row]
         
         
-        
         cell.projectLabel.text = task.title
-        cell.pendingTasksLabel.text = "Due: \(dateFormatter.string(from: task.dueDate!))"
+//        cell.projectLabel.text = task.status ? "\(task.title ?? "Unknown") Completed" : task.title
+        cell.pendingTasksLabel.text = task.status ? "Due by \(dateFormatter.string(from: task.dueDate!)) Completed on " : "Due by \(dateFormatter.string(from: task.dueDate!))"
+        cell.pendingTasksLabel.textColor = #colorLiteral(red: 0.6000000238, green: 0.6000000238, blue: 0.6000000238, alpha: 1)
         cell.accessoryType = task.status ? .checkmark : .none
         
         return cell
@@ -196,30 +202,51 @@ extension TasksVC: UITableViewDelegate, UITableViewDataSource {
         
         coreDataStack.saveContext()
         taskTable.reloadData()
-        //        test()
         
     }
     
     func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCell.EditingStyle, forRowAt indexPath: IndexPath) {
         
-        let task = tasks[indexPath.row]
-        self.coreDataStack.managedContext.delete(task)
-        self.tasks.remove(at: indexPath.row)
-        self.taskTable.deleteRows(at: [indexPath], with: .fade)
-        self.coreDataStack.saveContext()
+        switch editingStyle {
+         case .delete:
+            let task = tasks[indexPath.row]
+            self.coreDataStack.managedContext.delete(task)
+            self.tasks.remove(at: indexPath.row)
+            self.taskTable.deleteRows(at: [indexPath], with: .fade)
+            self.coreDataStack.saveContext()
+
+           // handling the delete action
+
+        default:
+           break
+        }
+        
+        
     }
     
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
         return 80
     }
     
+    
+    func tableView(_ tableView: UITableView, moveRowAt sourceIndexPath: IndexPath, to destinationIndexPath: IndexPath) {
+        
+        let habitToSwap = self.tasks[sourceIndexPath.row]
+        self.tasks.remove(at: sourceIndexPath.row)
+        self.tasks.insert(habitToSwap, at: destinationIndexPath.row)
+        self.coreDataStack.saveContext()
+
+    }
 }
 
 
-extension TasksVC {
+extension TasksVC: UIContextMenuInteractionDelegate {
+    
+    func contextMenuInteraction(_ interaction: UIContextMenuInteraction, configurationForMenuAtLocation location: CGPoint) -> UIContextMenuConfiguration? {
+        return nil
+    }
     
     func tableView(_ tableView: UITableView, contextMenuConfigurationForRowAt indexPath: IndexPath, point: CGPoint) -> UIContextMenuConfiguration? {
-        
         let configuration = UIContextMenuConfiguration(identifier: nil, previewProvider: { () -> UIViewController? in
             let preview = PreviewViewController()
             let object = self.tasks[indexPath.row]
@@ -296,7 +323,7 @@ class PreviewViewController: UIViewController {
     
 }
 
-
+// currently not used
 extension String {
     
     /// Apply strike font on text

@@ -9,10 +9,6 @@
 import UIKit
 
 class NewProjectVC: UIViewController, ButtonBackgroundColorDelegate {
-    func getButtonColor(buttonColor: UIColor) {
-        self.view.backgroundColor = buttonColor
-        self.getColor = buttonColor
-    }
     
     var selectedProject: Project?
     let colorGrid = ColorGrid()
@@ -57,6 +53,11 @@ class NewProjectVC: UIViewController, ButtonBackgroundColorDelegate {
         addNavBar()
         UITextField.connectFields(fields: [setProjectName])
 
+    }
+    
+    func getButtonColor(buttonColor: UIColor) {
+        self.view.backgroundColor = buttonColor
+        self.getColor = buttonColor
     }
     
     func editProjectSetup(){

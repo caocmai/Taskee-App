@@ -12,11 +12,11 @@ import CoreData
 class CoreDataStack {
     
     private let modelName: String = "Project"
-
-//    init(modelName: String) {
-//      self.modelName = modelName
-//    }
-
+    
+    //    init(modelName: String) {
+    //      self.modelName = modelName
+    //    }
+    
     private lazy var storeContainer: NSPersistentContainer = {
         let container = NSPersistentContainer(name: self.modelName)
         container.loadPersistentStores { (storeDescription, error) in
@@ -28,20 +28,26 @@ class CoreDataStack {
     }()
     lazy var managedContext: NSManagedObjectContext = {
         // get location of stored core data file
-//        print(self.storeContainer.persistentStoreDescriptions.first?.url)
+        //        print(self.storeContainer.persistentStoreDescriptions.first?.url)
         return self.storeContainer.viewContext
     }()
-
+    
     func saveContext() {
-        guard managedContext.hasChanges else { return }
-
+        //        guard managedContext.hasChanges else { return }
+        //
+        //        do {
+        //            try managedContext.save()
+        //        } catch let error as NSError {
+        //            print("Error: \(error), \(error.userInfo)")
+        //        }
+        
         do {
-            try managedContext.save()
-        } catch let error as NSError {
-            print("Error: \(error), \(error.userInfo)")
+            try storeContainer.viewContext.save()
+        } catch {
+            print("error")
         }
     }
-
+    
     func fetchPersistedData(completion: @escaping(Result<[Project]>) -> Void) {
         let fetchRequest: NSFetchRequest<Project> = Project.fetchRequest()
         
@@ -56,16 +62,17 @@ class CoreDataStack {
     func fetchTasks(with request: NSFetchRequest<Task> = Task.fetchRequest(), predicate: NSPredicate? = nil, selectedProject: String, completion: @escaping(Result<[Task]>) -> Void) {
         
         let categoryPredicate = NSPredicate(format: "parentProject.name MATCHES %@", selectedProject)
-        let sectionSortDescriptor = NSSortDescriptor(key: "dueDate", ascending: true)
-        request.sortDescriptors = [sectionSortDescriptor]
+        //        let sectionSortDescriptor = NSSortDescriptor(key: "dueDate", ascending: true)
+        
+        //        request.sortDescriptors = [sectionSortDescriptor]
         
         if let addtionalPredicate = predicate {
             request.predicate = NSCompoundPredicate(andPredicateWithSubpredicates: [categoryPredicate, addtionalPredicate])
         } else {
             request.predicate = categoryPredicate
         }
-
-    
+        
+        
         do {
             let tasks = try managedContext.fetch(request)
             completion(.success(tasks))
