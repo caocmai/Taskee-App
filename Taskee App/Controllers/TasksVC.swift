@@ -56,7 +56,12 @@ class TasksVC: UIViewController {
         view.addInteraction(interaction)
         addNotifyEmptyTableLabel()
         
-        
+        if selectedProject != nil {
+            for task in selectedProject!.projectTasks! {
+                let task = task as! Task
+                print(task.title)
+            }
+        }
         
     }
     

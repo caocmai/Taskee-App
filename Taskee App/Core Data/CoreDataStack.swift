@@ -67,11 +67,11 @@ class CoreDataStack {
 //        
 //                request.sortDescriptors = [sectionSortDescriptor]
         
-        if let addtionalPredicate = predicate {
-            request.predicate = NSCompoundPredicate(andPredicateWithSubpredicates: [categoryPredicate, addtionalPredicate])
-        } else {
-            request.predicate = categoryPredicate
-        }
+//        if let addtionalPredicate = predicate {
+            request.predicate = NSCompoundPredicate(andPredicateWithSubpredicates: [categoryPredicate, predicate!])
+//        } else {
+//            request.predicate = categoryPredicate
+//        }
         
         
         do {

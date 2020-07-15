@@ -104,6 +104,8 @@ class ProjectCell: UITableViewCell {
             }
         }
         
+      
+        
         
         if project.projectTasks?.count == 0 {
             pendingTasksLabel.text = "Tasks not set"
