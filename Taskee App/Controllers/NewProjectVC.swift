@@ -92,8 +92,8 @@ class NewProjectVC: UIViewController, ButtonBackgroundColorDelegate {
         NSLayoutConstraint.activate([
             self.colorGrid.centerXAnchor.constraint(equalTo: self.view.centerXAnchor),
             self.colorGrid.centerYAnchor.constraint(equalTo: self.view.centerYAnchor),
-            self.colorGrid.heightAnchor.constraint(equalToConstant: self.view.frame.width / 2),
-            self.colorGrid.widthAnchor.constraint(equalToConstant: self.view.frame.width / 2)
+            self.colorGrid.heightAnchor.constraint(equalToConstant: self.view.frame.width / 1.65),
+            self.colorGrid.widthAnchor.constraint(equalToConstant: self.view.frame.width / 1.65)
         ])
         
     }
@@ -102,8 +102,8 @@ class NewProjectVC: UIViewController, ButtonBackgroundColorDelegate {
         view.addSubview(setProjectName)
         
         NSLayoutConstraint.activate([
-            self.setProjectName.bottomAnchor.constraint(equalTo: self.colorGrid.topAnchor, constant: -30),
-            self.setProjectName.widthAnchor.constraint(equalToConstant: 150.0),
+            self.setProjectName.bottomAnchor.constraint(equalTo: self.colorGrid.topAnchor, constant: -50),
+            self.setProjectName.widthAnchor.constraint(equalToConstant: 180.0),
             self.setProjectName.centerXAnchor.constraint(equalTo: self.view.centerXAnchor)
         ])
     }
@@ -113,9 +113,10 @@ class NewProjectVC: UIViewController, ButtonBackgroundColorDelegate {
         self.saveButton.addTarget(self, action: #selector(saveButtonTapped), for: .touchUpInside)
         
         NSLayoutConstraint.activate([
-            self.saveButton.topAnchor.constraint(equalTo: self.colorGrid.bottomAnchor, constant: 40),
+            self.saveButton.topAnchor.constraint(equalTo: self.colorGrid.bottomAnchor, constant: 70),
             self.saveButton.leadingAnchor.constraint(equalTo: self.view.leadingAnchor, constant: 45),
             self.saveButton.trailingAnchor.constraint(equalTo: self.view.trailingAnchor, constant: -45),
+            self.saveButton.heightAnchor.constraint(equalToConstant: 48)
 //            self.saveButton.centerXAnchor.constraint(equalTo: self.view.centerXAnchor)
         ])
     }

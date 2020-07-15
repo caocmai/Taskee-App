@@ -12,14 +12,8 @@ import CoreData
 class ProjectsVC: UIViewController, NSFetchedResultsControllerDelegate {
     
     var coreDataStack = CoreDataStack()
-    
     let searchController = UISearchController(searchResultsController: nil)
-    
-    
-    //    var testCDStack: NSManagedObjectContext?
-    
-    //    var projects = [Project]()
-    
+  
     var table: UITableView = {
         let newTable = UITableView()
         return newTable
@@ -70,14 +64,6 @@ class ProjectsVC: UIViewController, NSFetchedResultsControllerDelegate {
     
     override func viewWillAppear(_ animated: Bool) {
         self.fetchProjects()
-        //        let teams = fetchedResultsController.fetchedObjects
-        //        for team in teams! {
-        //            if team.projectTasks?.count == 0 {
-        //            team.setValue("No taks", forKey: "name")
-        //          }
-        //        }
-        
-        
     }
     
     @objc func refresh() {
@@ -99,29 +85,7 @@ class ProjectsVC: UIViewController, NSFetchedResultsControllerDelegate {
     func configureCell(cell: UITableViewCell, for indexPath: IndexPath) {
         guard let cell = cell as? ProjectCell else { return }
         let project = fetchedResultsController.object(at: indexPath)
-        cell.taskImage.isHidden = true
-        cell.projectLabel.text = project.name
-        cell.projectLabel.textColor = project.color as? UIColor
-        cell.accessoryType = .disclosureIndicator
-        var pendingTaskCount = 0
-        for task in project.projectTasks! {
-            if (task as! Task).status == false {
-                pendingTaskCount += 1
-            }
-        }
-        
-        
-        if project.projectTasks?.count == 0 {
-            cell.pendingTasksLabel.text = "Tasks not set"
-            cell.pendingTasksLabel.textColor = #colorLiteral(red: 0.6000000238, green: 0.6000000238, blue: 0.6000000238, alpha: 0.7964469178)
-        }
-        else if pendingTaskCount == 0 {
-            cell.pendingTasksLabel.text = "Tasks completed!"
-            cell.pendingTasksLabel.textColor = #colorLiteral(red: 0.8039215803, green: 0.8248440974, blue: 0.8039215803, alpha: 1)
-        } else {
-            cell.pendingTasksLabel.text = "\(pendingTaskCount) Pending task\(pendingTaskCount <= 1 ? "" : "s")"
-            cell.pendingTasksLabel.textColor = #colorLiteral(red: 0.6000000238, green: 0.6000000238, blue: 0.6000000238, alpha: 1)
-        }
+        cell.configureUIForProject(with: project)
         //        cell.textLabel?.numberOfLines = 0
         
         //        let interaction = UIContextMenuInteraction(delegate: self)
@@ -134,14 +98,8 @@ class ProjectsVC: UIViewController, NSFetchedResultsControllerDelegate {
         self.navigationController?.navigationBar.prefersLargeTitles = true
         self.title = "All Projects"
         let addButton = UIBarButtonItem(title: "New Project", style: .plain, target: self, action: #selector(addProjectTapped))
-        
         self.navigationItem.rightBarButtonItem = addButton
-        //        self.navigationItem.rightBarButtonItem?.title = "Done"
-        
-        
-        
-        //        let camera = UIBarButtonItem(barButtonSystemItem: .Camera, target: self, action: Selector("btnOpenCamera"))
-        //        self.navigationItem.rightBarButtonItem = camera
+
     }
     
     //    private func fetchProjects() {
@@ -172,25 +130,13 @@ class ProjectsVC: UIViewController, NSFetchedResultsControllerDelegate {
         newProjectVC.coreDataStack = coreDataStack
         let navController = UINavigationController(rootViewController: newProjectVC)
         self.present(navController, animated: true, completion: nil)
-        //        print("hello")
-        //        let newProject = Project(context: coreDataStack.managedContext)
-        //        newProject.name = "Project 3"
-        //        newProject.color = UIColor.color(red: 13, green: 7, blue: 126, alpha: 0.50)
-        
-        //        do {
-        //            try         testCDStack?.save()
-        //
-        //        } catch{
-        //            print("error")
-        //        }
-        //        self.coreDataStack.saveContext()
-        //        print("saved")
+
         
     }
     
 }
 
-
+// - MARK: UITableView
 extension ProjectsVC: UITableViewDelegate, UITableViewDataSource {
     
     
@@ -212,12 +158,9 @@ extension ProjectsVC: UITableViewDelegate, UITableViewDataSource {
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        //        let cell = tableView.dequeueReusableCell(withIdentifier: "Cell", for: indexPath)
-        //        let project = projects[indexPath.row]
-        //        cell.textLabel?.text = project.name
-        //        cell.textLabel?.backgroundColor = project.color as? UIColor
-        //        return cell
+
         let cell = tableView.dequeueReusableCell(withIdentifier: ProjectCell.identifier, for: indexPath)
+        cell.imageView?.isHidden = true
         configureCell(cell: cell, for: indexPath)
         return cell
     }
@@ -248,6 +191,8 @@ extension ProjectsVC: UITableViewDelegate, UITableViewDataSource {
     }
     
 }
+
+// - MARK: NSFetchResultsController
 
 extension ProjectsVC {
     
@@ -300,8 +245,9 @@ extension ProjectsVC {
     //        }
     //    }
     
-    
 }
+
+// - MARK: Context Menu
 
 extension ProjectsVC: UIContextMenuInteractionDelegate {
     
@@ -331,19 +277,21 @@ extension ProjectsVC: UIContextMenuInteractionDelegate {
             
         }
         
-        let delete = UIAction(title: "Delete", image: UIImage(systemName: "trash")) { _ in
-            
+        let delete = UIAction(title: "Delete", image: UIImage(systemName: "trash"), identifier: .none, discoverabilityTitle: .none, attributes: .destructive, state: .off) { (_) in
             let project = self.fetchedResultsController.object(at: indexPath)
             self.coreDataStack.managedContext.delete(project)
             self.coreDataStack.saveContext()
-            
         }
+        
+    
         
         return UIContextMenuConfiguration(identifier: nil, previewProvider: nil) { _ in
             UIMenu(title: "Actions", children: [favorite, delete])
         }
     }
 }
+
+// - MARK: Search
 
 extension ProjectsVC: UISearchBarDelegate, UISearchResultsUpdating {
     

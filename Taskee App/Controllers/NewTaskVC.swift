@@ -9,7 +9,7 @@
 import UIKit
 import CoreData
 
-class NewTaskVC: UIViewController {
+class NewTaskVC: UIViewController, UITextFieldDelegate {
     var datePicker = UIDatePicker()
     var imagePicker = UIImagePickerController()
     
@@ -20,6 +20,7 @@ class NewTaskVC: UIViewController {
         textField.translatesAutoresizingMaskIntoConstraints = false
         textField.placeholder = "Task Title"
         textField.borderStyle = .roundedRect
+        textField.textAlignment = .center
         textField.tag = 0
         //        textField.keyboardType = .default //keyboard type
         
@@ -31,6 +32,7 @@ class NewTaskVC: UIViewController {
         textField.translatesAutoresizingMaskIntoConstraints = false
         textField.borderStyle = .roundedRect
         textField.placeholder = "Done By"
+        textField.textAlignment = .center
         textField.tag = 1
         //        textField.keyboardType = .default
         return textField
@@ -80,9 +82,35 @@ class NewTaskVC: UIViewController {
         //        setTitle.delegate = self
         //        dateTextField.delegate = self
         addDoneButtonOnKeyboard()
+        //        setTitle.delegate = self
+        //        dateTextField.delegate = self
         UITextField.connectFields(fields: [setTitle, dateTextField])
         
         
+        NotificationCenter.default.addObserver(self, selector: #selector(self.keyboardWillShow), name: UIResponder.keyboardWillShowNotification, object: nil)
+        
+        // call the 'keyboardWillHide' function when the view controlelr receive notification that keyboard is going to be hidden
+        NotificationCenter.default.addObserver(self, selector: #selector(self.keyboardWillHide), name: UIResponder.keyboardWillHideNotification, object: nil)
+    }
+    
+    @objc func keyboardWillShow(notification: NSNotification) {
+        
+        guard let keyboardSize = (notification.userInfo?[UIResponder.keyboardFrameEndUserInfoKey] as? NSValue)?.cgRectValue else {
+            // if keyboard size is not available for some reason, dont do anything
+            return
+        }
+        
+        // move the root view up by the distance of keyboard height
+        self.view.frame.origin.y = 100 - keyboardSize.height
+//        self.navigationController?.isNavigationBarHidden = true // This is preventing from moving  screen properly
+        
+        
+    }
+    
+    @objc func keyboardWillHide(notification: NSNotification) {
+        // move back the root view origin to zero
+        self.view.frame.origin.y = 0
+        self.navigationController?.isNavigationBarHidden = false
         
     }
     
@@ -156,14 +184,18 @@ class NewTaskVC: UIViewController {
         ])
         
         NSLayoutConstraint.activate([
-            self.setTitle.topAnchor.constraint(equalTo: self.imageView.bottomAnchor, constant: 45),
-            self.setTitle.centerXAnchor.constraint(equalTo: self.view.centerXAnchor)
+            setTitle.topAnchor.constraint(equalTo: self.imageView.bottomAnchor, constant: 45),
+            setTitle.centerXAnchor.constraint(equalTo: self.view.centerXAnchor),
+            setTitle.leadingAnchor.constraint(equalTo: self.view.leadingAnchor, constant: 80),
+               setTitle.trailingAnchor.constraint(equalTo: self.view.trailingAnchor, constant: -80)
             
         ])
         
         NSLayoutConstraint.activate([
             dateTextField.centerXAnchor.constraint(equalTo: view.centerXAnchor),
-            dateTextField.topAnchor.constraint(equalTo: setTitle.bottomAnchor, constant: 40),
+            dateTextField.topAnchor.constraint(equalTo: setTitle.bottomAnchor, constant: 45),
+            dateTextField.leadingAnchor.constraint(equalTo: self.view.leadingAnchor, constant: 100),
+               dateTextField.trailingAnchor.constraint(equalTo: self.view.trailingAnchor, constant: -100)
             
         ])
         
@@ -174,11 +206,11 @@ class NewTaskVC: UIViewController {
         },completion: nil)
         
         NSLayoutConstraint.activate([
-            self.saveButton.topAnchor.constraint(equalTo: dateTextField.bottomAnchor, constant: 45),
-            self.saveButton.heightAnchor.constraint(equalToConstant: 48),
-            self.saveButton.leadingAnchor.constraint(equalTo: self.view.leadingAnchor, constant: 45),
-            self.saveButton.trailingAnchor.constraint(equalTo: self.view.trailingAnchor, constant: -45),
-//            self.saveButton.centerXAnchor.constraint(equalTo: self.view.centerXAnchor)
+            saveButton.topAnchor.constraint(equalTo: dateTextField.bottomAnchor, constant: 45),
+            saveButton.heightAnchor.constraint(equalToConstant: 48),
+            saveButton.leadingAnchor.constraint(equalTo: self.view.leadingAnchor, constant: 45),
+            saveButton.trailingAnchor.constraint(equalTo: self.view.trailingAnchor, constant: -45),
+            //            self.saveButton.centerXAnchor.constraint(equalTo: self.view.centerXAnchor)
         ])
     }
     

@@ -20,6 +20,7 @@
 		2C9BB4D524A9A55500936C1C /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 2C9BB4D424A9A55500936C1C /* Assets.xcassets */; };
 		2C9BB4D824A9A55500936C1C /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 2C9BB4D624A9A55500936C1C /* LaunchScreen.storyboard */; };
 		2C9BB4E524A9B48F00936C1C /* README.md in Resources */ = {isa = PBXBuildFile; fileRef = 2C9BB4E424A9B48F00936C1C /* README.md */; };
+		2CA75BD124BEC3480091DB06 /* PreviewViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2CA75BD024BEC3480091DB06 /* PreviewViewController.swift */; };
 		2CCD2E0724B3C00700A9940B /* Task+CoreDataClass.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2CCD2E0324B3C00700A9940B /* Task+CoreDataClass.swift */; };
 		2CCD2E0824B3C00700A9940B /* Task+CoreDataProperties.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2CCD2E0424B3C00700A9940B /* Task+CoreDataProperties.swift */; };
 		2CCD2E0924B3C00700A9940B /* Project+CoreDataClass.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2CCD2E0524B3C00700A9940B /* Project+CoreDataClass.swift */; };
@@ -46,6 +47,7 @@
 		2C9BB4D724A9A55500936C1C /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		2C9BB4D924A9A55500936C1C /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		2C9BB4E424A9B48F00936C1C /* README.md */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = net.daringfireball.markdown; path = README.md; sourceTree = "<group>"; };
+		2CA75BD024BEC3480091DB06 /* PreviewViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PreviewViewController.swift; sourceTree = "<group>"; };
 		2CCD2E0324B3C00700A9940B /* Task+CoreDataClass.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Task+CoreDataClass.swift"; sourceTree = "<group>"; };
 		2CCD2E0424B3C00700A9940B /* Task+CoreDataProperties.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Task+CoreDataProperties.swift"; sourceTree = "<group>"; };
 		2CCD2E0524B3C00700A9940B /* Project+CoreDataClass.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Project+CoreDataClass.swift"; sourceTree = "<group>"; };
@@ -121,6 +123,7 @@
 				2C5258D324B2D4E6005D662D /* NewProjectVC.swift */,
 				2CEBDFCB24ABF5240097094F /* TasksVC.swift */,
 				2CEBDFCF24AC19E40097094F /* NewTaskVC.swift */,
+				2CA75BD024BEC3480091DB06 /* PreviewViewController.swift */,
 			);
 			path = Controllers;
 			sourceTree = "<group>";
@@ -241,6 +244,7 @@
 				2C5258D624B2E419005D662D /* CustomColor.swift in Sources */,
 				2C37381C24B9762E00E05654 /* UITextField.swift in Sources */,
 				2C9BB4CE24A9A55400936C1C /* SceneDelegate.swift in Sources */,
+				2CA75BD124BEC3480091DB06 /* PreviewViewController.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

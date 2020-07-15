@@ -31,6 +31,14 @@ class TasksVC: UIViewController {
         return table
     }()
     
+    let notifyEmptyTableLabel: UILabel = {
+        let label = UILabel()
+        label.translatesAutoresizingMaskIntoConstraints = false
+        label.font = UIFont.systemFont(ofSize: 20)
+        label.textColor = .gray
+        return label
+    }()
+    
     var segmentControl: UISegmentedControl!
     
     override func viewDidLoad() {
@@ -46,20 +54,74 @@ class TasksVC: UIViewController {
         //        print("passed coredata", managedContext)
         let interaction = UIContextMenuInteraction(delegate: self)
         view.addInteraction(interaction)
+        addNotifyEmptyTableLabel()
+        
         
         
     }
     
+    
+    
+    // fetch the items before user gets a chance to tap on a segment
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         //        self.loadItems()
         if segmentControl.selectedSegmentIndex == 0 {
             getPendingTasks()
+            
+            
+            //            if tasks.isEmpty {
+            //
+            //                setupUIForEmptyPendingTasks(withDuration: 1.10)
+            //            }
+            
         } else {
             getFinshedTasks()
+            //            notifyEmptyTableLabel.transform = CGAffineTransform(scaleX: 0, y: 0)
+            //            if tasks.isEmpty {
+            //                setupUIForEmptyCompletedTasks(withDuration: 1.10)
+            //            }
+            //            self.taskTable.reloadData()
         }
-        self.taskTable.reloadData()
     }
+    
+    func setupUIForEmptyPendingTasks(withDuration time: Double) {
+        notifyEmptyTableLabel.transform = CGAffineTransform(scaleX: 0, y: 0)
+        
+        notifyEmptyTableLabel.text = "No Pending Tasks"
+        notifyEmptyTableLabel.isHidden = false
+        
+        UIView.animate(withDuration: time, delay: 0.0,
+                       usingSpringWithDamping: 0.6, initialSpringVelocity: 0.0, options: [],
+                       animations: {
+                        self.notifyEmptyTableLabel.transform = CGAffineTransform(scaleX: 1, y: 1)},
+                       completion: nil)
+    }
+    
+    func setupUIForEmptyCompletedTasks(withDuration time: Double) {
+        notifyEmptyTableLabel.transform = CGAffineTransform(scaleX: 0, y: 0)
+        
+        notifyEmptyTableLabel.text = "No Completed Tasks"
+        notifyEmptyTableLabel.isHidden = false
+        
+        UIView.animate(withDuration: time, delay: 0.0,
+                       usingSpringWithDamping: 0.6, initialSpringVelocity: 0.0, options: [],
+                       animations: {
+                        self.notifyEmptyTableLabel.transform = CGAffineTransform(scaleX: 1, y: 1)},
+                       completion: nil)
+    }
+    
+    func addNotifyEmptyTableLabel() {
+        self.view.addSubview(notifyEmptyTableLabel)
+        NSLayoutConstraint.activate([
+            notifyEmptyTableLabel.centerYAnchor.constraint(equalTo: self.view.centerYAnchor),
+            notifyEmptyTableLabel.centerXAnchor.constraint(equalTo: self.view.centerXAnchor)
+        ])
+        notifyEmptyTableLabel.isHidden = true
+        
+        //        notifyEmptyTableLabel.transform = CGAffineTransform(scaleX: 0, y: 0)
+    }
+    
     
     func getPendingTasks() {
         let projectStatusPredicate = NSPredicate(format: "status = false")
@@ -68,6 +130,9 @@ class TasksVC: UIViewController {
             case .success(let tasks):
                 self.tasks = tasks
                 self.taskTable.reloadData()
+                if tasks.isEmpty {
+                    self.setupUIForEmptyPendingTasks(withDuration: 1.10)
+                }
             case .failure(let error):
                 print(error)
             }
@@ -81,6 +146,9 @@ class TasksVC: UIViewController {
             case .success(let tasks):
                 self.tasks = tasks
                 self.taskTable.reloadData()
+                if tasks.isEmpty {
+                    self.setupUIForEmptyCompletedTasks(withDuration: 1.10)
+                }
             case .failure(let error):
                 print(error)
             }
@@ -104,12 +172,21 @@ class TasksVC: UIViewController {
         ])
     }
     
+    // what happens when user taps on the segment
     @objc func segmentControlTapped(_ segmentedControl: UISegmentedControl) {
+        notifyEmptyTableLabel.isHidden = true
         switch (segmentedControl.selectedSegmentIndex) {
         case 0:  // First segment tapped
             getPendingTasks()
+            //            if tasks.isEmpty{
+            //                setupUIForEmptyPendingTasks(withDuration: 1.0)
+        //            }
         case 1:  // Second segment tapped
             getFinshedTasks()
+            
+            //            if tasks.isEmpty {
+            //                setupUIForEmptyCompletedTasks(withDuration: 1.0)
+        //            }
         default:
             break
         }
@@ -121,8 +198,8 @@ class TasksVC: UIViewController {
         self.title = "\(selectedProject!.name ?? "Unnamed") Tasks"
         let addButton = UIBarButtonItem(barButtonSystemItem: .add, target: self, action: #selector(addTaskTapped))
         self.navigationItem.rightBarButtonItems = [addButton, self.editButtonItem]
-//        self.navigationItem.leftBarButtonItem = self.editButtonItem
-
+        //        self.navigationItem.leftBarButtonItem = self.editButtonItem
+        
     }
     
     // This method is needed for edit button in navbar to work
@@ -164,13 +241,17 @@ class TasksVC: UIViewController {
     }
     
     @objc func refresh() {
+        self.taskTable.refreshControl?.endRefreshing()
         if segmentControl.selectedSegmentIndex == 0 {
             getPendingTasks()
+            setupUIForEmptyPendingTasks(withDuration: 1.10)
+            
         } else {
             getFinshedTasks()
+            setupUIForEmptyCompletedTasks(withDuration: 1.10)
         }
+        
         self.taskTable.reloadData()
-        self.taskTable.refreshControl?.endRefreshing()
         
     }
     
@@ -187,13 +268,7 @@ extension TasksVC: UITableViewDelegate, UITableViewDataSource {
         let task = tasks[indexPath.row]
         
         
-        cell.projectLabel.text = task.title
-        cell.taskImage.isHidden = false
-        cell.taskImage.image = UIImage(data: task.taskImage!)
-
-//        cell.projectLabel.text = task.status ? "\(task.title ?? "Unknown") Completed" : task.title
-        cell.pendingTasksLabel.text = task.status ? "Completed on \(dateFormatter.string(from: task.dueDate!))" : "Due by \(dateFormatter.string(from: task.dueDate!))"
-        cell.pendingTasksLabel.textColor = #colorLiteral(red: 0.6000000238, green: 0.6000000238, blue: 0.6000000238, alpha: 1)
+        cell.configureUIForTask(with: task)
         cell.accessoryType = task.status ? .checkmark : .none
         
         return cell
@@ -201,7 +276,7 @@ extension TasksVC: UITableViewDelegate, UITableViewDataSource {
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         tasks[indexPath.row].status = !tasks[indexPath.row].status
-//        tasks[indexPath.row].setValue(Date(), forKey: "dueDate")
+        //        tasks[indexPath.row].setValue(Date(), forKey: "dueDate")
         
         coreDataStack.saveContext()
         taskTable.reloadData() // To get checkmark to show
@@ -211,17 +286,17 @@ extension TasksVC: UITableViewDelegate, UITableViewDataSource {
     func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCell.EditingStyle, forRowAt indexPath: IndexPath) {
         
         switch editingStyle {
-         case .delete:
+        case .delete:
             let task = tasks[indexPath.row]
             self.coreDataStack.managedContext.delete(task)
             self.tasks.remove(at: indexPath.row)
             self.taskTable.deleteRows(at: [indexPath], with: .fade)
             self.coreDataStack.saveContext()
-
-           // handling the delete action
-
+            
+            // handling the delete action
+            
         default:
-           break
+            break
         }
         
         
@@ -232,14 +307,14 @@ extension TasksVC: UITableViewDelegate, UITableViewDataSource {
     }
     
     
-//    func tableView(_ tableView: UITableView, moveRowAt sourceIndexPath: IndexPath, to destinationIndexPath: IndexPath) {
-//
-//        let habitToSwap = self.tasks[sourceIndexPath.row]
-//        self.tasks.remove(at: sourceIndexPath.row)
-//        self.tasks.insert(habitToSwap, at: destinationIndexPath.row)
-//        self.coreDataStack.saveContext()
-//
-//    }
+    //    func tableView(_ tableView: UITableView, moveRowAt sourceIndexPath: IndexPath, to destinationIndexPath: IndexPath) {
+    //
+    //        let habitToSwap = self.tasks[sourceIndexPath.row]
+    //        self.tasks.remove(at: sourceIndexPath.row)
+    //        self.tasks.insert(habitToSwap, at: destinationIndexPath.row)
+    //        self.coreDataStack.saveContext()
+    //
+    //    }
 }
 
 
@@ -273,58 +348,6 @@ extension TasksVC: UIContextMenuInteractionDelegate {
     
 }
 
-
-class PreviewViewController: UIViewController {
-    
-    var taskTitleLabel: UILabel = {
-        let label = UILabel()
-        label.translatesAutoresizingMaskIntoConstraints = false
-        return label
-    }()
-    var imageView: UIImageView = {
-        let image = UIImageView()
-        image.translatesAutoresizingMaskIntoConstraints = false
-        image.contentMode = .scaleAspectFit
-        return image
-    }()
-    var taskDueDateLabel: UILabel = {
-        let label = UILabel()
-        label.translatesAutoresizingMaskIntoConstraints = false
-        
-        label.text = "testing"
-        return label
-    }()
-    
-    
-    override func viewDidLoad() {
-        super.viewDidLoad()
-        view.backgroundColor = .white
-        view.addSubview(imageView)
-        
-        view.addSubview(taskTitleLabel)
-        view.addSubview(taskDueDateLabel)
-        
-        NSLayoutConstraint.activate([
-            imageView.centerYAnchor.constraint(equalTo: view.centerYAnchor),
-            imageView.centerXAnchor.constraint(equalTo: view.centerXAnchor),
-            imageView.heightAnchor.constraint(equalToConstant: 200),
-            imageView.widthAnchor.constraint(equalToConstant: 200)
-            
-        ])
-        
-        NSLayoutConstraint.activate([
-            taskTitleLabel.centerXAnchor.constraint(equalTo: view.centerXAnchor),
-            taskTitleLabel.bottomAnchor.constraint(equalTo: imageView.topAnchor, constant: -20)
-        ])
-        
-        NSLayoutConstraint.activate([
-            taskDueDateLabel.centerXAnchor.constraint(equalTo: view.centerXAnchor),
-            taskDueDateLabel.topAnchor.constraint(equalTo: imageView.bottomAnchor, constant: 20)
-        ])
-        
-    }
-    
-}
 
 // currently not used
 extension String {
