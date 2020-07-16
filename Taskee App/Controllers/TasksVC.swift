@@ -90,7 +90,6 @@ class TasksVC: UIViewController {
             notifyEmptyTableLabel.centerYAnchor.constraint(equalTo: self.view.centerYAnchor),
             notifyEmptyTableLabel.centerXAnchor.constraint(equalTo: self.view.centerXAnchor)
         ])
-        notifyEmptyTableLabel.isHidden = true
     }
     
     
@@ -103,6 +102,8 @@ class TasksVC: UIViewController {
                 self.taskTable.reloadData()
                 if tasks.isEmpty {
                     self.setupUIForEmptyPendingTasks(withDuration: 1.10)
+                } else {
+                    self.notifyEmptyTableLabel.isHidden = true
                 }
             case .failure(let error):
                 print(error)
@@ -119,6 +120,8 @@ class TasksVC: UIViewController {
                 self.taskTable.reloadData()
                 if tasks.isEmpty {
                     self.setupUIForEmptyCompletedTasks(withDuration: 1.10)
+                } else {
+                    self.notifyEmptyTableLabel.isHidden = true
                 }
             case .failure(let error):
                 print(error)
@@ -137,7 +140,7 @@ class TasksVC: UIViewController {
             segmentControl.topAnchor.constraint(equalTo: self.view.safeAreaLayoutGuide.topAnchor),
             segmentControl.centerXAnchor.constraint(equalTo: self.view.safeAreaLayoutGuide.centerXAnchor, constant: 0),
             segmentControl.widthAnchor.constraint(equalToConstant: self.view.frame.width - 20.0),
-            segmentControl.heightAnchor.constraint(equalToConstant: 45.0)
+            segmentControl.heightAnchor.constraint(equalToConstant: 48.0)
             
         ])
     }
@@ -204,10 +207,8 @@ class TasksVC: UIViewController {
         self.taskTable.refreshControl?.endRefreshing()
         if segmentControl.selectedSegmentIndex == 0 {
             getPendingTasks()
-            setupUIForEmptyPendingTasks(withDuration: 1.10)
         } else {
             getFinshedTasks()
-            setupUIForEmptyCompletedTasks(withDuration: 1.10)
         }
         self.taskTable.reloadData()
     }

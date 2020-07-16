@@ -96,12 +96,12 @@ class ProjectsVC: UIViewController, NSFetchedResultsControllerDelegate {
     }
     
     private func configureTable() {
-        self.view.addSubview(self.table)
-        self.table.frame = self.view.bounds
-        self.table.register(ProjectCell.self, forCellReuseIdentifier: ProjectCell.identifier)
-        self.table.delegate = self
-        self.table.dataSource = self
-        self.table.separatorStyle = .none
+        view.addSubview(self.table)
+        table.frame = self.view.bounds
+        table.register(ProjectCell.self, forCellReuseIdentifier: ProjectCell.identifier)
+        table.delegate = self
+        table.dataSource = self
+        table.separatorStyle = .none
         
         
     }

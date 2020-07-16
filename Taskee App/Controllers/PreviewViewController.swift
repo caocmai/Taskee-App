@@ -13,17 +13,21 @@ class PreviewViewController: UIViewController {
     var taskTitleLabel: UILabel = {
         let label = UILabel()
         label.translatesAutoresizingMaskIntoConstraints = false
+        label.font = UIFont.systemFont(ofSize: 30)
         return label
     }()
     var imageView: UIImageView = {
         let image = UIImageView()
         image.translatesAutoresizingMaskIntoConstraints = false
-        image.contentMode = .scaleAspectFit
+//        image.contentMode = .scaleToFill
+        image.layer.masksToBounds = true
+        image.layer.cornerRadius = 12
         return image
     }()
     var taskDueDateLabel: UILabel = {
         let label = UILabel()
         label.translatesAutoresizingMaskIntoConstraints = false
+        label.font = UIFont.systemFont(ofSize: 20)
         return label
     }()
     
@@ -44,12 +48,12 @@ class PreviewViewController: UIViewController {
         
         NSLayoutConstraint.activate([
             taskTitleLabel.centerXAnchor.constraint(equalTo: view.centerXAnchor),
-            taskTitleLabel.bottomAnchor.constraint(equalTo: imageView.topAnchor, constant: -20)
+            taskTitleLabel.bottomAnchor.constraint(equalTo: imageView.topAnchor, constant: -40)
         ])
         
         NSLayoutConstraint.activate([
             taskDueDateLabel.centerXAnchor.constraint(equalTo: view.centerXAnchor),
-            taskDueDateLabel.topAnchor.constraint(equalTo: imageView.bottomAnchor, constant: 20)
+            taskDueDateLabel.topAnchor.constraint(equalTo: imageView.bottomAnchor, constant: 40)
         ])
     }
     

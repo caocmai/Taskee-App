@@ -81,24 +81,19 @@ class NewTaskVC: UIViewController, UITextFieldDelegate {
     }
     
     @objc func keyboardWillShow(notification: NSNotification) {
-        
         guard let keyboardSize = (notification.userInfo?[UIResponder.keyboardFrameEndUserInfoKey] as? NSValue)?.cgRectValue else {
             // if keyboard size is not available for some reason, dont do anything
             return
         }
-        
         // move the root view up by the distance of keyboard height
         self.view.frame.origin.y = 100 - keyboardSize.height
-//        self.navigationController?.isNavigationBarHidden = true // This is preventing from moving  screen properly
-        
-        
+//        self.navigationController?.isNavigationBarHidden = true // This is preventing from moving screen properly when enable
     }
     
     @objc func keyboardWillHide(notification: NSNotification) {
         // move back the root view origin to zero
         self.view.frame.origin.y = 0
         self.navigationController?.isNavigationBarHidden = false
-        
     }
     
     func addDoneButtonOnKeyboard() {
@@ -121,7 +116,6 @@ class NewTaskVC: UIViewController, UITextFieldDelegate {
     
     @objc func nextFieldTapped() {
         self.dateTextField.becomeFirstResponder()
-        
     }
     
     func setupEditUI() {
@@ -131,7 +125,6 @@ class NewTaskVC: UIViewController, UITextFieldDelegate {
             dateTextField.text = dateFormatter.string(from: (taskToEdit?.dueDate)!)
             self.title = "Edit \(taskToEdit?.title ?? "UnNamed")"
             self.saveButton.setTitle("Update", for: .normal)
-            
         } else {
             self.title = "Create A New Task"
         }
@@ -143,8 +136,7 @@ class NewTaskVC: UIViewController, UITextFieldDelegate {
         imagePicker.allowsEditing = true
         present(imagePicker, animated: true, completion: nil)
     }
-    
-    
+
     private func setupUI() {
         view.addSubview(setTitle)
         view.addSubview(dateTextField)
@@ -187,7 +179,7 @@ class NewTaskVC: UIViewController, UITextFieldDelegate {
     }
     
     @objc func saveButtonTapped() {
-        if !checkForEmptyFields() {
+        if !checkIsEmptyFields() {
             if taskToEdit != nil {
                 taskToEdit?.setValue(setTitle.text, forKey: "title")
                 if self.dateTextField.text != dateFormatter.string(from: (taskToEdit?.dueDate)!) {
@@ -202,7 +194,7 @@ class NewTaskVC: UIViewController, UITextFieldDelegate {
         }
     }
     
-    func checkForEmptyFields() -> Bool {
+    func checkIsEmptyFields() -> Bool {
         if setTitle.text == "" {
             setTitle.layer.borderWidth = 2
             setTitle.layer.cornerRadius = 7
@@ -219,14 +211,14 @@ class NewTaskVC: UIViewController, UITextFieldDelegate {
             dateTextField.layer.cornerRadius = 7
             dateTextField.layer.borderColor = UIColor.red.cgColor
             dateTextField.placeholder = "Needs Date!"
-        }else {
+        } else {
             dateTextField.layer.borderWidth = 0
             dateTextField.layer.borderColor = UIColor.clear.cgColor
             dateTextField.borderStyle = .roundedRect
         }
         
         if setTitle.text != "" && dateTextField.text != "" {
-            return false
+            return false // This means all fields are filled
         }
         
         return true
