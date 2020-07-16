@@ -15,7 +15,6 @@ class NewProjectVC: UIViewController, ButtonBackgroundColorDelegate {
     var coreDataStack: CoreDataStack?
     var getColor: UIColor? = nil
 
-    
     let setProjectName: UITextField = {
         let textField = UITextField()
         textField.placeholder = "Project Name"

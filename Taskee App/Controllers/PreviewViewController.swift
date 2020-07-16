@@ -40,20 +40,17 @@ class PreviewViewController: UIViewController {
             imageView.centerXAnchor.constraint(equalTo: view.centerXAnchor),
             imageView.heightAnchor.constraint(equalToConstant: 200),
             imageView.widthAnchor.constraint(equalToConstant: 200)
-            
         ])
         
         NSLayoutConstraint.activate([
             taskTitleLabel.centerXAnchor.constraint(equalTo: view.centerXAnchor),
             taskTitleLabel.bottomAnchor.constraint(equalTo: imageView.topAnchor, constant: -20)
-   
         ])
         
         NSLayoutConstraint.activate([
             taskDueDateLabel.centerXAnchor.constraint(equalTo: view.centerXAnchor),
             taskDueDateLabel.topAnchor.constraint(equalTo: imageView.bottomAnchor, constant: 20)
         ])
-        
     }
     
 }

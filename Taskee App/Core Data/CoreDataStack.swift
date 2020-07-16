@@ -60,9 +60,9 @@ class CoreDataStack {
         }
     }
     
-    func fetchTasks(with request: NSFetchRequest<Task> = Task.fetchRequest(), predicate: NSPredicate? = nil, selectedProject: String, completion: @escaping(Result<[Task]>) -> Void) {
+    func fetchTasks(with request: NSFetchRequest<Task> = Task.fetchRequest(), predicate: NSPredicate? = nil, selectedProject: Project, completion: @escaping(Result<[Task]>) -> Void) {
         
-        let categoryPredicate = NSPredicate(format: "parentProject.name MATCHES %@", selectedProject)
+        let categoryPredicate = NSPredicate(format: "parentProject == %@", selectedProject)
 //                let sectionSortDescriptor = NSSortDescriptor(key: "title", ascending: true)
 //        
 //                request.sortDescriptors = [sectionSortDescriptor]
@@ -77,6 +77,7 @@ class CoreDataStack {
         do {
             let tasks = try managedContext.fetch(request)
             completion(.success(tasks))
+            
         } catch {
             completion(.failure(error))
         }

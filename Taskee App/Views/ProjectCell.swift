@@ -19,7 +19,6 @@ class ProjectCell: UITableViewCell {
         return formatter
     }()
     
-    
     let projectLabel: UILabel = {
         let label = UILabel()
         label.translatesAutoresizingMaskIntoConstraints = false
@@ -31,8 +30,6 @@ class ProjectCell: UITableViewCell {
         let image = UIImageView()
         image.translatesAutoresizingMaskIntoConstraints = false
 //        image.contentMode = .scaleAspectFit
-        
-
         return image
     }()
     
@@ -48,19 +45,6 @@ class ProjectCell: UITableViewCell {
     override func awakeFromNib() {
         super.awakeFromNib()
         // Initialization code
-        
-        
-    }
-    
-    func configureProjectUI() {
-        
-        
-        if taskImage.isHidden {
-            
-        }else {
-            
-        }
-        
     }
     
     func configureUIForTask(with task: Task) {
@@ -80,7 +64,6 @@ class ProjectCell: UITableViewCell {
         
         projectLabel.text = task.title
         taskImage.isHidden = false
-        configureProjectUI()
         taskImage.image = UIImage(data: task.taskImage!)
         
         //        cell.projectLabel.text = task.status ? "\(task.title ?? "Unknown") Completed" : task.title
@@ -93,7 +76,6 @@ class ProjectCell: UITableViewCell {
         projectLabel.leadingAnchor.constraint(equalTo: self.contentView.leadingAnchor, constant: 15).isActive = true
         pendingTasksLabel.leadingAnchor.constraint(equalTo: self.contentView.leadingAnchor, constant: 15).isActive = true
         
-        
         projectLabel.text = project.name
         projectLabel.textColor = project.color as? UIColor
         accessoryType = .disclosureIndicator
@@ -103,9 +85,6 @@ class ProjectCell: UITableViewCell {
                 pendingTaskCount += 1
             }
         }
-        
-      
-        
         
         if project.projectTasks?.count == 0 {
             pendingTasksLabel.text = "Tasks not set"
@@ -123,20 +102,10 @@ class ProjectCell: UITableViewCell {
 
     override func setSelected(_ selected: Bool, animated: Bool) {
         super.setSelected(selected, animated: animated)
-//        configureProjectUI()
         self.contentView.addSubview(projectLabel)
         self.contentView.addSubview(pendingTasksLabel)
-        
-        NSLayoutConstraint.activate([
-                    projectLabel.centerYAnchor.constraint(equalTo: self.contentView.centerYAnchor, constant: -1),
-        //            projectLabel.leadingAnchor.constraint(equalTo: self.contentView.leadingAnchor, constant: 15)
-                ])
-                
-                NSLayoutConstraint.activate([
-                    pendingTasksLabel.bottomAnchor.constraint(equalTo: self.contentView.bottomAnchor, constant: -5),
-        //            pendingTasksLabel.leadingAnchor.constraint(equalTo: self.contentView.leadingAnchor, constant: 15)
-                ])
-
+        projectLabel.centerYAnchor.constraint(equalTo: self.contentView.centerYAnchor, constant: -1).isActive = true
+        pendingTasksLabel.bottomAnchor.constraint(equalTo: self.contentView.bottomAnchor, constant: -5).isActive = true
 
     }
 

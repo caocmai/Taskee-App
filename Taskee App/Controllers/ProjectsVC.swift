@@ -19,7 +19,6 @@ class ProjectsVC: UIViewController, NSFetchedResultsControllerDelegate {
         return newTable
     }()
     
-    
     lazy var fetchedResultsController: NSFetchedResultsController<Project> = {
         let fetchRequest: NSFetchRequest<Project> = Project.fetchRequest()
         let nameSort = NSSortDescriptor(key: #keyPath(Project.name), ascending: true)
@@ -42,8 +41,8 @@ class ProjectsVC: UIViewController, NSFetchedResultsControllerDelegate {
     override func viewDidLoad() {
         super.viewDidLoad()
         // Do any additional setup after loading the view.
-        self.configureNavBar()
-        self.configureTable()
+        configureNavBar()
+        configureTable()
         
         let refreshControl = UIRefreshControl()
         refreshControl.addTarget(
@@ -53,13 +52,11 @@ class ProjectsVC: UIViewController, NSFetchedResultsControllerDelegate {
         )
         self.table.refreshControl = refreshControl
         
-        
         navigationItem.searchController = searchController
         searchController.searchResultsUpdater = self
         searchController.searchBar.placeholder = "Seach."
         searchController.searchBar.delegate = self
-        searchController.dimsBackgroundDuringPresentation = false
-        
+        searchController.obscuresBackgroundDuringPresentation  = false
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -86,10 +83,6 @@ class ProjectsVC: UIViewController, NSFetchedResultsControllerDelegate {
         guard let cell = cell as? ProjectCell else { return }
         let project = fetchedResultsController.object(at: indexPath)
         cell.configureUIForProject(with: project)
-        //        cell.textLabel?.numberOfLines = 0
-        
-        //        let interaction = UIContextMenuInteraction(delegate: self)
-        //        cell.addInteraction(interaction)
         
     }
     
@@ -101,17 +94,6 @@ class ProjectsVC: UIViewController, NSFetchedResultsControllerDelegate {
         self.navigationItem.rightBarButtonItem = addButton
 
     }
-    
-    //    private func fetchProjects() {
-    //        coreDataStack.fetchPersistedData { (results) in
-    //            switch results {
-    //            case .success(let allProjects):
-    //                self.projects = allProjects
-    //            case .failure(let error):
-    //                print(error)
-    //            }
-    //        }
-    //    }
     
     private func configureTable() {
         self.view.addSubview(self.table)
@@ -125,7 +107,6 @@ class ProjectsVC: UIViewController, NSFetchedResultsControllerDelegate {
     }
     
     @objc func addProjectTapped(){
-        //
         let newProjectVC = NewProjectVC()
         newProjectVC.coreDataStack = coreDataStack
         let navController = UINavigationController(rootViewController: newProjectVC)
@@ -172,9 +153,8 @@ extension ProjectsVC: UITableViewDelegate, UITableViewDataSource {
         let destinationVC = TasksVC()
         let project = fetchedResultsController.object(at: indexPath)
         destinationVC.selectedProject = project
-        //        destinationVC.managedContext = coreDataStack.managedContext
         destinationVC.coreDataStack = coreDataStack
-        self.table.deselectRow(at: indexPath, animated: true)
+        table.deselectRow(at: indexPath, animated: true)
         
         self.navigationController?.pushViewController(destinationVC, animated: true)
         
@@ -182,8 +162,8 @@ extension ProjectsVC: UITableViewDelegate, UITableViewDataSource {
     
     func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCell.EditingStyle, forRowAt indexPath: IndexPath) {
         let project = fetchedResultsController.object(at: indexPath)
-        self.coreDataStack.managedContext.delete(project)
-        self.coreDataStack.saveContext()
+        coreDataStack.managedContext.delete(project)
+        coreDataStack.saveContext()
     }
     
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
@@ -212,7 +192,6 @@ extension ProjectsVC {
         case .delete:
             table.deleteRows(at: [indexPath!], with: .automatic)
         case .update:
-            print("update")
             //            table.reloadRows(at: [indexPath!], with: .automatic)
             let cell = table.cellForRow(at: indexPath!) as! ProjectCell
             configureCell(cell: cell, for: indexPath!)
@@ -263,11 +242,9 @@ extension ProjectsVC: UIContextMenuInteractionDelegate {
                    point: CGPoint) -> UIContextMenuConfiguration? {
         
         let favorite = UIAction(title: "Edit...") { _ in
-            //            print(indexPath.row)
             let editVC = NewProjectVC()
             let project = self.fetchedResultsController.object(at: indexPath)
             editVC.selectedProject = project
-            //        destinationVC.managedContext = coreDataStack.managedContext
             editVC.coreDataStack = self.coreDataStack
             self.table.deselectRow(at: indexPath, animated: true)
             
@@ -307,12 +284,10 @@ extension ProjectsVC: UISearchBarDelegate, UISearchResultsUpdating {
                 self.table.reloadData()
             } catch {}
         }
-        
     }
     
     func searchBarCancelButtonClicked(_ searchBar: UISearchBar) {
         searchController.resignFirstResponder()
     }
-    
     
 }

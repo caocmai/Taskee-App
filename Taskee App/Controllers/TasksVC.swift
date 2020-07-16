@@ -11,11 +11,8 @@ import CoreData
 
 class TasksVC: UIViewController {
     
-    
     var selectedProject: Project?
     var tasks = [Task]()
-    //    var managedContext: NSManagedObjectContext?
-    //    var coredataSTack = CoreDataStack()
     var coreDataStack: CoreDataStack!
     
     lazy var dateFormatter: DateFormatter = {
@@ -44,55 +41,27 @@ class TasksVC: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         addSegmentControl()
-        
-        self.configureNavBar()
-        //        let tasks = selectedProject?.projectTasks[0] as? Task
-        //        print(selectedProject?.projectTasks)
-        self.configureTable()
-        //        self.loadItems()
+        configureNavBar()
+        configureTable()
         getPendingTasks()
-        //        print("passed coredata", managedContext)
         let interaction = UIContextMenuInteraction(delegate: self)
-        view.addInteraction(interaction)
+        self.view.addInteraction(interaction)
         addNotifyEmptyTableLabel()
         
-        if selectedProject != nil {
-            for task in selectedProject!.projectTasks! {
-                let task = task as! Task
-                print(task.title)
-            }
-        }
-        
     }
-    
-    
     
     // fetch the items before user gets a chance to tap on a segment
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-        //        self.loadItems()
         if segmentControl.selectedSegmentIndex == 0 {
             getPendingTasks()
-            
-            
-            //            if tasks.isEmpty {
-            //
-            //                setupUIForEmptyPendingTasks(withDuration: 1.10)
-            //            }
-            
         } else {
             getFinshedTasks()
-            //            notifyEmptyTableLabel.transform = CGAffineTransform(scaleX: 0, y: 0)
-            //            if tasks.isEmpty {
-            //                setupUIForEmptyCompletedTasks(withDuration: 1.10)
-            //            }
-            //            self.taskTable.reloadData()
         }
     }
     
     func setupUIForEmptyPendingTasks(withDuration time: Double) {
         notifyEmptyTableLabel.transform = CGAffineTransform(scaleX: 0, y: 0)
-        
         notifyEmptyTableLabel.text = "No Pending Tasks"
         notifyEmptyTableLabel.isHidden = false
         
@@ -105,7 +74,6 @@ class TasksVC: UIViewController {
     
     func setupUIForEmptyCompletedTasks(withDuration time: Double) {
         notifyEmptyTableLabel.transform = CGAffineTransform(scaleX: 0, y: 0)
-        
         notifyEmptyTableLabel.text = "No Completed Tasks"
         notifyEmptyTableLabel.isHidden = false
         
@@ -123,14 +91,12 @@ class TasksVC: UIViewController {
             notifyEmptyTableLabel.centerXAnchor.constraint(equalTo: self.view.centerXAnchor)
         ])
         notifyEmptyTableLabel.isHidden = true
-        
-        //        notifyEmptyTableLabel.transform = CGAffineTransform(scaleX: 0, y: 0)
     }
     
     
     func getPendingTasks() {
         let projectStatusPredicate = NSPredicate(format: "status = false")
-        coreDataStack.fetchTasks(predicate: projectStatusPredicate, selectedProject: (selectedProject?.name)!) { results in
+        coreDataStack.fetchTasks(predicate: projectStatusPredicate, selectedProject: (selectedProject)!) { results in
             switch results {
             case .success(let tasks):
                 self.tasks = tasks
@@ -146,7 +112,7 @@ class TasksVC: UIViewController {
     
     func getFinshedTasks() {
         let projectStatusPredicate = NSPredicate(format: "status = true")
-        coreDataStack.fetchTasks(predicate: projectStatusPredicate, selectedProject: (selectedProject?.name)!) { results in
+        coreDataStack.fetchTasks(predicate: projectStatusPredicate, selectedProject: (selectedProject)!) { results in
             switch results {
             case .success(let tasks):
                 self.tasks = tasks
@@ -163,7 +129,6 @@ class TasksVC: UIViewController {
     func addSegmentControl() {
         let segmentItems = ["Pending", "Completed"]
         segmentControl = UISegmentedControl(items: segmentItems)
-        //       control.frame = CGRect(x: 10, y: 250, width: (self.view.frame.width - 20), height: 50)
         segmentControl.addTarget(self, action: #selector(segmentControlTapped(_:)), for: .valueChanged)
         segmentControl.selectedSegmentIndex = 0
         view.addSubview(segmentControl)
@@ -183,15 +148,8 @@ class TasksVC: UIViewController {
         switch (segmentedControl.selectedSegmentIndex) {
         case 0:  // First segment tapped
             getPendingTasks()
-            //            if tasks.isEmpty{
-            //                setupUIForEmptyPendingTasks(withDuration: 1.0)
-        //            }
         case 1:  // Second segment tapped
             getFinshedTasks()
-            
-            //            if tasks.isEmpty {
-            //                setupUIForEmptyCompletedTasks(withDuration: 1.0)
-        //            }
         default:
             break
         }
@@ -215,33 +173,30 @@ class TasksVC: UIViewController {
     
     @objc func addTaskTapped(){
         let destinationVC = NewTaskVC()
-        //        destinationVC.managedContext = coreDataStack.managedContext
         destinationVC.coreDataStack = coreDataStack
         destinationVC.parentObject = selectedProject
         self.navigationController?.pushViewController(destinationVC, animated: true)
     }
     
     func configureTable() {
-        self.taskTable.delegate = self
-        self.taskTable.dataSource = self
-        self.taskTable.register(ProjectCell.self, forCellReuseIdentifier: ProjectCell.identifier)
+        taskTable.delegate = self
+        taskTable.dataSource = self
+        taskTable.register(ProjectCell.self, forCellReuseIdentifier: ProjectCell.identifier)
         self.view.addSubview(taskTable)
-        //        self.taskTable.frame = view.bounds
-        self.taskTable.separatorStyle = .none
-        
+        taskTable.separatorStyle = .none
         let refreshControl = UIRefreshControl()
         refreshControl.addTarget(
             self,
             action: #selector(refresh),
             for: .valueChanged
         )
-        self.taskTable.refreshControl = refreshControl
+        taskTable.refreshControl = refreshControl
         
         NSLayoutConstraint.activate([
-            self.taskTable.topAnchor.constraint(equalTo: self.segmentControl.bottomAnchor),
-            self.taskTable.leadingAnchor.constraint(equalTo: self.view.safeAreaLayoutGuide.leadingAnchor, constant: 0),
-            self.taskTable.trailingAnchor.constraint(equalTo: self.view.safeAreaLayoutGuide.trailingAnchor, constant: 0),
-            self.taskTable.bottomAnchor.constraint(equalTo: self.view.safeAreaLayoutGuide.bottomAnchor, constant: 0)
+            taskTable.topAnchor.constraint(equalTo: segmentControl.bottomAnchor),
+            taskTable.leadingAnchor.constraint(equalTo: self.view.safeAreaLayoutGuide.leadingAnchor, constant: 0),
+            taskTable.trailingAnchor.constraint(equalTo: self.view.safeAreaLayoutGuide.trailingAnchor, constant: 0),
+            taskTable.bottomAnchor.constraint(equalTo: self.view.safeAreaLayoutGuide.bottomAnchor, constant: 0)
         ])
     }
     
@@ -250,14 +205,11 @@ class TasksVC: UIViewController {
         if segmentControl.selectedSegmentIndex == 0 {
             getPendingTasks()
             setupUIForEmptyPendingTasks(withDuration: 1.10)
-            
         } else {
             getFinshedTasks()
             setupUIForEmptyCompletedTasks(withDuration: 1.10)
         }
-        
         self.taskTable.reloadData()
-        
     }
     
 }
@@ -269,10 +221,7 @@ extension TasksVC: UITableViewDelegate, UITableViewDataSource {
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: ProjectCell.identifier, for: indexPath) as! ProjectCell
-        //        cell.textLabel!.text = dateFormatter.string(from: tasks[indexPath.row].dueDate!)
         let task = tasks[indexPath.row]
-        
-        
         cell.configureUIForTask(with: task)
         cell.accessoryType = task.status ? .checkmark : .none
         
@@ -281,8 +230,6 @@ extension TasksVC: UITableViewDelegate, UITableViewDataSource {
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         tasks[indexPath.row].status = !tasks[indexPath.row].status
-        //        tasks[indexPath.row].setValue(Date(), forKey: "dueDate")
-        
         coreDataStack.saveContext()
         taskTable.reloadData() // To get checkmark to show
         
@@ -291,20 +238,15 @@ extension TasksVC: UITableViewDelegate, UITableViewDataSource {
     func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCell.EditingStyle, forRowAt indexPath: IndexPath) {
         
         switch editingStyle {
-        case .delete:
+        case .delete: // handling the delete action
             let task = tasks[indexPath.row]
-            self.coreDataStack.managedContext.delete(task)
-            self.tasks.remove(at: indexPath.row)
-            self.taskTable.deleteRows(at: [indexPath], with: .fade)
-            self.coreDataStack.saveContext()
-            
-            // handling the delete action
-            
+            coreDataStack.managedContext.delete(task)
+            tasks.remove(at: indexPath.row)
+            taskTable.deleteRows(at: [indexPath], with: .fade)
+            coreDataStack.saveContext()
         default:
             break
         }
-        
-        
     }
     
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
@@ -333,7 +275,7 @@ extension TasksVC: UIContextMenuInteractionDelegate {
         let configuration = UIContextMenuConfiguration(identifier: nil, previewProvider: { () -> UIViewController? in
             let preview = PreviewViewController()
             let object = self.tasks[indexPath.row]
-            preview.taskTitleLabel.text = object.title //Testing
+            preview.taskTitleLabel.text = object.title
             preview.imageView.image = UIImage(data: object.taskImage!)
             preview.taskDueDateLabel.text = self.dateFormatter.string(from: object.dueDate!)
             return preview

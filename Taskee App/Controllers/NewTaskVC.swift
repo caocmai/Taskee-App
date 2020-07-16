@@ -10,10 +10,9 @@ import UIKit
 import CoreData
 
 class NewTaskVC: UIViewController, UITextFieldDelegate {
+    
     var datePicker = UIDatePicker()
     var imagePicker = UIImagePickerController()
-    
-    //    var managedContext: NSManagedObjectContext!
     
     let setTitle: UITextField = {
         let textField = UITextField()
@@ -22,8 +21,6 @@ class NewTaskVC: UIViewController, UITextFieldDelegate {
         textField.borderStyle = .roundedRect
         textField.textAlignment = .center
         textField.tag = 0
-        //        textField.keyboardType = .default //keyboard type
-        
         return textField
     }()
     
@@ -34,7 +31,6 @@ class NewTaskVC: UIViewController, UITextFieldDelegate {
         textField.placeholder = "Done By"
         textField.textAlignment = .center
         textField.tag = 1
-        //        textField.keyboardType = .default
         return textField
     }()
     
@@ -48,15 +44,12 @@ class NewTaskVC: UIViewController, UITextFieldDelegate {
         return button
     }()
     
-    
     let imageView: UIImageView = {
         let image = UIImageView()
         image.translatesAutoresizingMaskIntoConstraints = false
         image.image = UIImage(named: "no item image")
         image.contentMode = .scaleToFill
         image.isUserInteractionEnabled = true
-        //        image.layer.borderColor = UIColor.color(red: 123, green: 12, blue: 12)?.cgColor
-        //        image.layer.borderWidth = 5
         image.layer.cornerRadius = 75
         image.layer.masksToBounds = true
         return image
@@ -77,15 +70,9 @@ class NewTaskVC: UIViewController, UITextFieldDelegate {
         view.backgroundColor = .white
         setupEditUI()
         setupUI()
-        //        createToolbar()
         datePickerToolbar()
-        //        setTitle.delegate = self
-        //        dateTextField.delegate = self
         addDoneButtonOnKeyboard()
-        //        setTitle.delegate = self
-        //        dateTextField.delegate = self
         UITextField.connectFields(fields: [setTitle, dateTextField])
-        
         
         NotificationCenter.default.addObserver(self, selector: #selector(self.keyboardWillShow), name: UIResponder.keyboardWillShowNotification, object: nil)
         
@@ -138,9 +125,6 @@ class NewTaskVC: UIViewController, UITextFieldDelegate {
     }
     
     func setupEditUI() {
-        
-        //        formatter.dateStyle = .short
-        
         if taskToEdit != nil {
             setTitle.text = taskToEdit?.title
             imageView.image = UIImage(data: (taskToEdit?.taskImage)!)
@@ -172,15 +156,12 @@ class NewTaskVC: UIViewController, UITextFieldDelegate {
         imageView.addGestureRecognizer(singleTap)
         
         self.saveButton.addTarget(self, action: #selector(saveButtonTapped), for: .touchUpInside)
-        
-        
-        
+
         NSLayoutConstraint.activate([
             self.imageView.widthAnchor.constraint(equalToConstant: 150),
             self.imageView.heightAnchor.constraint(equalToConstant: 150),
             self.imageView.centerXAnchor.constraint(equalTo: self.view.centerXAnchor),
             self.imageView.centerYAnchor.constraint(equalTo: self.view.centerYAnchor, constant: -120)
-            //            self.imageView.topAnchor.constraint(equalTo: self.view.safeAreaLayoutGuide.topAnchor, constant: 10)
         ])
         
         NSLayoutConstraint.activate([
@@ -188,7 +169,6 @@ class NewTaskVC: UIViewController, UITextFieldDelegate {
             setTitle.centerXAnchor.constraint(equalTo: self.view.centerXAnchor),
             setTitle.leadingAnchor.constraint(equalTo: self.view.leadingAnchor, constant: 80),
                setTitle.trailingAnchor.constraint(equalTo: self.view.trailingAnchor, constant: -80)
-            
         ])
         
         NSLayoutConstraint.activate([
@@ -196,40 +176,17 @@ class NewTaskVC: UIViewController, UITextFieldDelegate {
             dateTextField.topAnchor.constraint(equalTo: setTitle.bottomAnchor, constant: 45),
             dateTextField.leadingAnchor.constraint(equalTo: self.view.leadingAnchor, constant: 100),
                dateTextField.trailingAnchor.constraint(equalTo: self.view.trailingAnchor, constant: -100)
-            
         ])
-        
-        saveButton.alpha = 0.5
-        
-        UIView.animate(withDuration: 0.5, delay: 0.2, options: [], animations: {
-            self.saveButton.alpha = 1.0
-        },completion: nil)
-        
+    
         NSLayoutConstraint.activate([
             saveButton.topAnchor.constraint(equalTo: dateTextField.bottomAnchor, constant: 45),
             saveButton.heightAnchor.constraint(equalToConstant: 48),
             saveButton.leadingAnchor.constraint(equalTo: self.view.leadingAnchor, constant: 45),
             saveButton.trailingAnchor.constraint(equalTo: self.view.trailingAnchor, constant: -45),
-            //            self.saveButton.centerXAnchor.constraint(equalTo: self.view.centerXAnchor)
         ])
     }
     
     @objc func saveButtonTapped() {
-        
-        //        let newTask = Task(context: self.coreData)
-        //        newTask.dueDate = datePicker.date
-        //        newTask.status = false
-        //        newTask.title = setTitle.text
-        //        newTask.taskImage = imageView.image!.pngData()
-        //        newTask.parentProject = self.parentObject
-        //        self.navigationController?.popViewController(animated: true)
-        //
-        //        do{
-        //            try self.coreData.save()
-        //        }catch{
-        //            print("error")
-        //        }
-        
         if !checkForEmptyFields() {
             if taskToEdit != nil {
                 taskToEdit?.setValue(setTitle.text, forKey: "title")
@@ -243,27 +200,7 @@ class NewTaskVC: UIViewController, UITextFieldDelegate {
             }
             self.navigationController?.popViewController(animated: true)
         }
-        
-        
     }
-    
-    //    func createToolbar() {
-    //        let pickerToolbar: UIToolbar = UIToolbar(frame: CGRect(x:38, y: 100, width: 244, height: 30))
-    //        pickerToolbar.autoresizingMask = .flexibleHeight // This or the bottom works the same
-    //        //        pickerToolbar.sizeToFit()
-    //        //add buttons
-    //        let cancelButton = UIBarButtonItem(barButtonSystemItem: .close, target: self, action:
-    //            #selector(cancelButtonTapped))
-    //        //        cancelButton.tintColor = UIColor.white
-    //        let flexSpace = UIBarButtonItem(barButtonSystemItem: .flexibleSpace, target: nil, action: nil)
-    //        let doneButton = UIBarButtonItem(barButtonSystemItem: .done, target: self, action:
-    //            #selector(doneButtonTapped))
-    //        //        doneButton.tintColor = UIColor.white
-    //
-    //        //add the items to the toolbar
-    //        pickerToolbar.items = [cancelButton, flexSpace, doneButton]
-    //        self.dateTextField.inputAccessoryView = pickerToolbar
-    //    }
     
     func checkForEmptyFields() -> Bool {
         if setTitle.text == "" {
@@ -303,12 +240,6 @@ class NewTaskVC: UIViewController, UITextFieldDelegate {
         let flexSpace = UIBarButtonItem(barButtonSystemItem: UIBarButtonItem.SystemItem.flexibleSpace, target: nil, action: nil)
         
         let done: UIBarButtonItem = UIBarButtonItem(title: "Done", style: UIBarButtonItem.Style.done, target: self, action: #selector(doneButtonTapped))
-        
-        //        var items = [UIBarButtonItem]()
-        //        items.append(hide)
-        //        items.append(flexSpace)
-        //        items.append(done)
-        //
         doneToolbar.items = [hide, flexSpace, done]
         doneToolbar.sizeToFit()
         self.dateTextField.inputAccessoryView = doneToolbar
@@ -326,42 +257,15 @@ class NewTaskVC: UIViewController, UITextFieldDelegate {
     }
     
     private func createNewTask() {
-        
         let newTask = Task(context: (self.coreDataStack?.managedContext)!)
         newTask.dueDate = datePicker.date
         newTask.status = false
         newTask.title = setTitle.text
         newTask.taskImage = imageView.image!.pngData()
         newTask.parentProject = self.parentObject
-        
         coreDataStack?.saveContext()
-        //        do {
-        //            try managedContext.save()
-        //            print("saved")
-        //        }
-        //        catch{
-        //            print(error)
-        //        }
     }
-    
-    //    @objc func datePickerSelected() {
-    //        dateTextField.text =  datePicker.date.description
-    //        let newTask = Task(context: self.coreData)
-    //        newTask.dueDate = datePicker.date
-    //        newTask.status = false
-    //        newTask.title = "Other task"
-    //        newTask.taskImage = UIImage(named: "mango")?.pngData()
-    //        newTask.parentProject = self.parentObject
-    //
-    //        do {
-    //            try coreData.save()
-    //            print("saved")
-    //        }
-    //        catch{
-    //            print(error)
-    //        }
-    //    }
-    
+
 }
 
 
