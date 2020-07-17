@@ -14,7 +14,7 @@ Core Data is used to persistently store user created data, meaning data will not
 * Core Data to persist projects and tasks 
 
 ### App Demo
-![](Project%20Gif/weatherWalk.gif)
+![](Project%20Gif/Taskee.gif)
 
 ### Usage
 The user can create a project by giving it a name and color of their choosing to make the project easier to differentiate between them. 
