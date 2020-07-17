@@ -46,7 +46,6 @@ class NewProjectVC: UIViewController, ButtonBackgroundColorDelegate {
         addNavBar()
         // this improves user experience with filling out forms(UItexfield)
         UITextField.connectFields(fields: [setProjectName])
-
     }
     
     func getButtonColor(buttonColor: UIColor) {
@@ -55,7 +54,7 @@ class NewProjectVC: UIViewController, ButtonBackgroundColorDelegate {
     }
     
     private func editProjectSetup(){
-        if selectedProject != nil {
+        if selectedProject != nil { // Setup UI if there's a passed in project
             setProjectName.text = selectedProject?.name
             getColorFromColorGrid = selectedProject?.color as? UIColor
             view.backgroundColor = selectedProject?.color as? UIColor
@@ -68,9 +67,8 @@ class NewProjectVC: UIViewController, ButtonBackgroundColorDelegate {
     }
     
     private func addNavBar() {
-        let cancelButton = UIBarButtonItem(barButtonSystemItem: .close, target: self, action:
-            #selector(closeButtonTapped))
-        self.navigationItem.rightBarButtonItem = cancelButton
+        let closeXButton = UIBarButtonItem(barButtonSystemItem: .close, target: self, action: #selector(closeButtonTapped))
+        self.navigationItem.rightBarButtonItem = closeXButton
     }
     
     @objc func closeButtonTapped() {
@@ -131,22 +129,19 @@ class NewProjectVC: UIViewController, ButtonBackgroundColorDelegate {
         }
         
         if setProjectName.text != "" && getColorFromColorGrid != nil {
-            return false // This means all fields are filled
+            return false // This means all fields are filled, and good to go
         }
         
         return true
     }
     
-    
     @objc func saveButtonTapped() {
         if !checkAreFieldsEmpty() {
             if selectedProject != nil { // To update/edit project
-                selectedProject?.setValue(setProjectName.text, forKey: "name")
-                if self.getColorFromColorGrid != nil {
-                    selectedProject?.setValue(self.getColorFromColorGrid, forKey: "color")
-                }
+                selectedProject?.setValue(setProjectName.text, forKey: #keyPath(Project.name))
+                selectedProject?.setValue(self.getColorFromColorGrid, forKey: #keyPath(Project.color)) // keyPath is just getting the string
                 coreDataStack?.saveContext()
-            }else { // To save new project
+            } else { // To save new project
                 let newProject = Project(context: coreDataStack!.managedContext)
                 newProject.name = setProjectName.text
                 newProject.color = getColorFromColorGrid

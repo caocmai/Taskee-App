@@ -61,12 +61,10 @@ class ProjectCell: UITableViewCell {
 
         taskImage.layer.masksToBounds = true
         taskImage.layer.cornerRadius = 30
-        
         projectLabel.text = task.title
         taskImage.isHidden = false
         taskImage.image = UIImage(data: task.taskImage!)
         
-        //        cell.projectLabel.text = task.status ? "\(task.title ?? "Unknown") Completed" : task.title
         pendingTasksLabel.text = task.status ? "Completed on \(dateFormatter.string(from: task.dueDate!))" : "Due by \(dateFormatter.string(from: task.dueDate!))"
         pendingTasksLabel.textColor = #colorLiteral(red: 0.6000000238, green: 0.6000000238, blue: 0.6000000238, alpha: 1)
     }
@@ -97,7 +95,6 @@ class ProjectCell: UITableViewCell {
             pendingTasksLabel.text = "\(pendingTaskCount) Pending task\(pendingTaskCount <= 1 ? "" : "s")"
             pendingTasksLabel.textColor = #colorLiteral(red: 0.6000000238, green: 0.6000000238, blue: 0.6000000238, alpha: 1)
         }
-        
     }
 
     override func setSelected(_ selected: Bool, animated: Bool) {
@@ -106,7 +103,6 @@ class ProjectCell: UITableViewCell {
         self.contentView.addSubview(pendingTasksLabel)
         projectLabel.centerYAnchor.constraint(equalTo: self.contentView.centerYAnchor, constant: -1).isActive = true
         pendingTasksLabel.bottomAnchor.constraint(equalTo: self.contentView.bottomAnchor, constant: -5).isActive = true
-
     }
 
 }

@@ -72,7 +72,7 @@ class NewTaskVC: UIViewController, UITextFieldDelegate {
         setupUI()
         datePickerToolbar()
         addDoneButtonOnKeyboard()
-        UITextField.connectFields(fields: [setTitle, dateTextField])
+        UITextField.connectFields(fields: [setTitle, dateTextField]) // for better user experience when filling out forms
         
         NotificationCenter.default.addObserver(self, selector: #selector(self.keyboardWillShow), name: UIResponder.keyboardWillShowNotification, object: nil)
         
@@ -96,7 +96,7 @@ class NewTaskVC: UIViewController, UITextFieldDelegate {
         self.navigationController?.isNavigationBarHidden = false
     }
     
-    func addDoneButtonOnKeyboard() {
+    private func addDoneButtonOnKeyboard() {
         let doneToolbar: UIToolbar = UIToolbar(frame: CGRect(x:38, y: 100, width: 244, height: 30))
         doneToolbar.barStyle = UIBarStyle.default
         
@@ -117,7 +117,7 @@ class NewTaskVC: UIViewController, UITextFieldDelegate {
         self.dateTextField.becomeFirstResponder()
     }
     
-    func setupEditUI() {
+    private func setupEditUI() {
         if taskToEdit != nil {
             setTitle.text = taskToEdit?.title
             imageView.image = UIImage(data: (taskToEdit?.taskImage)!)
@@ -193,7 +193,7 @@ class NewTaskVC: UIViewController, UITextFieldDelegate {
         }
     }
     
-    func checkAreFieldsEmpty() -> Bool {
+    private func checkAreFieldsEmpty() -> Bool {
         if setTitle.text == "" {
             setTitle.layer.borderWidth = 2
             setTitle.layer.cornerRadius = 7
@@ -223,7 +223,7 @@ class NewTaskVC: UIViewController, UITextFieldDelegate {
         return true
     }
     
-    func datePickerToolbar() {
+    private func datePickerToolbar() {
         let doneToolbar: UIToolbar = UIToolbar(frame: CGRect(x:38, y: 100, width: 244, height: 30))
         doneToolbar.barStyle = UIBarStyle.default
         
@@ -244,7 +244,7 @@ class NewTaskVC: UIViewController, UITextFieldDelegate {
         dateTextField.resignFirstResponder()
         let formatter = DateFormatter()
         formatter.dateStyle = .short
-        dateTextField.text = formatter.string(from: datePicker.date)
+        dateTextField.text = formatter.string(from: datePicker.date) // shows the date in UItexfield from datepicker
     }
     
     private func createNewTask() {

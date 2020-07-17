@@ -44,11 +44,10 @@ class TasksVC: UIViewController {
         configureNavBar()
         configureTable()
         getPendingTasks()
-        // For context menu
+        // For context menu to have preview
         let interaction = UIContextMenuInteraction(delegate: self)
         self.view.addInteraction(interaction)
         addNotifyEmptyTableLabel()
-        
     }
     
     // fetch the items before user gets a chance to tap on a segment
@@ -61,7 +60,7 @@ class TasksVC: UIViewController {
         }
     }
     
-    func setupUIForEmptyPendingTasks(withDuration time: Double) {
+    private func setupUIForEmptyPendingTasks(withDuration time: Double) {
         notifyEmptyTableLabel.transform = CGAffineTransform(scaleX: 0, y: 0)
         notifyEmptyTableLabel.text = "No Pending Tasks"
         notifyEmptyTableLabel.isHidden = false
@@ -73,7 +72,7 @@ class TasksVC: UIViewController {
                        completion: nil)
     }
     
-    func setupUIForEmptyCompletedTasks(withDuration time: Double) {
+    private func setupUIForEmptyCompletedTasks(withDuration time: Double) {
         notifyEmptyTableLabel.transform = CGAffineTransform(scaleX: 0, y: 0)
         notifyEmptyTableLabel.text = "No Completed Tasks"
         notifyEmptyTableLabel.isHidden = false
@@ -85,7 +84,7 @@ class TasksVC: UIViewController {
                        completion: nil)
     }
     
-    func addNotifyEmptyTableLabel() {
+    private func addNotifyEmptyTableLabel() {
         self.view.addSubview(notifyEmptyTableLabel)
         NSLayoutConstraint.activate([
             notifyEmptyTableLabel.centerYAnchor.constraint(equalTo: self.view.centerYAnchor),
@@ -93,7 +92,7 @@ class TasksVC: UIViewController {
         ])
     }
     
-    func getPendingTasks() {
+    private func getPendingTasks() {
         let projectStatusPredicate = NSPredicate(format: "status = false")
         coreDataStack.fetchTasks(predicate: projectStatusPredicate, selectedProject: (selectedProject)!) { results in
             switch results {
@@ -111,7 +110,7 @@ class TasksVC: UIViewController {
         }
     }
     
-    func getFinshedTasks() {
+    private func getFinshedTasks() {
         let projectStatusPredicate = NSPredicate(format: "status = true")
         coreDataStack.fetchTasks(predicate: projectStatusPredicate, selectedProject: (selectedProject)!) { results in
             switch results {
@@ -129,7 +128,7 @@ class TasksVC: UIViewController {
         }
     }
     
-    func addSegmentControl() {
+    private func addSegmentControl() {
         let segmentItems = ["Pending", "Completed"]
         segmentControl = UISegmentedControl(items: segmentItems)
         segmentControl.addTarget(self, action: #selector(segmentControlTapped(_:)), for: .valueChanged)
@@ -179,7 +178,7 @@ class TasksVC: UIViewController {
         self.navigationController?.pushViewController(destinationVC, animated: true)
     }
     
-    func configureTable() {
+    private func configureTable() {
         taskTable.delegate = self
         taskTable.dataSource = self
         taskTable.register(ProjectCell.self, forCellReuseIdentifier: ProjectCell.identifier)
@@ -187,11 +186,7 @@ class TasksVC: UIViewController {
         taskTable.separatorStyle = .none
         // Refresh control
         let refreshControl = UIRefreshControl()
-        refreshControl.addTarget(
-            self,
-            action: #selector(refresh),
-            for: .valueChanged
-        )
+        refreshControl.addTarget(self, action: #selector(refresh), for: .valueChanged)
         taskTable.refreshControl = refreshControl
         
         NSLayoutConstraint.activate([
@@ -238,7 +233,6 @@ extension TasksVC: UITableViewDelegate, UITableViewDataSource {
     }
     
     func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCell.EditingStyle, forRowAt indexPath: IndexPath) {
-        
         switch editingStyle {
         case .delete: // handling the delete action
             let task = tasks[indexPath.row]
@@ -252,7 +246,7 @@ extension TasksVC: UITableViewDelegate, UITableViewDataSource {
         return 80
     }
     
-    func deleteTask(with task: Task, at indexPath: IndexPath) {
+    private func deleteTask(with task: Task, at indexPath: IndexPath) {
         coreDataStack.managedContext.delete(task)
         tasks.remove(at: indexPath.row)
         taskTable.deleteRows(at: [indexPath], with: .fade)

@@ -13,7 +13,6 @@ class ProjectsVC: UIViewController, NSFetchedResultsControllerDelegate {
     
     var coreDataStack = CoreDataStack()
     let searchController = UISearchController(searchResultsController: nil)
-  
     var table: UITableView = {
         let newTable = UITableView()
         return newTable
@@ -22,7 +21,7 @@ class ProjectsVC: UIViewController, NSFetchedResultsControllerDelegate {
     lazy var fetchedResultsController: NSFetchedResultsController<Project> = {
         let fetchRequest: NSFetchRequest<Project> = Project.fetchRequest()
         let nameSort = NSSortDescriptor(key: #keyPath(Project.name), ascending: true)
-        // Will crash when save object if activated; seems like can't sort by color
+        // Will crash when saving object if activated; seems like can't sort by color
         let colorSort = NSSortDescriptor(key: #keyPath(Project.color), ascending: true)
         
         fetchRequest.sortDescriptors = [nameSort]
@@ -48,12 +47,6 @@ class ProjectsVC: UIViewController, NSFetchedResultsControllerDelegate {
         self.fetchProjects()
     }
     
-    @objc func refresh() {
-        self.fetchProjects()
-        self.table.refreshControl?.endRefreshing()
-        
-    }
-    
     private func fetchProjects() {
         do {
             try fetchedResultsController.performFetch()
@@ -61,13 +54,6 @@ class ProjectsVC: UIViewController, NSFetchedResultsControllerDelegate {
             print("Fetching error: \(error), \(error.userInfo)")
         }
         self.table.reloadData()
-    }
-    
-    private func configureCell(cell: UITableViewCell, for indexPath: IndexPath) {
-        guard let cell = cell as? ProjectCell else { return }
-        let project = fetchedResultsController.object(at: indexPath)
-        cell.configureUIForProject(with: project)
-        
     }
     
     private func configureNavBar() {
@@ -83,7 +69,12 @@ class ProjectsVC: UIViewController, NSFetchedResultsControllerDelegate {
         searchController.searchBar.placeholder = "Seach"
         searchController.searchBar.delegate = self
         searchController.obscuresBackgroundDuringPresentation  = false
-
+    }
+    
+    private func configureCell(cell: UITableViewCell, for indexPath: IndexPath) {
+        guard let cell = cell as? ProjectCell else { return }
+        let project = fetchedResultsController.object(at: indexPath)
+        cell.configureUIForProject(with: project)
     }
     
     private func configureTable() {
@@ -96,13 +87,13 @@ class ProjectsVC: UIViewController, NSFetchedResultsControllerDelegate {
         
         // Refresh added to tableview
         let refreshControl = UIRefreshControl()
-        refreshControl.addTarget(
-            self,
-            action: #selector(refresh),
-            for: .valueChanged
-        )
+        refreshControl.addTarget(self, action: #selector(refresh), for: .valueChanged)
         self.table.refreshControl = refreshControl
-        
+    }
+    
+    @objc func refresh() {
+        self.fetchProjects()
+        self.table.refreshControl?.endRefreshing()
     }
     
     @objc func addProjectTapped(){
@@ -117,8 +108,6 @@ class ProjectsVC: UIViewController, NSFetchedResultsControllerDelegate {
 // - MARK: UITableView
 extension ProjectsVC: UITableViewDelegate, UITableViewDataSource {
     
-    
-    
     //    func numberOfSections(in tableView: UITableView) -> Int {
     //
     //        return fetchedResultsController.sections?.count ?? 0
@@ -126,27 +115,20 @@ extension ProjectsVC: UITableViewDelegate, UITableViewDataSource {
     //
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         //        return projects.count
-        
-        guard let sectionInfo =
-            fetchedResultsController.sections?[section] else {
-                return 0
+        guard let sectionInfo = fetchedResultsController.sections?[section] else { return 0
         }
         
         return sectionInfo.numberOfObjects
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-
         let cell = tableView.dequeueReusableCell(withIdentifier: ProjectCell.identifier, for: indexPath)
         cell.imageView?.isHidden = true
         configureCell(cell: cell, for: indexPath)
         return cell
     }
     
-    
-    
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        
         let destinationVC = TasksVC()
         let project = fetchedResultsController.object(at: indexPath)
         destinationVC.selectedProject = project
@@ -154,7 +136,6 @@ extension ProjectsVC: UITableViewDelegate, UITableViewDataSource {
         table.deselectRow(at: indexPath, animated: true)
         
         self.navigationController?.pushViewController(destinationVC, animated: true)
-        
     }
     
     func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCell.EditingStyle, forRowAt indexPath: IndexPath) {
@@ -177,11 +158,7 @@ extension ProjectsVC {
         table.beginUpdates()
     }
     
-    func controller(_ controller: NSFetchedResultsController<NSFetchRequestResult>,
-                    didChange anObject: Any,
-                    at indexPath: IndexPath?,
-                    for type: NSFetchedResultsChangeType,
-                    newIndexPath: IndexPath?) {
+    func controller(_ controller: NSFetchedResultsController<NSFetchRequestResult>, didChange anObject: Any, at indexPath: IndexPath?, for type: NSFetchedResultsChangeType, newIndexPath: IndexPath?) {
         
         switch type {
         case .insert:
@@ -198,7 +175,6 @@ extension ProjectsVC {
         default:
             fatalError("not valid action")
         }
-        
     }
     
     func controllerDidChangeContent(_ controller: NSFetchedResultsController<NSFetchRequestResult>) {
@@ -229,10 +205,9 @@ extension ProjectsVC: UIContextMenuInteractionDelegate {
     
     func contextMenuInteraction(_ interaction: UIContextMenuInteraction,
                                 configurationForMenuAtLocation location: CGPoint)
-        -> UIContextMenuConfiguration? {
-            return nil
+                                -> UIContextMenuConfiguration? {
+        return nil
     }
-    
     
     func tableView(_ tableView: UITableView,
                    contextMenuConfigurationForRowAt indexPath: IndexPath,
@@ -268,7 +243,7 @@ extension ProjectsVC: UISearchBarDelegate, UISearchResultsUpdating {
     func updateSearchResults(for searchController: UISearchController) {
         let text = searchController.searchBar.text
         if (text?.isEmpty)! {
-            // This is needed to return to displying all projects
+            // This is needed to return to displaying all projects
             self.fetchedResultsController.fetchRequest.predicate = NSPredicate(value: true)
         } else {
             self.fetchedResultsController.fetchRequest.predicate = NSPredicate(format: "( name contains[cd] %@ )", text!)
