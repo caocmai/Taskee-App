@@ -13,7 +13,7 @@ class NewProjectVC: UIViewController, ButtonBackgroundColorDelegate {
     var selectedProject: Project?
     let colorGrid = ColorGrid()
     var coreDataStack: CoreDataStack?
-    var getColor: UIColor? = nil
+    var getColorFromColorGrid: UIColor? = nil
 
     let setProjectName: UITextField = {
         let textField = UITextField()
@@ -35,58 +35,51 @@ class NewProjectVC: UIViewController, ButtonBackgroundColorDelegate {
         button.layer.masksToBounds = true
         return button
     }()
-    
-    override func viewDidLayoutSubviews() {
-    }
-    
-    
+
     override func viewDidLoad() {
         super.viewDidLoad()
         view.backgroundColor = .white
-        colorGridContraints()
-        colorGrid.delegate = self
+        setupColorGrid()
         editProjectSetup()
         addProjectName()
         addSaveButton()
-        //        addCloseButton()
         addNavBar()
+        // this improves user experience with filling out forms(UItexfield)
         UITextField.connectFields(fields: [setProjectName])
 
     }
     
     func getButtonColor(buttonColor: UIColor) {
         self.view.backgroundColor = buttonColor
-        self.getColor = buttonColor
+        self.getColorFromColorGrid = buttonColor
     }
     
-    func editProjectSetup(){
+    private func editProjectSetup(){
         if selectedProject != nil {
             setProjectName.text = selectedProject?.name
+            getColorFromColorGrid = selectedProject?.color as? UIColor
             view.backgroundColor = selectedProject?.color as? UIColor
             self.title = "Edit \(selectedProject?.name ?? "Unnamed")"
             self.saveButton.setTitle("Update", for: .normal)
             colorGrid.checkMatchAndHighlight(with: (selectedProject?.color as? UIColor)!)
-
         } else {
             self.title = "Create A New Project"
         }
-        
     }
     
-    func addNavBar() {
+    private func addNavBar() {
         let cancelButton = UIBarButtonItem(barButtonSystemItem: .close, target: self, action:
             #selector(closeButtonTapped))
         self.navigationItem.rightBarButtonItem = cancelButton
-        
     }
-    
     
     @objc func closeButtonTapped() {
         dismiss(animated: true, completion: nil)
     }
     
-    func colorGridContraints() {
+    private func setupColorGrid() {
         view.addSubview(colorGrid)
+        colorGrid.delegate = self
         
         NSLayoutConstraint.activate([
             self.colorGrid.centerXAnchor.constraint(equalTo: self.view.centerXAnchor),
@@ -94,10 +87,9 @@ class NewProjectVC: UIViewController, ButtonBackgroundColorDelegate {
             self.colorGrid.heightAnchor.constraint(equalToConstant: self.view.frame.width / 1.65),
             self.colorGrid.widthAnchor.constraint(equalToConstant: self.view.frame.width / 1.65)
         ])
-        
     }
     
-    func addProjectName() {
+    private func addProjectName() {
         view.addSubview(setProjectName)
         
         NSLayoutConstraint.activate([
@@ -107,7 +99,7 @@ class NewProjectVC: UIViewController, ButtonBackgroundColorDelegate {
         ])
     }
     
-    func addSaveButton() {
+    private func addSaveButton() {
         view.addSubview(saveButton)
         self.saveButton.addTarget(self, action: #selector(saveButtonTapped), for: .touchUpInside)
         
@@ -120,21 +112,46 @@ class NewProjectVC: UIViewController, ButtonBackgroundColorDelegate {
         ])
     }
     
-    @objc func saveButtonTapped() {
-//        print(self.getColor)
+    func checkAreFieldsEmpty() -> Bool {
+        if setProjectName.text == "" {
+            setProjectName.layer.borderWidth = 2
+            setProjectName.layer.cornerRadius = 7
+            setProjectName.layer.borderColor = UIColor.red.cgColor
+            setProjectName.placeholder = "Needs Title!"
+        } else {
+            setProjectName.layer.borderWidth = 0
+            setProjectName.layer.borderColor = UIColor.clear.cgColor
+            setProjectName.borderStyle = .roundedRect
+        }
         
-        if selectedProject != nil { // To update/edit project
-            selectedProject?.setValue(setProjectName.text, forKey: "name")
-            if self.getColor != nil {
-                selectedProject?.setValue(self.getColor, forKey: "color")
+        if getColorFromColorGrid == nil {
+            let alert = UIAlertController(title: "Select a Color!", message: "Project needs a color to better differentiate between projects", preferredStyle: UIAlertController.Style.alert)
+            alert.addAction(UIAlertAction(title: "OK", style: UIAlertAction.Style.default, handler: nil))
+            self.present(alert, animated: true, completion: nil)
+        }
+        
+        if setProjectName.text != "" && getColorFromColorGrid != nil {
+            return false // This means all fields are filled
+        }
+        
+        return true
+    }
+    
+    
+    @objc func saveButtonTapped() {
+        if !checkAreFieldsEmpty() {
+            if selectedProject != nil { // To update/edit project
+                selectedProject?.setValue(setProjectName.text, forKey: "name")
+                if self.getColorFromColorGrid != nil {
+                    selectedProject?.setValue(self.getColorFromColorGrid, forKey: "color")
+                }
+                coreDataStack?.saveContext()
+            }else { // To save new project
+                let newProject = Project(context: coreDataStack!.managedContext)
+                newProject.name = setProjectName.text
+                newProject.color = getColorFromColorGrid
+                coreDataStack?.saveContext()
             }
-            coreDataStack?.saveContext()
-            dismiss(animated: true, completion: nil)
-        }else { // To save new project
-            let newProject = Project(context: coreDataStack!.managedContext)
-            newProject.name = setProjectName.text
-            newProject.color = getColor
-            coreDataStack?.saveContext()
             dismiss(animated: true, completion: nil)
         }
     }

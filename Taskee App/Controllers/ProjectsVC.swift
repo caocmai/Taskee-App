@@ -40,23 +40,8 @@ class ProjectsVC: UIViewController, NSFetchedResultsControllerDelegate {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        // Do any additional setup after loading the view.
         configureNavBar()
         configureTable()
-        
-        let refreshControl = UIRefreshControl()
-        refreshControl.addTarget(
-            self,
-            action: #selector(refresh),
-            for: .valueChanged
-        )
-        self.table.refreshControl = refreshControl
-        
-        navigationItem.searchController = searchController
-        searchController.searchResultsUpdater = self
-        searchController.searchBar.placeholder = "Seach."
-        searchController.searchBar.delegate = self
-        searchController.obscuresBackgroundDuringPresentation  = false
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -69,8 +54,7 @@ class ProjectsVC: UIViewController, NSFetchedResultsControllerDelegate {
         
     }
     
-    
-    func fetchProjects() {
+    private func fetchProjects() {
         do {
             try fetchedResultsController.performFetch()
         } catch let error as NSError {
@@ -79,7 +63,7 @@ class ProjectsVC: UIViewController, NSFetchedResultsControllerDelegate {
         self.table.reloadData()
     }
     
-    func configureCell(cell: UITableViewCell, for indexPath: IndexPath) {
+    private func configureCell(cell: UITableViewCell, for indexPath: IndexPath) {
         guard let cell = cell as? ProjectCell else { return }
         let project = fetchedResultsController.object(at: indexPath)
         cell.configureUIForProject(with: project)
@@ -92,6 +76,13 @@ class ProjectsVC: UIViewController, NSFetchedResultsControllerDelegate {
         self.title = "All Projects"
         let addButton = UIBarButtonItem(title: "New Project", style: .plain, target: self, action: #selector(addProjectTapped))
         self.navigationItem.rightBarButtonItem = addButton
+        
+        // Add searchController to under navBar
+        self.navigationItem.searchController = searchController
+        searchController.searchResultsUpdater = self
+        searchController.searchBar.placeholder = "Seach"
+        searchController.searchBar.delegate = self
+        searchController.obscuresBackgroundDuringPresentation  = false
 
     }
     
@@ -103,6 +94,14 @@ class ProjectsVC: UIViewController, NSFetchedResultsControllerDelegate {
         table.dataSource = self
         table.separatorStyle = .none
         
+        // Refresh added to tableview
+        let refreshControl = UIRefreshControl()
+        refreshControl.addTarget(
+            self,
+            action: #selector(refresh),
+            for: .valueChanged
+        )
+        self.table.refreshControl = refreshControl
         
     }
     
@@ -111,8 +110,6 @@ class ProjectsVC: UIViewController, NSFetchedResultsControllerDelegate {
         newProjectVC.coreDataStack = coreDataStack
         let navController = UINavigationController(rootViewController: newProjectVC)
         self.present(navController, animated: true, completion: nil)
-
-        
     }
     
 }
@@ -247,11 +244,9 @@ extension ProjectsVC: UIContextMenuInteractionDelegate {
             editVC.selectedProject = project
             editVC.coreDataStack = self.coreDataStack
             self.table.deselectRow(at: indexPath, animated: true)
-            
             let navController = UINavigationController(rootViewController: editVC)
+            
             self.present(navController, animated: true, completion: nil)
-            
-            
         }
         
         let delete = UIAction(title: "Delete", image: UIImage(systemName: "trash"), identifier: .none, discoverabilityTitle: .none, attributes: .destructive, state: .off) { (_) in

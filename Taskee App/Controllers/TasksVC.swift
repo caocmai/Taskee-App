@@ -44,6 +44,7 @@ class TasksVC: UIViewController {
         configureNavBar()
         configureTable()
         getPendingTasks()
+        // For context menu
         let interaction = UIContextMenuInteraction(delegate: self)
         self.view.addInteraction(interaction)
         addNotifyEmptyTableLabel()
@@ -91,7 +92,6 @@ class TasksVC: UIViewController {
             notifyEmptyTableLabel.centerXAnchor.constraint(equalTo: self.view.centerXAnchor)
         ])
     }
-    
     
     func getPendingTasks() {
         let projectStatusPredicate = NSPredicate(format: "status = false")
@@ -164,8 +164,6 @@ class TasksVC: UIViewController {
         self.title = "\(selectedProject!.name ?? "Unnamed") Tasks"
         let addButton = UIBarButtonItem(barButtonSystemItem: .add, target: self, action: #selector(addTaskTapped))
         self.navigationItem.rightBarButtonItems = [addButton, self.editButtonItem]
-        //        self.navigationItem.leftBarButtonItem = self.editButtonItem
-        
     }
     
     // This method is needed for edit button in navbar to work
@@ -187,6 +185,7 @@ class TasksVC: UIViewController {
         taskTable.register(ProjectCell.self, forCellReuseIdentifier: ProjectCell.identifier)
         self.view.addSubview(taskTable)
         taskTable.separatorStyle = .none
+        // Refresh control
         let refreshControl = UIRefreshControl()
         refreshControl.addTarget(
             self,
@@ -215,6 +214,8 @@ class TasksVC: UIViewController {
     
 }
 
+// - MARK: UITableView
+
 extension TasksVC: UITableViewDelegate, UITableViewDataSource {
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return self.tasks.count
@@ -231,9 +232,9 @@ extension TasksVC: UITableViewDelegate, UITableViewDataSource {
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         tasks[indexPath.row].status = !tasks[indexPath.row].status
+        tasks[indexPath.row].setValue(Date(), forKey: "dueDate")
         coreDataStack.saveContext()
         taskTable.reloadData() // To get checkmark to show
-        
     }
     
     func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCell.EditingStyle, forRowAt indexPath: IndexPath) {
@@ -254,7 +255,6 @@ extension TasksVC: UITableViewDelegate, UITableViewDataSource {
         return 80
     }
     
-    
     //    func tableView(_ tableView: UITableView, moveRowAt sourceIndexPath: IndexPath, to destinationIndexPath: IndexPath) {
     //
     //        let habitToSwap = self.tasks[sourceIndexPath.row]
@@ -265,6 +265,7 @@ extension TasksVC: UITableViewDelegate, UITableViewDataSource {
     //    }
 }
 
+// - MARK: UIContextMenuInteractionDelegate
 
 extension TasksVC: UIContextMenuInteractionDelegate {
     
@@ -278,7 +279,8 @@ extension TasksVC: UIContextMenuInteractionDelegate {
             let object = self.tasks[indexPath.row]
             preview.taskTitleLabel.text = object.title
             preview.imageView.image = UIImage(data: object.taskImage!)
-            preview.taskDueDateLabel.text = self.dateFormatter.string(from: object.dueDate!)
+            preview.taskDueDateLabel.text = object.status ? "Completed on \(self.dateFormatter.string(from: object.dueDate!))" : "Due by \(self.dateFormatter.string(from: object.dueDate!))"
+            preview.taskDueDateLabel.textColor = object.status ? #colorLiteral(red: 0.2980392157, green: 0.7843137255, blue: 0.262745098, alpha: 1) : .black
             return preview
         }) { _ -> UIMenu? in
             let action = UIAction(title: "Edit...", image: nil) { action in

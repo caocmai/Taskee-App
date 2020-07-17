@@ -67,7 +67,7 @@ class NewTaskVC: UIViewController, UITextFieldDelegate {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        view.backgroundColor = .white
+        self.view.backgroundColor = .white
         setupEditUI()
         setupUI()
         datePickerToolbar()
@@ -102,7 +102,6 @@ class NewTaskVC: UIViewController, UITextFieldDelegate {
         
         let hide = UIBarButtonItem(barButtonSystemItem: UIBarButtonItem.SystemItem.close, target: nil, action: #selector(closeKeyboard))
         let flexSpace = UIBarButtonItem(barButtonSystemItem: UIBarButtonItem.SystemItem.flexibleSpace, target: nil, action: nil)
-        
         let done: UIBarButtonItem = UIBarButtonItem(title: "Next", style: UIBarButtonItem.Style.done, target: self, action: #selector(nextFieldTapped))
         
         doneToolbar.items = [hide, flexSpace, done]
@@ -134,14 +133,14 @@ class NewTaskVC: UIViewController, UITextFieldDelegate {
         imagePicker.delegate = self
         imagePicker.sourceType = .photoLibrary
         imagePicker.allowsEditing = true
-        present(imagePicker, animated: true, completion: nil)
+        self.present(imagePicker, animated: true, completion: nil)
     }
 
     private func setupUI() {
-        view.addSubview(setTitle)
-        view.addSubview(dateTextField)
-        view.addSubview(imageView)
-        view.addSubview(saveButton)
+        self.view.addSubview(setTitle)
+        self.view.addSubview(dateTextField)
+        self.view.addSubview(imageView)
+        self.view.addSubview(saveButton)
         dateTextField.inputView = datePicker
         
         let singleTap = UITapGestureRecognizer(target: self, action: #selector(imageViewTapped))
@@ -179,7 +178,7 @@ class NewTaskVC: UIViewController, UITextFieldDelegate {
     }
     
     @objc func saveButtonTapped() {
-        if !checkIsEmptyFields() {
+        if !checkAreFieldsEmpty() {
             if taskToEdit != nil {
                 taskToEdit?.setValue(setTitle.text, forKey: "title")
                 if self.dateTextField.text != dateFormatter.string(from: (taskToEdit?.dueDate)!) {
@@ -194,7 +193,7 @@ class NewTaskVC: UIViewController, UITextFieldDelegate {
         }
     }
     
-    func checkIsEmptyFields() -> Bool {
+    func checkAreFieldsEmpty() -> Bool {
         if setTitle.text == "" {
             setTitle.layer.borderWidth = 2
             setTitle.layer.cornerRadius = 7
@@ -234,7 +233,7 @@ class NewTaskVC: UIViewController, UITextFieldDelegate {
         let done: UIBarButtonItem = UIBarButtonItem(title: "Done", style: UIBarButtonItem.Style.done, target: self, action: #selector(doneButtonTapped))
         doneToolbar.items = [hide, flexSpace, done]
         doneToolbar.sizeToFit()
-        self.dateTextField.inputAccessoryView = doneToolbar
+        dateTextField.inputAccessoryView = doneToolbar
     }
     
     @objc func cancelButtonTapped(_ button: UIBarButtonItem?) {
@@ -260,6 +259,7 @@ class NewTaskVC: UIViewController, UITextFieldDelegate {
 
 }
 
+// - MARK: UIImagePickerControllerDelegate
 
 extension NewTaskVC: UINavigationControllerDelegate, UIImagePickerControllerDelegate {
     

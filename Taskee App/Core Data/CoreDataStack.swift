@@ -44,7 +44,7 @@ class CoreDataStack {
         do {
             try storeContainer.viewContext.save()
         } catch {
-            print("error")
+            print("saving context error")
         }
     }
     
