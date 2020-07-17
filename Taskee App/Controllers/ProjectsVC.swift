@@ -254,9 +254,7 @@ extension ProjectsVC: UIContextMenuInteractionDelegate {
             self.coreDataStack.managedContext.delete(project)
             self.coreDataStack.saveContext()
         }
-        
-    
-        
+
         return UIContextMenuConfiguration(identifier: nil, previewProvider: nil) { _ in
             UIMenu(title: "Actions", children: [favorite, delete])
         }

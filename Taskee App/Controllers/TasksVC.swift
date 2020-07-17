@@ -242,10 +242,7 @@ extension TasksVC: UITableViewDelegate, UITableViewDataSource {
         switch editingStyle {
         case .delete: // handling the delete action
             let task = tasks[indexPath.row]
-            coreDataStack.managedContext.delete(task)
-            tasks.remove(at: indexPath.row)
-            taskTable.deleteRows(at: [indexPath], with: .fade)
-            coreDataStack.saveContext()
+            deleteTask(with: task, at: indexPath)
         default:
             break
         }
@@ -253,6 +250,13 @@ extension TasksVC: UITableViewDelegate, UITableViewDataSource {
     
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
         return 80
+    }
+    
+    func deleteTask(with task: Task, at indexPath: IndexPath) {
+        coreDataStack.managedContext.delete(task)
+        tasks.remove(at: indexPath.row)
+        taskTable.deleteRows(at: [indexPath], with: .fade)
+        coreDataStack.saveContext()
     }
     
     //    func tableView(_ tableView: UITableView, moveRowAt sourceIndexPath: IndexPath, to destinationIndexPath: IndexPath) {
@@ -283,15 +287,21 @@ extension TasksVC: UIContextMenuInteractionDelegate {
             preview.taskDueDateLabel.textColor = object.status ? #colorLiteral(red: 0.2980392157, green: 0.7843137255, blue: 0.262745098, alpha: 1) : .black
             return preview
         }) { _ -> UIMenu? in
-            let action = UIAction(title: "Edit...", image: nil) { action in
+            let edit = UIAction(title: "Edit...", image: nil) { action in
                 self.dismiss(animated: false, completion: nil)
                 let editVC = NewTaskVC()
                 editVC.taskToEdit = self.tasks[indexPath.row]
                 editVC.coreDataStack = self.coreDataStack
                 self.navigationController?.pushViewController(editVC, animated: true)
-                
             }
-            return UIMenu(title: "Action", children: [action])
+            
+            let delete = UIAction(title: "Delete", image: UIImage(systemName: "trash"), identifier: .none, discoverabilityTitle: .none, attributes: .destructive, state: .off) { (_) in
+                print("del")
+                let task = self.tasks[indexPath.row]
+                self.deleteTask(with: task, at: indexPath)
+            }
+            
+            return UIMenu(title: "Action", children: [edit, delete])
         }
         return configuration
     }
@@ -300,16 +310,16 @@ extension TasksVC: UIContextMenuInteractionDelegate {
 
 
 // currently not used
-extension String {
-    
-    /// Apply strike font on text
-    func strikeThrough() -> NSAttributedString {
-        let attributeString = NSMutableAttributedString(string: self)
-        attributeString.addAttribute(
-            NSAttributedString.Key.strikethroughStyle,
-            value: 1,
-            range: NSRange(location: 0, length: attributeString.length))
-        
-        return attributeString
-    }
-}
+//extension String {
+//
+//    /// Apply strike font on text
+//    func strikeThrough() -> NSAttributedString {
+//        let attributeString = NSMutableAttributedString(string: self)
+//        attributeString.addAttribute(
+//            NSAttributedString.Key.strikethroughStyle,
+//            value: 1,
+//            range: NSRange(location: 0, length: attributeString.length))
+//
+//        return attributeString
+//    }
+//}
