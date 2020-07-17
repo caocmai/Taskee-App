@@ -33,25 +33,17 @@ class CoreDataStack {
     }()
     
     func saveContext() {
-        //        guard managedContext.hasChanges else { return }
-        //
-        //        do {
-        //            try managedContext.save()
-        //        } catch let error as NSError {
-        //            print("Error: \(error), \(error.userInfo)")
-        //        }
-        
+        guard managedContext.hasChanges else { return }
         do {
-            try storeContainer.viewContext.save()
-        } catch {
-            print("saving context error")
+            try managedContext.save()
+        } catch let error as NSError {
+            print("Error: \(error), \(error.userInfo)")
         }
     }
     
-    // currently not using
+    // currently not using to fetch projects
     func fetchAllProjects(completion: @escaping(Result<[Project]>) -> Void) {
         let fetchRequest: NSFetchRequest<Project> = Project.fetchRequest()
-        
         do {
             let allProjects = try managedContext.fetch(fetchRequest)
             completion(.success(allProjects))
@@ -63,26 +55,22 @@ class CoreDataStack {
     func fetchTasks(with request: NSFetchRequest<Task> = Task.fetchRequest(), predicate: NSPredicate? = nil, selectedProject: Project, completion: @escaping(Result<[Task]>) -> Void) {
         
         let categoryPredicate = NSPredicate(format: "parentProject == %@", selectedProject)
-//                let sectionSortDescriptor = NSSortDescriptor(key: "title", ascending: true)
-//        
-//                request.sortDescriptors = [sectionSortDescriptor]
+        //                let sectionSortDescriptor = NSSortDescriptor(key: "title", ascending: true)
+        //
+        //                request.sortDescriptors = [sectionSortDescriptor]
         
-//        if let addtionalPredicate = predicate {
-            request.predicate = NSCompoundPredicate(andPredicateWithSubpredicates: [categoryPredicate, predicate!])
-//        } else {
-//            request.predicate = categoryPredicate
-//        }
-        
+        //        if let addtionalPredicate = predicate {
+        request.predicate = NSCompoundPredicate(andPredicateWithSubpredicates: [categoryPredicate, predicate!])
+        //        } else {
+        //            request.predicate = categoryPredicate
+        //        }
         
         do {
             let tasks = try managedContext.fetch(request)
             completion(.success(tasks))
-            
         } catch {
             completion(.failure(error))
         }
-        
-        
     }
 }
 

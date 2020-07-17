@@ -9,8 +9,12 @@ Core Data is used to persistently store user created data, meaning data will not
 ### Features 
 * CRUD(Create, Read, Update, and Delete) plus Search projects 
 * CRUD(Create, Read, Update, and Delete) tasks of projects with ability to toggle between pending and completed
+* Empty field validation 
 * Edit/update a project/task by 3D touch (context menu)
 * Core Data to persist projects and tasks 
+
+### App Demo
+![](Project%20Gif/weatherWalk.gif)
 
 ### Usage
 The user can create a project by giving it a name and color of their choosing to make the project easier to differentiate between them. 

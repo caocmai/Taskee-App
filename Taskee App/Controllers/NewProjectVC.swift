@@ -131,7 +131,6 @@ class NewProjectVC: UIViewController, ButtonBackgroundColorDelegate {
         if setProjectName.text != "" && getColorFromColorGrid != nil {
             return false // This means all fields are filled, and good to go
         }
-        
         return true
     }
     
