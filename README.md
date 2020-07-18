@@ -13,7 +13,7 @@ Core Data is used to persistently store user created data, meaning data will not
 * Edit/update a project/task accessible by 3D touch (context menu)
 * Core Data to persist projects and tasks 
 
-### App Demo
+### App Demo (gif)
 ![](Project%20Gif/Taskee1.gif)
 
 ### Usage

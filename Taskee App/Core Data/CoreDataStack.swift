@@ -39,6 +39,7 @@ class CoreDataStack {
         } catch let error as NSError {
             print("Error: \(error), \(error.userInfo)")
         }
+        
     }
     
     // currently not using to fetch projects
@@ -55,15 +56,15 @@ class CoreDataStack {
     func fetchTasks(with request: NSFetchRequest<Task> = Task.fetchRequest(), predicate: NSPredicate? = nil, selectedProject: Project, completion: @escaping(Result<[Task]>) -> Void) {
         
         let categoryPredicate = NSPredicate(format: "parentProject == %@", selectedProject)
-            let sectionSortDescriptor = NSSortDescriptor(key: "title", ascending: true)
+        let sectionSortDescriptor = NSSortDescriptor(key: "title", ascending: true)
         //
-            request.sortDescriptors = [sectionSortDescriptor]
+        request.sortDescriptors = [sectionSortDescriptor]
         
-        //        if let addtionalPredicate = predicate {
-        request.predicate = NSCompoundPredicate(andPredicateWithSubpredicates: [categoryPredicate, predicate!])
-        //        } else {
-        //            request.predicate = categoryPredicate
-        //        }
+        if let addtionalPredicate = predicate {
+            request.predicate = NSCompoundPredicate(andPredicateWithSubpredicates: [categoryPredicate, addtionalPredicate])
+        } else {
+            request.predicate = categoryPredicate
+        }
         
         do {
             let tasks = try managedContext.fetch(request)

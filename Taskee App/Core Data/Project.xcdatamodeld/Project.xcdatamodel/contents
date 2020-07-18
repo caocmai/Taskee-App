@@ -3,7 +3,7 @@
     <entity name="Project" representedClassName="Project" syncable="YES">
         <attribute name="color" attributeType="Transformable" valueTransformerName=""/>
         <attribute name="name" attributeType="String"/>
-        <relationship name="projectTasks" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="Task" inverseName="parentProject" inverseEntity="Task"/>
+        <relationship name="projectTasks" optional="YES" toMany="YES" deletionRule="Cascade" destinationEntity="Task" inverseName="parentProject" inverseEntity="Task"/>
     </entity>
     <entity name="Task" representedClassName="Task" syncable="YES">
         <attribute name="dueDate" attributeType="Date" usesScalarValueType="NO"/>
