@@ -22,7 +22,7 @@ The user can create a project by giving it a name and color of their choosing to
 The user can then create tasks for that project by giving it a title, image and due date.
 
 ### Run Locally
-Project code can be viewed locally and run in Xcode's simulator by [cloning](https://github.com/caocmai/taskee-app.git) or downloading this repo.
+Project code can be viewed locally and run in Xcode's simulator by cloning or downloading this [repo](https://github.com/caocmai/taskee-app.git).
 
 ## Built With
 * [Xcode - 11.3.1](https://developer.apple.com/xcode/) - The IDE used

@@ -13,7 +13,7 @@ class PreviewViewController: UIViewController {
     var taskTitleLabel: UILabel = {
         let label = UILabel()
         label.translatesAutoresizingMaskIntoConstraints = false
-        label.font = UIFont.systemFont(ofSize: 30)
+        label.font = UIFont.systemFont(ofSize: 35)
         return label
     }()
     var imageView: UIImageView = {
@@ -48,12 +48,12 @@ class PreviewViewController: UIViewController {
         
         NSLayoutConstraint.activate([
             taskTitleLabel.centerXAnchor.constraint(equalTo: view.centerXAnchor),
-            taskTitleLabel.bottomAnchor.constraint(equalTo: imageView.topAnchor, constant: -40)
+            taskTitleLabel.bottomAnchor.constraint(equalTo: imageView.topAnchor, constant: -45)
         ])
         
         NSLayoutConstraint.activate([
             taskDueDateLabel.centerXAnchor.constraint(equalTo: view.centerXAnchor),
-            taskDueDateLabel.topAnchor.constraint(equalTo: imageView.bottomAnchor, constant: 40)
+            taskDueDateLabel.topAnchor.constraint(equalTo: imageView.bottomAnchor, constant: 55)
         ])
     }
     
