@@ -30,7 +30,7 @@ enum customColor {
         case .colorFour:
             return UIColor.color(red: 249, green: 199, blue: 79)
         case .colorFive:
-            return UIColor.color(red: 201, green: 173, blue: 167)
+            return UIColor.color(red: 201, green: 173, blue: 137)
         case .colorSix:
             return UIColor.color(red: 243, green: 114, blue: 44)
         case .colorSeven:

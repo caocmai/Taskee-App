@@ -8,7 +8,7 @@
 
 import UIKit
 
-class ProjectCell: UITableViewCell {
+class CustomCell: UITableViewCell {
     
     static var identifier = "projectCell"
     
@@ -19,7 +19,7 @@ class ProjectCell: UITableViewCell {
         return formatter
     }()
     
-    let projectLabel: UILabel = {
+    let cellTitleLabel: UILabel = {
         let label = UILabel()
         label.translatesAutoresizingMaskIntoConstraints = false
         label.font = UIFont(name: "Kailasa", size: 20)
@@ -32,7 +32,6 @@ class ProjectCell: UITableViewCell {
 //        image.contentMode = .scaleAspectFit
         return image
     }()
-    
     
     let pendingTasksLabel: UILabel = {
         let label = UILabel()
@@ -55,13 +54,13 @@ class ProjectCell: UITableViewCell {
             taskImage.centerYAnchor.constraint(equalTo: self.contentView.centerYAnchor),
             taskImage.widthAnchor.constraint(equalToConstant: 60),
             taskImage.heightAnchor.constraint(equalToConstant: 60),
-            projectLabel.leadingAnchor.constraint(equalTo: self.taskImage.trailingAnchor, constant: 8),
+            cellTitleLabel.leadingAnchor.constraint(equalTo: self.taskImage.trailingAnchor, constant: 8),
             pendingTasksLabel.leadingAnchor.constraint(equalTo: self.taskImage.trailingAnchor, constant: 5)
         ])
 
         taskImage.layer.masksToBounds = true
         taskImage.layer.cornerRadius = 30
-        projectLabel.text = task.title
+        cellTitleLabel.text = task.title
         taskImage.isHidden = false
         taskImage.image = UIImage(data: task.taskImage!)
         
@@ -70,12 +69,11 @@ class ProjectCell: UITableViewCell {
     }
     
     func configureUIForProject(with project: Project) {
-        
-        projectLabel.leadingAnchor.constraint(equalTo: self.contentView.leadingAnchor, constant: 15).isActive = true
+        cellTitleLabel.leadingAnchor.constraint(equalTo: self.contentView.leadingAnchor, constant: 15).isActive = true
         pendingTasksLabel.leadingAnchor.constraint(equalTo: self.contentView.leadingAnchor, constant: 15).isActive = true
         
-        projectLabel.text = project.name
-        projectLabel.textColor = project.color as? UIColor
+        cellTitleLabel.text = project.name
+        cellTitleLabel.textColor = project.color as? UIColor
         accessoryType = .disclosureIndicator
         var pendingTaskCount = 0
         for task in project.projectTasks! {
@@ -99,9 +97,9 @@ class ProjectCell: UITableViewCell {
 
     override func setSelected(_ selected: Bool, animated: Bool) {
         super.setSelected(selected, animated: animated)
-        self.contentView.addSubview(projectLabel)
+        self.contentView.addSubview(cellTitleLabel)
         self.contentView.addSubview(pendingTasksLabel)
-        projectLabel.centerYAnchor.constraint(equalTo: self.contentView.centerYAnchor, constant: -1).isActive = true
+        cellTitleLabel.centerYAnchor.constraint(equalTo: self.contentView.centerYAnchor, constant: -1).isActive = true
         pendingTasksLabel.bottomAnchor.constraint(equalTo: self.contentView.bottomAnchor, constant: -5).isActive = true
     }
 

@@ -181,7 +181,7 @@ class TasksVC: UIViewController {
     private func configureTable() {
         taskTable.delegate = self
         taskTable.dataSource = self
-        taskTable.register(ProjectCell.self, forCellReuseIdentifier: ProjectCell.identifier)
+        taskTable.register(CustomCell.self, forCellReuseIdentifier: CustomCell.identifier)
         self.view.addSubview(taskTable)
         taskTable.separatorStyle = .none
         // Refresh control
@@ -217,7 +217,7 @@ extension TasksVC: UITableViewDelegate, UITableViewDataSource {
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCell(withIdentifier: ProjectCell.identifier, for: indexPath) as! ProjectCell
+        let cell = tableView.dequeueReusableCell(withIdentifier: CustomCell.identifier, for: indexPath) as! CustomCell
         let task = tasks[indexPath.row]
         cell.configureUIForTask(with: task)
         cell.accessoryType = task.status ? .checkmark : .none
@@ -301,19 +301,3 @@ extension TasksVC: UIContextMenuInteractionDelegate {
     }
     
 }
-
-
-// currently not used
-//extension String {
-//
-//    /// Apply strike font on text
-//    func strikeThrough() -> NSAttributedString {
-//        let attributeString = NSMutableAttributedString(string: self)
-//        attributeString.addAttribute(
-//            NSAttributedString.Key.strikethroughStyle,
-//            value: 1,
-//            range: NSRange(location: 0, length: attributeString.length))
-//
-//        return attributeString
-//    }
-//}

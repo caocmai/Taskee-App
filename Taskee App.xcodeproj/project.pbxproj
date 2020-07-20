@@ -27,7 +27,7 @@
 		2CCD2E0A24B3C00700A9940B /* Project+CoreDataProperties.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2CCD2E0624B3C00700A9940B /* Project+CoreDataProperties.swift */; };
 		2CEBDFCC24ABF5240097094F /* TasksVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2CEBDFCB24ABF5240097094F /* TasksVC.swift */; };
 		2CEBDFD024AC19E40097094F /* NewTaskVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2CEBDFCF24AC19E40097094F /* NewTaskVC.swift */; };
-		2CEBDFD224AC45450097094F /* ProjectCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2CEBDFD124AC45450097094F /* ProjectCell.swift */; };
+		2CEBDFD224AC45450097094F /* CustomCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2CEBDFD124AC45450097094F /* CustomCell.swift */; };
 		2CECFAF824AB0B57006564AA /* UIColor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2CECFAF724AB0B57006564AA /* UIColor.swift */; };
 /* End PBXBuildFile section */
 
@@ -54,7 +54,7 @@
 		2CCD2E0624B3C00700A9940B /* Project+CoreDataProperties.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Project+CoreDataProperties.swift"; sourceTree = "<group>"; };
 		2CEBDFCB24ABF5240097094F /* TasksVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TasksVC.swift; sourceTree = "<group>"; };
 		2CEBDFCF24AC19E40097094F /* NewTaskVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewTaskVC.swift; sourceTree = "<group>"; };
-		2CEBDFD124AC45450097094F /* ProjectCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProjectCell.swift; sourceTree = "<group>"; };
+		2CEBDFD124AC45450097094F /* CustomCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomCell.swift; sourceTree = "<group>"; };
 		2CECFAF724AB0B57006564AA /* UIColor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIColor.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -132,7 +132,7 @@
 			isa = PBXGroup;
 			children = (
 				2C9BB4D124A9A55400936C1C /* Main.storyboard */,
-				2CEBDFD124AC45450097094F /* ProjectCell.swift */,
+				2CEBDFD124AC45450097094F /* CustomCell.swift */,
 				2C5258D124B2D164005D662D /* ColorGrid.swift */,
 			);
 			path = Views;
@@ -238,7 +238,7 @@
 				2C9BB4CC24A9A55400936C1C /* AppDelegate.swift in Sources */,
 				2CCD2E0924B3C00700A9940B /* Project+CoreDataClass.swift in Sources */,
 				2CCD2E0A24B3C00700A9940B /* Project+CoreDataProperties.swift in Sources */,
-				2CEBDFD224AC45450097094F /* ProjectCell.swift in Sources */,
+				2CEBDFD224AC45450097094F /* CustomCell.swift in Sources */,
 				2CEBDFCC24ABF5240097094F /* TasksVC.swift in Sources */,
 				2C4ED4B624ABD6B800FD05D4 /* CoreDataStack.swift in Sources */,
 				2C5258D624B2E419005D662D /* CustomColor.swift in Sources */,

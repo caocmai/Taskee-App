@@ -17,6 +17,13 @@ class ProjectsVC: UIViewController, NSFetchedResultsControllerDelegate {
         let newTable = UITableView()
         return newTable
     }()
+    let notifyEmptyTableLabel: UILabel = {
+        let label = UILabel()
+        label.translatesAutoresizingMaskIntoConstraints = false
+        label.font = UIFont.systemFont(ofSize: 20)
+        label.textColor = .gray
+        return label
+    }()
     
     lazy var fetchedResultsController: NSFetchedResultsController<Project> = {
         let fetchRequest: NSFetchRequest<Project> = Project.fetchRequest()
@@ -39,7 +46,7 @@ class ProjectsVC: UIViewController, NSFetchedResultsControllerDelegate {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        configureNavBar()
+        configureNavBarAndSearch()
         configureTable()
     }
     
@@ -56,7 +63,24 @@ class ProjectsVC: UIViewController, NSFetchedResultsControllerDelegate {
         self.table.reloadData()
     }
     
-    private func configureNavBar() {
+    private func setupUIForEmptyProjects(withDuration time: Double) {
+        self.view.addSubview(notifyEmptyTableLabel)
+        NSLayoutConstraint.activate([
+            notifyEmptyTableLabel.centerYAnchor.constraint(equalTo: self.view.centerYAnchor),
+            notifyEmptyTableLabel.centerXAnchor.constraint(equalTo: self.view.centerXAnchor)
+        ])
+        
+        notifyEmptyTableLabel.transform = CGAffineTransform(scaleX: 0, y: 0)
+        notifyEmptyTableLabel.text = "Add A Project To Track"
+        
+        UIView.animate(withDuration: time, delay: 0.0,
+                       usingSpringWithDamping: 0.6, initialSpringVelocity: 0.0, options: [],
+                       animations: {
+                        self.notifyEmptyTableLabel.transform = CGAffineTransform(scaleX: 1, y: 1)},
+                       completion: nil)
+    }
+    
+    private func configureNavBarAndSearch() {
         self.view.backgroundColor = .white
         self.navigationController?.navigationBar.prefersLargeTitles = true
         self.title = "All Projects"
@@ -72,7 +96,7 @@ class ProjectsVC: UIViewController, NSFetchedResultsControllerDelegate {
     }
     
     private func configureCell(cell: UITableViewCell, for indexPath: IndexPath) {
-        guard let cell = cell as? ProjectCell else { return }
+        guard let cell = cell as? CustomCell else { return }
         let project = fetchedResultsController.object(at: indexPath)
         cell.configureUIForProject(with: project)
     }
@@ -80,7 +104,7 @@ class ProjectsVC: UIViewController, NSFetchedResultsControllerDelegate {
     private func configureTable() {
         view.addSubview(self.table)
         table.frame = self.view.bounds
-        table.register(ProjectCell.self, forCellReuseIdentifier: ProjectCell.identifier)
+        table.register(CustomCell.self, forCellReuseIdentifier: CustomCell.identifier)
         table.delegate = self
         table.dataSource = self
         table.separatorStyle = .none
@@ -115,14 +139,19 @@ extension ProjectsVC: UITableViewDelegate, UITableViewDataSource {
     //
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         //        return projects.count
-        guard let sectionInfo = fetchedResultsController.sections?[section] else { return 0
+        guard let sectionInfo = fetchedResultsController.sections?[section] else { return 0 }
+        
+        if sectionInfo.numberOfObjects == 0 {
+            setupUIForEmptyProjects(withDuration: 1.20)
+        } else {
+            notifyEmptyTableLabel.removeFromSuperview()
         }
         
         return sectionInfo.numberOfObjects
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCell(withIdentifier: ProjectCell.identifier, for: indexPath)
+        let cell = tableView.dequeueReusableCell(withIdentifier: CustomCell.identifier, for: indexPath)
         cell.imageView?.isHidden = true
         configureCell(cell: cell, for: indexPath)
         return cell
@@ -167,7 +196,7 @@ extension ProjectsVC {
             table.deleteRows(at: [indexPath!], with: .automatic)
         case .update:
             //            table.reloadRows(at: [indexPath!], with: .automatic)
-            let cell = table.cellForRow(at: indexPath!) as! ProjectCell
+            let cell = table.cellForRow(at: indexPath!) as! CustomCell
             configureCell(cell: cell, for: indexPath!)
         case .move:
             table.deleteRows(at: [indexPath!], with: .automatic)
@@ -205,15 +234,15 @@ extension ProjectsVC: UIContextMenuInteractionDelegate {
     
     func contextMenuInteraction(_ interaction: UIContextMenuInteraction,
                                 configurationForMenuAtLocation location: CGPoint)
-                                -> UIContextMenuConfiguration? {
-        return nil
+        -> UIContextMenuConfiguration? {
+            return nil
     }
     
     func tableView(_ tableView: UITableView,
                    contextMenuConfigurationForRowAt indexPath: IndexPath,
                    point: CGPoint) -> UIContextMenuConfiguration? {
         
-        let favorite = UIAction(title: "Edit...") { _ in
+        let edit = UIAction(title: "Edit...") { _ in
             let editVC = NewProjectVC()
             let project = self.fetchedResultsController.object(at: indexPath)
             editVC.selectedProject = project
@@ -229,9 +258,9 @@ extension ProjectsVC: UIContextMenuInteractionDelegate {
             self.coreDataStack.managedContext.delete(project)
             self.coreDataStack.saveContext()
         }
-
+        
         return UIContextMenuConfiguration(identifier: nil, previewProvider: nil) { _ in
-            UIMenu(title: "Actions", children: [favorite, delete])
+            UIMenu(title: "Actions", children: [edit, delete])
         }
     }
 }

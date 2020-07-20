@@ -153,7 +153,6 @@ class ColorGrid: UIView {
         for buttonColor in buttons where buttonColor != sender {
             createBorder(buttonColor)
         }
-        
     }
     
     func checkMatchAndHighlight(with color: UIColor) {
