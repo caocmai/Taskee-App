@@ -29,7 +29,7 @@ Project code can be viewed locally and run in Xcode's simulator by cloning or do
 * [Swift - 5.1.4](https://developer.apple.com/swift/) - Programming language
 
 ## Author
-* Cao Mai - [portfolio](https://www.makeschool.com/portfolio/Cao-Mai)
+* Cao Mai - [Portfolio](https://www.makeschool.com/portfolio/Cao-Mai)
 
 ## License
 This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details
