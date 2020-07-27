@@ -273,7 +273,7 @@ extension TasksVC: UIContextMenuInteractionDelegate {
     
     func tableView(_ tableView: UITableView, contextMenuConfigurationForRowAt indexPath: IndexPath, point: CGPoint) -> UIContextMenuConfiguration? {
         let configuration = UIContextMenuConfiguration(identifier: nil, previewProvider: { () -> UIViewController? in
-            let preview = PreviewViewController()
+            let preview = PreviewVC()
             let object = self.tasks[indexPath.row]
             preview.taskTitleLabel.text = object.title
             preview.imageView.image = UIImage(data: object.taskImage!)

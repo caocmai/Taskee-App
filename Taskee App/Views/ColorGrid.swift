@@ -8,7 +8,7 @@
 
 import UIKit
 
-protocol ButtonBackgroundColorDelegate {
+protocol ButtonBackgroundColorProtocol {
     func getButtonColor(buttonColor: UIColor)
 }
 
@@ -20,7 +20,7 @@ class ColorGrid: UIView {
      private var secondRow = UIStackView()
      private var thirdRow = UIStackView()
     
-    var delegate: ButtonBackgroundColorDelegate!
+    var delegate: ButtonBackgroundColorProtocol!
     
      private let colorOne = UIButton()
      private let colorTwo = UIButton()

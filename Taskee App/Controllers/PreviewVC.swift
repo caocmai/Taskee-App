@@ -8,7 +8,7 @@
 
 import UIKit
 
-class PreviewViewController: UIViewController {
+class PreviewVC: UIViewController {
     
     var taskTitleLabel: UILabel = {
         let label = UILabel()

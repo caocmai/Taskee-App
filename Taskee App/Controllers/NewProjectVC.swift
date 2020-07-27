@@ -8,7 +8,7 @@
 
 import UIKit
 
-class NewProjectVC: UIViewController, ButtonBackgroundColorDelegate {
+class NewProjectVC: UIViewController, ButtonBackgroundColorProtocol {
     
     var selectedProject: Project?
     let colorGrid = ColorGrid()
@@ -48,9 +48,9 @@ class NewProjectVC: UIViewController, ButtonBackgroundColorDelegate {
         UITextField.connectFields(fields: [setProjectName])
     }
     
-    func getButtonColor(buttonColor: UIColor) {
+    func getButtonColor(buttonColor: UIColor) { // from protocol/delegate
         self.view.backgroundColor = buttonColor
-        self.getColorFromColorGrid = buttonColor
+        getColorFromColorGrid = buttonColor
     }
     
     private func editProjectSetup(){
@@ -59,7 +59,7 @@ class NewProjectVC: UIViewController, ButtonBackgroundColorDelegate {
             getColorFromColorGrid = selectedProject?.color as? UIColor
             view.backgroundColor = selectedProject?.color as? UIColor
             self.title = "Edit \(selectedProject?.name ?? "Unnamed")"
-            self.saveButton.setTitle("Update", for: .normal)
+            saveButton.setTitle("Update", for: .normal)
             colorGrid.checkMatchAndHighlight(with: (selectedProject?.color as? UIColor)!)
         } else {
             self.title = "Create A New Project"
@@ -80,10 +80,10 @@ class NewProjectVC: UIViewController, ButtonBackgroundColorDelegate {
         colorGrid.delegate = self
         
         NSLayoutConstraint.activate([
-            self.colorGrid.centerXAnchor.constraint(equalTo: self.view.centerXAnchor),
-            self.colorGrid.centerYAnchor.constraint(equalTo: self.view.centerYAnchor),
-            self.colorGrid.heightAnchor.constraint(equalToConstant: self.view.frame.width / 1.65),
-            self.colorGrid.widthAnchor.constraint(equalToConstant: self.view.frame.width / 1.65)
+            colorGrid.centerXAnchor.constraint(equalTo: self.view.centerXAnchor),
+            colorGrid.centerYAnchor.constraint(equalTo: self.view.centerYAnchor),
+            colorGrid.heightAnchor.constraint(equalToConstant: self.view.frame.width / 1.65),
+            colorGrid.widthAnchor.constraint(equalToConstant: self.view.frame.width / 1.65)
         ])
     }
     
@@ -102,10 +102,10 @@ class NewProjectVC: UIViewController, ButtonBackgroundColorDelegate {
         self.saveButton.addTarget(self, action: #selector(saveButtonTapped), for: .touchUpInside)
         
         NSLayoutConstraint.activate([
-            self.saveButton.topAnchor.constraint(equalTo: self.colorGrid.bottomAnchor, constant: 70),
-            self.saveButton.leadingAnchor.constraint(equalTo: self.view.leadingAnchor, constant: 45),
-            self.saveButton.trailingAnchor.constraint(equalTo: self.view.trailingAnchor, constant: -45),
-            self.saveButton.heightAnchor.constraint(equalToConstant: 48)
+            saveButton.topAnchor.constraint(equalTo: self.colorGrid.bottomAnchor, constant: 70),
+            saveButton.leadingAnchor.constraint(equalTo: self.view.leadingAnchor, constant: 45),
+            saveButton.trailingAnchor.constraint(equalTo: self.view.trailingAnchor, constant: -45),
+            saveButton.heightAnchor.constraint(equalToConstant: 48)
 //            self.saveButton.centerXAnchor.constraint(equalTo: self.view.centerXAnchor)
         ])
     }
