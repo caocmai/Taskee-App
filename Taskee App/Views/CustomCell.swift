@@ -64,11 +64,12 @@ class CustomCell: UITableViewCell {
         taskImage.isHidden = false
         taskImage.image = UIImage(data: task.taskImage!)
         
-        pendingTasksLabel.text = task.status ? "Completed on \(dateFormatter.string(from: task.dueDate!))" : "Due by \(dateFormatter.string(from: task.dueDate!))"
+        pendingTasksLabel.text = task.status ? "Completed on \(dateFormatter.string(from: task.dateComplete!))" : "Due by \(dateFormatter.string(from: task.dueDate!))"
         pendingTasksLabel.textColor = #colorLiteral(red: 0.6000000238, green: 0.6000000238, blue: 0.6000000238, alpha: 1)
     }
     
     func configureUIForProject(with project: Project) {
+        print(project.taskCount)
         cellTitleLabel.leadingAnchor.constraint(equalTo: self.contentView.leadingAnchor, constant: 15).isActive = true
         pendingTasksLabel.leadingAnchor.constraint(equalTo: self.contentView.leadingAnchor, constant: 15).isActive = true
         

@@ -226,8 +226,17 @@ extension TasksVC: UITableViewDelegate, UITableViewDataSource {
     }
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        tasks[indexPath.row].status = !tasks[indexPath.row].status
-        tasks[indexPath.row].setValue(Date(), forKey: "dueDate")
+        let selectedTask = tasks[indexPath.row]
+        selectedTask.status = !selectedTask.status
+        selectedTask.setValue(Date(), forKey: #keyPath(Task.dateComplete))
+        
+        if selectedTask.status {
+            selectedTask.parentProject?.taskCount -= 1
+        } else {
+            selectedTask.parentProject?.taskCount += 1
+        }
+        
+        
         coreDataStack.saveContext()
         taskTable.reloadData() // To get checkmark to show
     }
@@ -247,6 +256,7 @@ extension TasksVC: UITableViewDelegate, UITableViewDataSource {
     }
     
     private func deleteTask(with task: Task, at indexPath: IndexPath) {
+        task.parentProject?.taskCount -= 1
         coreDataStack.managedContext.delete(task)
         tasks.remove(at: indexPath.row)
         taskTable.deleteRows(at: [indexPath], with: .fade)
