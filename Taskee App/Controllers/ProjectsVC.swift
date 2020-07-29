@@ -30,8 +30,9 @@ class ProjectsVC: UIViewController, NSFetchedResultsControllerDelegate {
         let nameSort = NSSortDescriptor(key: #keyPath(Project.name), ascending: true)
         // Will crash when saving object if activated; seems like can't sort by color
         let colorSort = NSSortDescriptor(key: #keyPath(Project.color), ascending: true)
+        let taskCountSort = NSSortDescriptor(key: #keyPath(Project.taskCount), ascending: false)
         
-        fetchRequest.sortDescriptors = [nameSort]
+        fetchRequest.sortDescriptors = [taskCountSort, nameSort]
         
         let fetchedResultsController = NSFetchedResultsController(
             fetchRequest: fetchRequest,

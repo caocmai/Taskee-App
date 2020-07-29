@@ -64,7 +64,7 @@ class CustomCell: UITableViewCell {
         taskImage.isHidden = false
         taskImage.image = UIImage(data: task.taskImage!)
         
-        pendingTasksLabel.text = task.status ? "Completed on \(dateFormatter.string(from: task.dateComplete!))" : "Due by \(dateFormatter.string(from: task.dueDate!))"
+        pendingTasksLabel.text = task.status ? "Completed on \(dateFormatter.string(from: task.dateCompleted!))" : "Due by \(dateFormatter.string(from: task.dueDate!))"
         pendingTasksLabel.textColor = #colorLiteral(red: 0.6000000238, green: 0.6000000238, blue: 0.6000000238, alpha: 1)
     }
     

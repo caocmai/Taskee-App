@@ -228,7 +228,7 @@ extension TasksVC: UITableViewDelegate, UITableViewDataSource {
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         let selectedTask = tasks[indexPath.row]
         selectedTask.status = !selectedTask.status
-        selectedTask.setValue(Date(), forKey: #keyPath(Task.dateComplete))
+        selectedTask.setValue(Date(), forKey: #keyPath(Task.dateCompleted))
         
         if selectedTask.status {
             selectedTask.parentProject?.taskCount -= 1

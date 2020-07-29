@@ -7,7 +7,7 @@
         <relationship name="projectTasks" optional="YES" toMany="YES" deletionRule="Cascade" destinationEntity="Task" inverseName="parentProject" inverseEntity="Task"/>
     </entity>
     <entity name="Task" representedClassName="Task" syncable="YES">
-        <attribute name="dateComplete" optional="YES" attributeType="Date" usesScalarValueType="NO"/>
+        <attribute name="dateCompleted" optional="YES" attributeType="Date" usesScalarValueType="NO"/>
         <attribute name="dueDate" attributeType="Date" usesScalarValueType="NO"/>
         <attribute name="status" attributeType="Boolean" usesScalarValueType="YES"/>
         <attribute name="taskImage" optional="YES" attributeType="Binary" allowsExternalBinaryDataStorage="YES"/>

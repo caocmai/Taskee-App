@@ -17,11 +17,11 @@ extension Task {
         return NSFetchRequest<Task>(entityName: "Task")
     }
 
+    @NSManaged public var dateCompleted: Date?
     @NSManaged public var dueDate: Date?
     @NSManaged public var status: Bool
     @NSManaged public var taskImage: Data?
     @NSManaged public var title: String?
-    @NSManaged public var dateComplete: Date?
     @NSManaged public var parentProject: Project?
 
 }

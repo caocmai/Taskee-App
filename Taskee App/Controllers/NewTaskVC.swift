@@ -170,7 +170,7 @@ class NewTaskVC: UIViewController, UITextFieldDelegate {
         ])
     
         NSLayoutConstraint.activate([
-            saveButton.topAnchor.constraint(equalTo: dateTextField.bottomAnchor, constant: 45),
+            saveButton.topAnchor.constraint(equalTo: dateTextField.bottomAnchor, constant: 55),
             saveButton.heightAnchor.constraint(equalToConstant: 48),
             saveButton.leadingAnchor.constraint(equalTo: self.view.leadingAnchor, constant: 45),
             saveButton.trailingAnchor.constraint(equalTo: self.view.trailingAnchor, constant: -45),
