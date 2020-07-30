@@ -36,7 +36,7 @@ class ProjectsVC: UIViewController, NSFetchedResultsControllerDelegate {
         
         let fetchedResultsController = NSFetchedResultsController(
             fetchRequest: fetchRequest,
-            managedObjectContext: coreDataStack.managedContext, sectionNameKeyPath: nil,
+            managedObjectContext: coreDataStack.managedContext, sectionNameKeyPath: #keyPath(Project.taskCount),
             cacheName: nil)
         
         fetchedResultsController.delegate = self // Use to detect changes and don't have to manually reload data
@@ -133,11 +133,31 @@ class ProjectsVC: UIViewController, NSFetchedResultsControllerDelegate {
 // - MARK: UITableView
 extension ProjectsVC: UITableViewDelegate, UITableViewDataSource {
     
-    //    func numberOfSections(in tableView: UITableView) -> Int {
-    //
-    //        return fetchedResultsController.sections?.count ?? 0
-    //    }
-    //
+        func numberOfSections(in tableView: UITableView) -> Int {
+    
+            return fetchedResultsController.sections?.count ?? 0
+        }
+    
+    
+    func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
+      let sectionInfo = fetchedResultsController.sections?[section]
+        print(sectionInfo?.numberOfObjects)
+          return sectionInfo?.name
+        
+//        case switch zone.
+//        if zone.name == "Tes" {
+//        return "No Africa mon"
+//        } else {
+//        return "Default"
+//        }
+      
+      //OR
+      //    let sectionInfo = fetchedResultsController.sections?[section]
+      //    return sectionInfo?.name
+      
+      
+    }
+    
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         //        return projects.count
         guard let sectionInfo = fetchedResultsController.sections?[section] else { return 0 }
