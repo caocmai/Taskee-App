@@ -150,8 +150,12 @@ class TasksVC: UIViewController {
         switch (segmentedControl.selectedSegmentIndex) {
         case 0:  // First segment tapped
             getPendingTasks()
+//            print(tasks)
+//            print(tasks.count)
         case 1:  // Second segment tapped
             getFinshedTasks()
+//            print(tasks)
+//            print(tasks.count)
         default:
             break
         }
@@ -213,7 +217,7 @@ class TasksVC: UIViewController {
 
 extension TasksVC: UITableViewDelegate, UITableViewDataSource {
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return self.tasks.count
+        return tasks.count
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
@@ -226,19 +230,25 @@ extension TasksVC: UITableViewDelegate, UITableViewDataSource {
     }
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        print("slected")
         let selectedTask = tasks[indexPath.row]
+//        print(selectedTask)
         selectedTask.status = !selectedTask.status
-        selectedTask.setValue(Date(), forKey: #keyPath(Task.dateCompleted))
-        
+        selectedTask.dateCompleted = Date()
+
         if selectedTask.status {
             selectedTask.parentProject?.taskCount -= 1
+            print("status ture")
+            print(selectedTask.parentProject?.taskCount)
         } else {
+            print("status false")
             selectedTask.parentProject?.taskCount += 1
+            print(selectedTask.parentProject?.taskCount)
         }
-        
-        
+
         coreDataStack.saveContext()
         taskTable.reloadData() // To get checkmark to show
+
     }
     
     func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCell.EditingStyle, forRowAt indexPath: IndexPath) {

@@ -52,7 +52,7 @@ class ProjectsVC: UIViewController, NSFetchedResultsControllerDelegate {
     }
     
     override func viewWillAppear(_ animated: Bool) {
-        self.fetchProjects()
+        fetchProjects()
     }
     
     private func fetchProjects() {
@@ -61,7 +61,7 @@ class ProjectsVC: UIViewController, NSFetchedResultsControllerDelegate {
         } catch let error as NSError {
             print("Fetching error: \(error), \(error.userInfo)")
         }
-        self.table.reloadData()
+        table.reloadData()
     }
     
     private func setupUIForEmptyProjects(withDuration time: Double) {
@@ -106,6 +106,7 @@ class ProjectsVC: UIViewController, NSFetchedResultsControllerDelegate {
         view.addSubview(table)
         table.frame = self.view.bounds
         table.register(CustomCell.self, forCellReuseIdentifier: CustomCell.identifier)
+        table.register(MyCustomHeader.self, forHeaderFooterViewReuseIdentifier: MyCustomHeader.identifier)
         table.delegate = self
         table.dataSource = self
         table.separatorStyle = .none
@@ -134,14 +135,15 @@ class ProjectsVC: UIViewController, NSFetchedResultsControllerDelegate {
 extension ProjectsVC: UITableViewDelegate, UITableViewDataSource {
     
     func numberOfSections(in tableView: UITableView) -> Int {
-        
+        print(fetchedResultsController.sections?.count)
         return fetchedResultsController.sections?.count ?? 0
     }
     
     
     func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
+        
         let sectionInfo = fetchedResultsController.sections?[section]
-        print(sectionInfo?.numberOfObjects)
+        //        print(sectionInfo?.numberOfObjects)
         return sectionInfo?.name
         
         //        case switch zone.
@@ -157,10 +159,19 @@ extension ProjectsVC: UITableViewDelegate, UITableViewDataSource {
         
     }
     
+    //    func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
+    //        let headerView = tableView.dequeueReusableHeaderFooterView(withIdentifier:
+    //            "sectionHeader") as! MyCustomHeader
+    //        let sectionInfo = fetchedResultsController.sections?[section]
+    //        headerView.title.text = sectionInfo?.name
+    //        return headerView
+    //    }
+    
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         //        return projects.count
         guard let sectionInfo = fetchedResultsController.sections?[section] else { return 0 }
-        
+        print("here")
+        print(sectionInfo.numberOfObjects)
         if sectionInfo.numberOfObjects == 0 {
             setupUIForEmptyProjects(withDuration: 1.20)
         } else {
@@ -230,21 +241,21 @@ extension ProjectsVC {
         table.endUpdates()
     }
     
-    //    func controller(_ controller: NSFetchedResultsController<NSFetchRequestResult>,
-    //                    didChange sectionInfo: NSFetchedResultsSectionInfo,
-    //                    atSectionIndex sectionIndex: Int,
-    //                    for type: NSFetchedResultsChangeType) {
-    //
-    //        let indexSet = IndexSet(integer: sectionIndex)
-    //
-    //        switch type {
-    //        case .insert:
-    //            table.insertSections(indexSet, with: .automatic)
-    //        case .delete:
-    //            table.deleteSections(indexSet, with: .automatic)
-    //        default: break
-    //        }
-    //    }
+    func controller(_ controller: NSFetchedResultsController<NSFetchRequestResult>,
+                    didChange sectionInfo: NSFetchedResultsSectionInfo,
+                    atSectionIndex sectionIndex: Int,
+                    for type: NSFetchedResultsChangeType) {
+        
+        let indexSet = IndexSet(integer: sectionIndex)
+        
+        switch type {
+        case .insert:
+            table.insertSections(indexSet, with: .automatic)
+        case .delete:
+            table.deleteSections(indexSet, with: .automatic)
+        default: break
+        }
+    }
     
 }
 
