@@ -69,7 +69,7 @@ class CustomCell: UITableViewCell {
     }
     
     func configureUIForProject(with project: Project) {
-        print(project.taskCount)
+//        print(project.taskCount)
         cellTitleLabel.leadingAnchor.constraint(equalTo: self.contentView.leadingAnchor, constant: 15).isActive = true
         pendingTasksLabel.leadingAnchor.constraint(equalTo: self.contentView.leadingAnchor, constant: 15).isActive = true
         

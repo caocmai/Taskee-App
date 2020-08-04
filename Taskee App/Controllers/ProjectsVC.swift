@@ -103,7 +103,7 @@ class ProjectsVC: UIViewController, NSFetchedResultsControllerDelegate {
     }
     
     private func configureTable() {
-        view.addSubview(self.table)
+        view.addSubview(table)
         table.frame = self.view.bounds
         table.register(CustomCell.self, forCellReuseIdentifier: CustomCell.identifier)
         table.delegate = self
@@ -113,12 +113,12 @@ class ProjectsVC: UIViewController, NSFetchedResultsControllerDelegate {
         // Refresh added to tableview
         let refreshControl = UIRefreshControl()
         refreshControl.addTarget(self, action: #selector(refresh), for: .valueChanged)
-        self.table.refreshControl = refreshControl
+        table.refreshControl = refreshControl
     }
     
     @objc func refresh() {
-        self.fetchProjects()
-        self.table.refreshControl?.endRefreshing()
+        fetchProjects()
+        table.refreshControl?.endRefreshing()
     }
     
     @objc func addProjectTapped(){
@@ -133,29 +133,28 @@ class ProjectsVC: UIViewController, NSFetchedResultsControllerDelegate {
 // - MARK: UITableView
 extension ProjectsVC: UITableViewDelegate, UITableViewDataSource {
     
-        func numberOfSections(in tableView: UITableView) -> Int {
-    
-            return fetchedResultsController.sections?.count ?? 0
-        }
+    func numberOfSections(in tableView: UITableView) -> Int {
+        
+        return fetchedResultsController.sections?.count ?? 0
+    }
     
     
     func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
-      let sectionInfo = fetchedResultsController.sections?[section]
+        let sectionInfo = fetchedResultsController.sections?[section]
         print(sectionInfo?.numberOfObjects)
-          return sectionInfo?.name
+        return sectionInfo?.name
         
-//        case switch zone.
-//        if zone.name == "Tes" {
-//        return "No Africa mon"
-//        } else {
-//        return "Default"
-//        }
-      
-      //OR
-      //    let sectionInfo = fetchedResultsController.sections?[section]
-      //    return sectionInfo?.name
-      
-      
+        //        case switch zone.
+        //        if zone.name == "Tes" {
+        //        return "No Africa mon"
+        //        } else {
+        //        return "Default"
+        //        }
+        
+        //OR
+        //    let sectionInfo = fetchedResultsController.sections?[section]
+        //    return sectionInfo?.name
+        
     }
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
