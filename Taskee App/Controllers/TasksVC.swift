@@ -266,7 +266,9 @@ extension TasksVC: UITableViewDelegate, UITableViewDataSource {
     }
     
     private func deleteTask(with task: Task, at indexPath: IndexPath) {
+        if !task.status {
         task.parentProject?.taskCount -= 1
+        }
         coreDataStack.managedContext.delete(task)
         tasks.remove(at: indexPath.row)
         taskTable.deleteRows(at: [indexPath], with: .fade)
@@ -294,12 +296,10 @@ extension TasksVC: UIContextMenuInteractionDelegate {
     func tableView(_ tableView: UITableView, contextMenuConfigurationForRowAt indexPath: IndexPath, point: CGPoint) -> UIContextMenuConfiguration? {
         let configuration = UIContextMenuConfiguration(identifier: nil, previewProvider: { () -> UIViewController? in
             let preview = PreviewVC()
-            let object = self.tasks[indexPath.row]
-            preview.taskTitleLabel.text = object.title
-            preview.imageView.image = UIImage(data: object.taskImage!)
-            preview.taskDueDateLabel.text = object.status ? "Completed on \(self.dateFormatter.string(from: object.dueDate!))" : "Due by \(self.dateFormatter.string(from: object.dueDate!))"
-            preview.taskDueDateLabel.textColor = object.status ? #colorLiteral(red: 0.2980392157, green: 0.7843137255, blue: 0.262745098, alpha: 1) : .black
+            let previewTask = self.tasks[indexPath.row]
+            preview.configureTask(with: previewTask)
             return preview
+            
         }) { _ -> UIMenu? in
             let edit = UIAction(title: "Edit...", image: nil) { action in
                 self.dismiss(animated: false, completion: nil)
@@ -310,7 +310,7 @@ extension TasksVC: UIContextMenuInteractionDelegate {
             }
             
             let delete = UIAction(title: "Delete", image: UIImage(systemName: "trash"), identifier: .none, discoverabilityTitle: .none, attributes: .destructive, state: .off) { (_) in
-                print("del")
+//                print("del")
                 let task = self.tasks[indexPath.row]
                 self.deleteTask(with: task, at: indexPath)
             }

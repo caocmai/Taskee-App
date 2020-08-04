@@ -31,6 +31,13 @@ class PreviewVC: UIViewController {
         return label
     }()
     
+    lazy var dateFormatter: DateFormatter = {
+        let formatter = DateFormatter()
+        formatter.dateStyle = .short
+        formatter.timeStyle = .short
+        return formatter
+    }()
+    
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -55,6 +62,13 @@ class PreviewVC: UIViewController {
             taskDueDateLabel.centerXAnchor.constraint(equalTo: view.centerXAnchor),
             taskDueDateLabel.topAnchor.constraint(equalTo: imageView.bottomAnchor, constant: 55)
         ])
+    }
+    
+    func configureTask(with task: Task){
+        taskTitleLabel.text = task.title
+        imageView.image = UIImage(data: task.taskImage!)
+        taskDueDateLabel.text = task.status ? "Completed on \(dateFormatter.string(from: task.dateCompleted!))" : "Due by \(dateFormatter.string(from: task.dueDate!))"
+        taskDueDateLabel.textColor = task.status ? #colorLiteral(red: 0.2980392157, green: 0.7843137255, blue: 0.262745098, alpha: 1) : .black
     }
     
 }
