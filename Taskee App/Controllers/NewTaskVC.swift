@@ -254,7 +254,8 @@ class NewTaskVC: UIViewController, UITextFieldDelegate {
         newTask.title = setTitle.text
         newTask.taskImage = imageView.image!.pngData()
         newTask.parentProject = self.parentObject
-        newTask.parentProject?.taskCount = 1
+        newTask.parentProject?.taskCount += 1
+        newTask.parentProject?.projectStatus = "0Pending Tasks"
         coreDataStack?.saveContext()
     }
 

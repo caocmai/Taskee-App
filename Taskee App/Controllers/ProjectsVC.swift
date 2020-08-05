@@ -31,12 +31,13 @@ class ProjectsVC: UIViewController, NSFetchedResultsControllerDelegate {
         // Will crash when saving object if activated; seems like can't sort by color
         let colorSort = NSSortDescriptor(key: #keyPath(Project.color), ascending: true)
         let taskCountSort = NSSortDescriptor(key: #keyPath(Project.taskCount), ascending: false)
+        let projectStatusSort = NSSortDescriptor(key: #keyPath(Project.projectStatus), ascending: true)
         
-        fetchRequest.sortDescriptors = [taskCountSort, nameSort]
+        fetchRequest.sortDescriptors = [projectStatusSort, taskCountSort, nameSort]
         
         let fetchedResultsController = NSFetchedResultsController(
             fetchRequest: fetchRequest,
-            managedObjectContext: coreDataStack.managedContext, sectionNameKeyPath: #keyPath(Project.taskCount),
+            managedObjectContext: coreDataStack.managedContext, sectionNameKeyPath: #keyPath(Project.projectStatus),
             cacheName: nil)
         
         fetchedResultsController.delegate = self // Use to detect changes and don't have to manually reload data
@@ -146,32 +147,32 @@ extension ProjectsVC: UITableViewDelegate, UITableViewDataSource {
     }
     
     
-    func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
-        
-        let sectionInfo = fetchedResultsController.sections?[section]
-        print(sectionInfo?.name)
-        return sectionInfo?.name
-        
-        //        case switch zone.
-        //        if zone.name == "Tes" {
-        //        return "No Africa mon"
-        //        } else {
-        //        return "Default"
-        //        }
-        
-        //OR
-        //    let sectionInfo = fetchedResultsController.sections?[section]
-        //    return sectionInfo?.name
-        
-    }
+//    func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
+//
+//        let sectionInfo = fetchedResultsController.sections?[section]
+////        print(sectionInfo?.name)
+//        return sectionInfo?.name
+//
+//        //        case switch zone.
+//        //        if zone.name == "Tes" {
+//        //        return "No Africa mon"
+//        //        } else {
+//        //        return "Default"
+//        //        }
+//
+//        //OR
+//        //    let sectionInfo = fetchedResultsController.sections?[section]
+//        //    return sectionInfo?.name
+//
+//    }
     
-    //    func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
-    //        let headerView = tableView.dequeueReusableHeaderFooterView(withIdentifier:
-    //            "sectionHeader") as! MyCustomHeader
-    //        let sectionInfo = fetchedResultsController.sections?[section]
-    //        headerView.title.text = sectionInfo?.name
-    //        return headerView
-    //    }
+        func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
+            let headerView = tableView.dequeueReusableHeaderFooterView(withIdentifier:
+                "sectionHeader") as! MyCustomHeader
+            let sectionInfo = fetchedResultsController.sections?[section]
+            headerView.title.text = sectionInfo?.name
+            return headerView
+        }
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         guard let sectionInfo = fetchedResultsController.sections?[section] else { return 0 }

@@ -3,7 +3,8 @@
     <entity name="Project" representedClassName="Project" syncable="YES">
         <attribute name="color" attributeType="Transformable" valueTransformerName=""/>
         <attribute name="name" attributeType="String"/>
-        <attribute name="taskCount" optional="YES" attributeType="Integer 16" defaultValueString="0" usesScalarValueType="YES"/>
+        <attribute name="projectStatus" attributeType="String" defaultValueString="1Task Not Set"/>
+        <attribute name="taskCount" attributeType="Integer 16" defaultValueString="0" usesScalarValueType="YES"/>
         <relationship name="projectTasks" optional="YES" toMany="YES" deletionRule="Cascade" destinationEntity="Task" inverseName="parentProject" inverseEntity="Task"/>
     </entity>
     <entity name="Task" representedClassName="Task" syncable="YES">
@@ -15,7 +16,7 @@
         <relationship name="parentProject" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="Project" inverseName="projectTasks" inverseEntity="Project"/>
     </entity>
     <elements>
-        <element name="Project" positionX="-382.25" positionY="10.8984375" width="128" height="103"/>
+        <element name="Project" positionX="-382.25" positionY="10.8984375" width="128" height="118"/>
         <element name="Task" positionX="-61.32421875" positionY="-19.3046875" width="128" height="133"/>
     </elements>
 </model>
