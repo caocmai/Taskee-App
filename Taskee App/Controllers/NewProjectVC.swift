@@ -144,6 +144,7 @@ class NewProjectVC: UIViewController, ButtonBackgroundColorProtocol {
                 let newProject = Project(context: coreDataStack!.managedContext)
                 newProject.name = setProjectName.text
                 newProject.color = getColorFromColorGrid
+                newProject.taskCount = -1
                 coreDataStack?.saveContext()
             }
             dismiss(animated: true, completion: nil)

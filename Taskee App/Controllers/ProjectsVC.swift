@@ -135,7 +135,13 @@ class ProjectsVC: UIViewController, NSFetchedResultsControllerDelegate {
 extension ProjectsVC: UITableViewDelegate, UITableViewDataSource {
     
     func numberOfSections(in tableView: UITableView) -> Int {
-        print(fetchedResultsController.sections?.count)
+        
+        if fetchedResultsController.sections?.count == 0 {
+            setupUIForEmptyProjects(withDuration: 1.20)
+        } else {
+            notifyEmptyTableLabel.removeFromSuperview()
+        }
+        
         return fetchedResultsController.sections?.count ?? 0
     }
     
@@ -143,7 +149,7 @@ extension ProjectsVC: UITableViewDelegate, UITableViewDataSource {
     func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
         
         let sectionInfo = fetchedResultsController.sections?[section]
-        //        print(sectionInfo?.numberOfObjects)
+        print(sectionInfo?.name)
         return sectionInfo?.name
         
         //        case switch zone.
@@ -168,16 +174,7 @@ extension ProjectsVC: UITableViewDelegate, UITableViewDataSource {
     //    }
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        //        return projects.count
         guard let sectionInfo = fetchedResultsController.sections?[section] else { return 0 }
-        print("here")
-        print(sectionInfo.numberOfObjects)
-        if sectionInfo.numberOfObjects == 0 {
-            setupUIForEmptyProjects(withDuration: 1.20)
-        } else {
-            notifyEmptyTableLabel.removeFromSuperview()
-        }
-        
         return sectionInfo.numberOfObjects
     }
     

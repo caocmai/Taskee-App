@@ -267,7 +267,7 @@ extension TasksVC: UITableViewDelegate, UITableViewDataSource {
     
     private func deleteTask(with task: Task, at indexPath: IndexPath) {
         if !task.status {
-        task.parentProject?.taskCount -= 1
+            task.parentProject?.taskCount -= 1 // To decrement accordingly
         }
         coreDataStack.managedContext.delete(task)
         tasks.remove(at: indexPath.row)
@@ -312,6 +312,9 @@ extension TasksVC: UIContextMenuInteractionDelegate {
             let delete = UIAction(title: "Delete", image: UIImage(systemName: "trash"), identifier: .none, discoverabilityTitle: .none, attributes: .destructive, state: .off) { (_) in
 //                print("del")
                 let task = self.tasks[indexPath.row]
+                if !task.status {
+                    task.parentProject?.taskCount -= 1
+                }
                 self.deleteTask(with: task, at: indexPath)
             }
             
