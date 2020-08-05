@@ -50,9 +50,10 @@ class TasksVC: UIViewController {
         addNotifyEmptyTableLabel()
     }
     
-    // fetch the items before user gets a chance to tap on a segment
+    // fetch item right after user adds task, to get it to show/update
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
+        
         if segmentControl.selectedSegmentIndex == 0 {
             getPendingTasks()
         } else {
@@ -132,7 +133,12 @@ class TasksVC: UIViewController {
         let segmentItems = ["Pending", "Completed"]
         segmentControl = UISegmentedControl(items: segmentItems)
         segmentControl.addTarget(self, action: #selector(segmentControlTapped(_:)), for: .valueChanged)
-        segmentControl.selectedSegmentIndex = 0
+        if selectedProject?.projectStatus == "2Tasks Completed" {
+            segmentControl.selectedSegmentIndex = 1
+            
+        } else {
+            segmentControl.selectedSegmentIndex = 0
+        }
         view.addSubview(segmentControl)
         segmentControl.translatesAutoresizingMaskIntoConstraints = false
         NSLayoutConstraint.activate([
@@ -150,12 +156,12 @@ class TasksVC: UIViewController {
         switch (segmentedControl.selectedSegmentIndex) {
         case 0:  // First segment tapped
             getPendingTasks()
-//            print(tasks)
-//            print(tasks.count)
+            //            print(tasks)
+        //            print(tasks.count)
         case 1:  // Second segment tapped
             getFinshedTasks()
-//            print(tasks)
-//            print(tasks.count)
+            //            print(tasks)
+        //            print(tasks.count)
         default:
             break
         }
@@ -232,10 +238,10 @@ extension TasksVC: UITableViewDelegate, UITableViewDataSource {
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         print("slected")
         let selectedTask = tasks[indexPath.row]
-//        print(selectedTask)
+        //        print(selectedTask)
         selectedTask.status = !selectedTask.status
         selectedTask.dateCompleted = Date()
-
+        
         if selectedTask.status {
             selectedTask.parentProject?.taskCount -= 1
             print("status ture")
@@ -245,10 +251,15 @@ extension TasksVC: UITableViewDelegate, UITableViewDataSource {
             selectedTask.parentProject?.taskCount += 1
             print(selectedTask.parentProject?.taskCount)
         }
-
+        
+        if selectedTask.parentProject?.taskCount == 0 {
+            selectedTask.parentProject?.projectStatus = "2Tasks Completed"
+        }
+        
+        
         coreDataStack.saveContext()
         taskTable.reloadData() // To get checkmark to show
-
+        
     }
     
     func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCell.EditingStyle, forRowAt indexPath: IndexPath) {
@@ -268,6 +279,12 @@ extension TasksVC: UITableViewDelegate, UITableViewDataSource {
     private func deleteTask(with task: Task, at indexPath: IndexPath) {
         if !task.status {
             task.parentProject?.taskCount -= 1 // To decrement accordingly
+        }
+        if task.parentProject?.taskCount == 0 {
+            task.parentProject?.projectStatus = "2Tasks Completed"
+        }
+        if selectedProject?.projectTasks?.count == 1 { // 1 because when not yet updated (haven't saved core data)
+            task.parentProject?.projectStatus = "1Task Not Set"
         }
         coreDataStack.managedContext.delete(task)
         tasks.remove(at: indexPath.row)
@@ -310,11 +327,8 @@ extension TasksVC: UIContextMenuInteractionDelegate {
             }
             
             let delete = UIAction(title: "Delete", image: UIImage(systemName: "trash"), identifier: .none, discoverabilityTitle: .none, attributes: .destructive, state: .off) { (_) in
-//                print("del")
+                //                print("del")
                 let task = self.tasks[indexPath.row]
-                if !task.status {
-                    task.parentProject?.taskCount -= 1
-                }
                 self.deleteTask(with: task, at: indexPath)
             }
             
