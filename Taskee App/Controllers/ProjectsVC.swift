@@ -153,12 +153,6 @@ extension ProjectsVC: UITableViewDelegate, UITableViewDataSource {
 ////        print(sectionInfo?.name)
 //        return sectionInfo?.name
 //
-//        //        case switch zone.
-//        //        if zone.name == "Tes" {
-//        //        return "No Africa mon"
-//        //        } else {
-//        //        return "Default"
-//        //        }
 //
 //        //OR
 //        //    let sectionInfo = fetchedResultsController.sections?[section]
@@ -170,7 +164,8 @@ extension ProjectsVC: UITableViewDelegate, UITableViewDataSource {
             let headerView = tableView.dequeueReusableHeaderFooterView(withIdentifier:
                 "sectionHeader") as! MyCustomHeader
             let sectionInfo = fetchedResultsController.sections?[section]
-            headerView.title.text = String(String(sectionInfo!.name).dropFirst())
+//            headerView.title.text = String(String(sectionInfo!.name).dropFirst())
+            headerView.configureTitle(String(String(sectionInfo!.name).dropFirst()))
             return headerView
         }
     

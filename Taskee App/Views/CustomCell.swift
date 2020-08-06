@@ -54,6 +54,7 @@ class CustomCell: UITableViewCell {
             taskImage.centerYAnchor.constraint(equalTo: self.contentView.centerYAnchor),
             taskImage.widthAnchor.constraint(equalToConstant: 60),
             taskImage.heightAnchor.constraint(equalToConstant: 60),
+            cellTitleLabel.centerYAnchor.constraint(equalTo: self.contentView.centerYAnchor, constant: -1),
             cellTitleLabel.leadingAnchor.constraint(equalTo: self.taskImage.trailingAnchor, constant: 8),
             pendingTasksLabel.leadingAnchor.constraint(equalTo: self.taskImage.trailingAnchor, constant: 5)
         ])
@@ -70,8 +71,12 @@ class CustomCell: UITableViewCell {
     
     func configureUIForProject(with project: Project) {
 //        print(project.taskCount)
-        cellTitleLabel.leadingAnchor.constraint(equalTo: self.contentView.leadingAnchor, constant: 15).isActive = true
-        pendingTasksLabel.leadingAnchor.constraint(equalTo: self.contentView.leadingAnchor, constant: 15).isActive = true
+        NSLayoutConstraint.activate([
+            cellTitleLabel.centerYAnchor.constraint(equalTo: self.contentView.centerYAnchor, constant: -3),
+            cellTitleLabel.leadingAnchor.constraint(equalTo: self.contentView.leadingAnchor, constant: 15),
+            pendingTasksLabel.leadingAnchor.constraint(equalTo: self.contentView.leadingAnchor, constant: 15)
+        ])
+        
         
         cellTitleLabel.text = project.name
         cellTitleLabel.textColor = project.color as? UIColor
@@ -100,7 +105,6 @@ class CustomCell: UITableViewCell {
         super.setSelected(selected, animated: animated)
         self.contentView.addSubview(cellTitleLabel)
         self.contentView.addSubview(pendingTasksLabel)
-        cellTitleLabel.centerYAnchor.constraint(equalTo: self.contentView.centerYAnchor, constant: -1).isActive = true
         pendingTasksLabel.bottomAnchor.constraint(equalTo: self.contentView.bottomAnchor, constant: -5).isActive = true
     }
 
