@@ -140,7 +140,7 @@ class TasksVC: UIViewController {
         }
         
         //To set Text Colour when Segment Selected
-        segmentControl.setTitleTextAttributes([NSAttributedString.Key.foregroundColor: UIColor.red], for: UIControl.State.selected)
+//        segmentControl.setTitleTextAttributes([NSAttributedString.Key.foregroundColor: UIColor.red], for: UIControl.State.selected)
 
         //To Set Background Colour when Segment Selected,
         //The number in the [] is the segment that gets value change
@@ -241,7 +241,7 @@ extension TasksVC: UITableViewDelegate, UITableViewDataSource {
         let cell = tableView.dequeueReusableCell(withIdentifier: CustomCell.identifier, for: indexPath) as! CustomCell
         let task = tasks[indexPath.row]
         cell.configureUIForTask(with: task)
-        cell.accessoryType = task.status ? .checkmark : .none
+//        cell.accessoryType = task.status ? .checkmark : .none
         
         return cell
     }

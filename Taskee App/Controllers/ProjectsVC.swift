@@ -176,7 +176,6 @@ extension ProjectsVC: UITableViewDelegate, UITableViewDataSource {
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: CustomCell.identifier, for: indexPath)
-        cell.imageView?.isHidden = true
         configureCell(cell: cell, for: indexPath)
         return cell
     }
