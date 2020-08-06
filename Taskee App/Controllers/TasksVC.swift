@@ -134,11 +134,22 @@ class TasksVC: UIViewController {
         segmentControl = UISegmentedControl(items: segmentItems)
         segmentControl.addTarget(self, action: #selector(segmentControlTapped(_:)), for: .valueChanged)
         if selectedProject?.projectStatus == "2Tasks Completed" {
-            segmentControl.selectedSegmentIndex = 1
-            
+            segmentControl.selectedSegmentIndex = 1 // to show complete tasks by default
         } else {
             segmentControl.selectedSegmentIndex = 0
         }
+        
+        //To set Text Colour when Segment Selected
+        segmentControl.setTitleTextAttributes([NSAttributedString.Key.foregroundColor: UIColor.red], for: UIControl.State.selected)
+
+        //To Set Background Colour when Segment Selected,
+        //The number in the [] is the segment that gets value change
+//        let subViewOfSegment: UIView = segmentControl.subviews[0] as UIView
+//                subViewOfSegment.backgroundColor = UIColor.blue
+//        
+//        let subViewOfSegment2: UIView = segmentControl.subviews[1] as UIView
+//        subViewOfSegment2.backgroundColor = UIColor.yellow
+        
         view.addSubview(segmentControl)
         segmentControl.translatesAutoresizingMaskIntoConstraints = false
         NSLayoutConstraint.activate([

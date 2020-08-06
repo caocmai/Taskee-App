@@ -170,7 +170,7 @@ extension ProjectsVC: UITableViewDelegate, UITableViewDataSource {
             let headerView = tableView.dequeueReusableHeaderFooterView(withIdentifier:
                 "sectionHeader") as! MyCustomHeader
             let sectionInfo = fetchedResultsController.sections?[section]
-            headerView.title.text = sectionInfo?.name
+            headerView.title.text = String(String(sectionInfo!.name).dropFirst())
             return headerView
         }
     
@@ -239,6 +239,7 @@ extension ProjectsVC {
         table.endUpdates()
     }
     
+    // update sections
     func controller(_ controller: NSFetchedResultsController<NSFetchRequestResult>,
                     didChange sectionInfo: NSFetchedResultsSectionInfo,
                     atSectionIndex sectionIndex: Int,
