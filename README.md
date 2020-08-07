@@ -2,7 +2,7 @@
 Taskee is an app that the user can create and modify projects along with their tasks. 
 
 ## Description
-This is a to-do type app that allows users to create and modify projects and tasks objects with a one to many relationship. This app essentially allows users to create and modify parent and child objects. More specifically, the project is the parent object and its child is the task object. Projects can have multiple tasks. 
+This is a to-do type app that allows users to create and modify projects and tasks objects with a one to many relationship. This app essentially allows users to create and modify parent and child objects. More specifically, the project is the parent object and its child is the task object. There can be multiple projects and each project can have multiple tasks. 
 
 Core Data is used to persistently store user created data, meaning data will not be lost when the application is purged from memory intentionally or by accident. 
 

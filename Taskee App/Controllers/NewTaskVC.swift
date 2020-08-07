@@ -48,10 +48,10 @@ class NewTaskVC: UIViewController, UITextFieldDelegate {
         let image = UIImageView()
         image.translatesAutoresizingMaskIntoConstraints = false
         image.image = UIImage(named: "no item image")
-        image.contentMode = .scaleToFill
+//        image.contentMode = .scaleAspectFit
         image.isUserInteractionEnabled = true
-        image.layer.cornerRadius = 75
-        image.layer.masksToBounds = true
+//        image.layer.cornerRadius = 75
+//        image.layer.masksToBounds = true
         return image
     }()
     
@@ -64,6 +64,25 @@ class NewTaskVC: UIViewController, UITextFieldDelegate {
     var parentObject: Project!
     var taskToEdit: Task?
     var coreDataStack: CoreDataStack?
+    
+    lazy var contentViewSize = CGSize(width: self.view.frame.width, height: self.view.frame.height + 920) //Step One
+
+    lazy var scrollView : UIScrollView = {
+        let view = UIScrollView(frame : .zero)
+        view.frame = self.view.bounds
+        view.contentInsetAdjustmentBehavior = .never
+        view.contentSize = contentViewSize
+        view.backgroundColor = .white
+        return view
+    }()
+
+    lazy var containerView : UIView = {
+        let view = UIView()
+        view.frame.size = contentViewSize
+        view.backgroundColor = .blue
+        return view
+    }()
+    
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -78,6 +97,13 @@ class NewTaskVC: UIViewController, UITextFieldDelegate {
         
         // call the 'keyboardWillHide' function when the view controlelr receive notification that keyboard is going to be hidden
         NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillHide), name: UIResponder.keyboardWillHideNotification, object: nil)
+        
+        self.view.addSubview(scrollView)
+        self.scrollView.addSubview(containerView)
+        self.scrollView.addSubview(setTitle)
+        self.scrollView.addSubview(dateTextField)
+        self.scrollView.addSubview(taskImageView)
+        self.scrollView.addSubview(saveButton)
     }
     
     @objc func keyboardWillShow(notification: NSNotification) {
@@ -149,10 +175,14 @@ class NewTaskVC: UIViewController, UITextFieldDelegate {
         saveButton.addTarget(self, action: #selector(saveButtonTapped), for: .touchUpInside)
 
         NSLayoutConstraint.activate([
-            taskImageView.widthAnchor.constraint(equalToConstant: 150),
-            taskImageView.heightAnchor.constraint(equalToConstant: 150),
-            taskImageView.centerXAnchor.constraint(equalTo: view.centerXAnchor),
-            taskImageView.centerYAnchor.constraint(equalTo: view.centerYAnchor, constant: -120)
+//            taskImageView.widthAnchor.constraint(equalToConstant: 150),
+//            taskImageView.heightAnchor.constraint(equalToConstant: 150),
+//            taskImageView.centerXAnchor.constraint(equalTo: view.centerXAnchor),
+//            taskImageView.centerYAnchor.constraint(equalTo: view.centerYAnchor, constant: -120)
+            
+            taskImageView.widthAnchor.constraint(equalToConstant: self.view.frame.width),
+            taskImageView.heightAnchor.constraint(equalToConstant: self.view.frame.width),
+            taskImageView.topAnchor.constraint(equalTo: self.view.safeAreaLayoutGuide.topAnchor)
             
             
         ])
