@@ -44,7 +44,7 @@ class NewTaskVC: UIViewController, UITextFieldDelegate {
         return button
     }()
     
-    let imageView: UIImageView = {
+    let taskImageView: UIImageView = {
         let image = UIImageView()
         image.translatesAutoresizingMaskIntoConstraints = false
         image.image = UIImage(named: "no item image")
@@ -120,7 +120,7 @@ class NewTaskVC: UIViewController, UITextFieldDelegate {
     private func setupEditUI() {
         if taskToEdit != nil {
             setTitle.text = taskToEdit?.title
-            imageView.image = UIImage(data: (taskToEdit?.taskImage)!)
+            taskImageView.image = UIImage(data: (taskToEdit?.taskImage)!)
             dateTextField.text = dateFormatter.string(from: (taskToEdit?.dueDate)!)
             self.title = "Edit \(taskToEdit?.title ?? "UnNamed")"
             saveButton.setTitle("Update", for: .normal)
@@ -139,24 +139,26 @@ class NewTaskVC: UIViewController, UITextFieldDelegate {
     private func setupUI() {
         self.view.addSubview(setTitle)
         self.view.addSubview(dateTextField)
-        self.view.addSubview(imageView)
+        self.view.addSubview(taskImageView)
         self.view.addSubview(saveButton)
         dateTextField.inputView = datePicker
         
         let singleTap = UITapGestureRecognizer(target: self, action: #selector(imageViewTapped))
-        imageView.addGestureRecognizer(singleTap)
+        taskImageView.addGestureRecognizer(singleTap)
         
         saveButton.addTarget(self, action: #selector(saveButtonTapped), for: .touchUpInside)
 
         NSLayoutConstraint.activate([
-            imageView.widthAnchor.constraint(equalToConstant: 150),
-            imageView.heightAnchor.constraint(equalToConstant: 150),
-            imageView.centerXAnchor.constraint(equalTo: view.centerXAnchor),
-            imageView.centerYAnchor.constraint(equalTo: view.centerYAnchor, constant: -120)
+            taskImageView.widthAnchor.constraint(equalToConstant: 150),
+            taskImageView.heightAnchor.constraint(equalToConstant: 150),
+            taskImageView.centerXAnchor.constraint(equalTo: view.centerXAnchor),
+            taskImageView.centerYAnchor.constraint(equalTo: view.centerYAnchor, constant: -120)
+            
+            
         ])
         
         NSLayoutConstraint.activate([
-            setTitle.topAnchor.constraint(equalTo: imageView.bottomAnchor, constant: 45),
+            setTitle.topAnchor.constraint(equalTo: taskImageView.bottomAnchor, constant: 45),
             setTitle.centerXAnchor.constraint(equalTo: view.centerXAnchor),
             setTitle.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 80),
                setTitle.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -80)
@@ -184,7 +186,7 @@ class NewTaskVC: UIViewController, UITextFieldDelegate {
                 if dateTextField.text != dateFormatter.string(from: (taskToEdit?.dueDate)!) {
                     taskToEdit?.setValue(datePicker.date, forKey: "dueDate")
                 }
-                taskToEdit?.setValue(imageView.image?.pngData(), forKey: "taskImage")
+                taskToEdit?.setValue(taskImageView.image?.pngData(), forKey: "taskImage")
                 coreDataStack?.saveContext()
             } else {
                 createNewTask()
@@ -252,7 +254,7 @@ class NewTaskVC: UIViewController, UITextFieldDelegate {
         newTask.dueDate = datePicker.date
         newTask.status = false
         newTask.title = setTitle.text
-        newTask.taskImage = imageView.image!.pngData()
+        newTask.taskImage = taskImageView.image!.pngData()
         newTask.parentProject = parentObject
         newTask.parentProject?.taskCount += 1
         newTask.parentProject?.projectStatus = "0Pending Tasks"
@@ -267,7 +269,7 @@ extension NewTaskVC: UINavigationControllerDelegate, UIImagePickerControllerDele
     
     func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [UIImagePickerController.InfoKey : Any]) {
         if let image = info[UIImagePickerController.InfoKey.editedImage] as? UIImage {
-            imageView.image = image
+            taskImageView.image = image
         }
         dismiss(animated: true, completion: nil)
     }
