@@ -253,20 +253,21 @@ extension TasksVC: UITableViewDelegate, UITableViewDataSource {
         selectedTask.status = !selectedTask.status
         selectedTask.dateCompleted = Date()
         
-        if selectedTask.status {
+        if selectedTask.status { // decrement or increment to keep track of task  count
             selectedTask.parentProject?.taskCount -= 1
-            print("status ture")
+            print("completed")
             print(selectedTask.parentProject?.taskCount)
         } else {
-            print("status false")
             selectedTask.parentProject?.taskCount += 1
+            print("not completed")
             print(selectedTask.parentProject?.taskCount)
         }
         
-        if selectedTask.parentProject?.taskCount == 0 {
+        if selectedTask.parentProject?.taskCount == 0 { // changing the status
             selectedTask.parentProject?.projectStatus = "2Tasks Completed"
+        } else {
+            selectedTask.parentProject?.projectStatus = "0Pending Tasks"
         }
-        
         
         coreDataStack.saveContext()
         taskTable.reloadData() // To get checkmark to show

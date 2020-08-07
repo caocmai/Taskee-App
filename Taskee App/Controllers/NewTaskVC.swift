@@ -74,10 +74,10 @@ class NewTaskVC: UIViewController, UITextFieldDelegate {
         addDoneButtonOnKeyboard()
         UITextField.connectFields(fields: [setTitle, dateTextField]) // for better user experience when filling out forms
         
-        NotificationCenter.default.addObserver(self, selector: #selector(self.keyboardWillShow), name: UIResponder.keyboardWillShowNotification, object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillShow), name: UIResponder.keyboardWillShowNotification, object: nil)
         
         // call the 'keyboardWillHide' function when the view controlelr receive notification that keyboard is going to be hidden
-        NotificationCenter.default.addObserver(self, selector: #selector(self.keyboardWillHide), name: UIResponder.keyboardWillHideNotification, object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillHide), name: UIResponder.keyboardWillHideNotification, object: nil)
     }
     
     @objc func keyboardWillShow(notification: NSNotification) {
@@ -87,13 +87,13 @@ class NewTaskVC: UIViewController, UITextFieldDelegate {
         }
         // move the root view up by the distance of keyboard height
         self.view.frame.origin.y = 100 - keyboardSize.height
-//        self.navigationController?.isNavigationBarHidden = true // This is preventing from moving screen properly when enable
+//        navigationController?.isNavigationBarHidden = true // This is preventing from moving screen properly when enable
     }
     
     @objc func keyboardWillHide(notification: NSNotification) {
         // move back the root view origin to zero
         self.view.frame.origin.y = 0
-        self.navigationController?.isNavigationBarHidden = false
+        navigationController?.isNavigationBarHidden = false
     }
     
     private func addDoneButtonOnKeyboard() {
@@ -106,15 +106,15 @@ class NewTaskVC: UIViewController, UITextFieldDelegate {
         
         doneToolbar.items = [hide, flexSpace, done]
         doneToolbar.sizeToFit()
-        self.setTitle.inputAccessoryView = doneToolbar
+        setTitle.inputAccessoryView = doneToolbar
     }
     
     @objc func closeKeyboard() {
-        self.setTitle.resignFirstResponder()
+        setTitle.resignFirstResponder()
     }
     
     @objc func nextFieldTapped() {
-        self.dateTextField.becomeFirstResponder()
+        dateTextField.becomeFirstResponder()
     }
     
     private func setupEditUI() {
@@ -123,7 +123,7 @@ class NewTaskVC: UIViewController, UITextFieldDelegate {
             imageView.image = UIImage(data: (taskToEdit?.taskImage)!)
             dateTextField.text = dateFormatter.string(from: (taskToEdit?.dueDate)!)
             self.title = "Edit \(taskToEdit?.title ?? "UnNamed")"
-            self.saveButton.setTitle("Update", for: .normal)
+            saveButton.setTitle("Update", for: .normal)
         } else {
             self.title = "Create A New Task"
         }
@@ -133,7 +133,7 @@ class NewTaskVC: UIViewController, UITextFieldDelegate {
         imagePicker.delegate = self
         imagePicker.sourceType = .photoLibrary
         imagePicker.allowsEditing = true
-        self.present(imagePicker, animated: true, completion: nil)
+        present(imagePicker, animated: true, completion: nil)
     }
 
     private func setupUI() {
@@ -146,34 +146,34 @@ class NewTaskVC: UIViewController, UITextFieldDelegate {
         let singleTap = UITapGestureRecognizer(target: self, action: #selector(imageViewTapped))
         imageView.addGestureRecognizer(singleTap)
         
-        self.saveButton.addTarget(self, action: #selector(saveButtonTapped), for: .touchUpInside)
+        saveButton.addTarget(self, action: #selector(saveButtonTapped), for: .touchUpInside)
 
         NSLayoutConstraint.activate([
-            self.imageView.widthAnchor.constraint(equalToConstant: 150),
-            self.imageView.heightAnchor.constraint(equalToConstant: 150),
-            self.imageView.centerXAnchor.constraint(equalTo: self.view.centerXAnchor),
-            self.imageView.centerYAnchor.constraint(equalTo: self.view.centerYAnchor, constant: -120)
+            imageView.widthAnchor.constraint(equalToConstant: 150),
+            imageView.heightAnchor.constraint(equalToConstant: 150),
+            imageView.centerXAnchor.constraint(equalTo: view.centerXAnchor),
+            imageView.centerYAnchor.constraint(equalTo: view.centerYAnchor, constant: -120)
         ])
         
         NSLayoutConstraint.activate([
-            setTitle.topAnchor.constraint(equalTo: self.imageView.bottomAnchor, constant: 45),
-            setTitle.centerXAnchor.constraint(equalTo: self.view.centerXAnchor),
-            setTitle.leadingAnchor.constraint(equalTo: self.view.leadingAnchor, constant: 80),
-               setTitle.trailingAnchor.constraint(equalTo: self.view.trailingAnchor, constant: -80)
+            setTitle.topAnchor.constraint(equalTo: imageView.bottomAnchor, constant: 45),
+            setTitle.centerXAnchor.constraint(equalTo: view.centerXAnchor),
+            setTitle.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 80),
+               setTitle.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -80)
         ])
         
         NSLayoutConstraint.activate([
             dateTextField.centerXAnchor.constraint(equalTo: view.centerXAnchor),
             dateTextField.topAnchor.constraint(equalTo: setTitle.bottomAnchor, constant: 45),
-            dateTextField.leadingAnchor.constraint(equalTo: self.view.leadingAnchor, constant: 100),
-               dateTextField.trailingAnchor.constraint(equalTo: self.view.trailingAnchor, constant: -100)
+            dateTextField.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 100),
+               dateTextField.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -100)
         ])
     
         NSLayoutConstraint.activate([
             saveButton.topAnchor.constraint(equalTo: dateTextField.bottomAnchor, constant: 55),
             saveButton.heightAnchor.constraint(equalToConstant: 48),
-            saveButton.leadingAnchor.constraint(equalTo: self.view.leadingAnchor, constant: 45),
-            saveButton.trailingAnchor.constraint(equalTo: self.view.trailingAnchor, constant: -45),
+            saveButton.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 45),
+            saveButton.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -45),
         ])
     }
     
@@ -181,15 +181,15 @@ class NewTaskVC: UIViewController, UITextFieldDelegate {
         if !checkAreFieldsEmpty() {
             if taskToEdit != nil {
                 taskToEdit?.setValue(setTitle.text, forKey: "title")
-                if self.dateTextField.text != dateFormatter.string(from: (taskToEdit?.dueDate)!) {
-                    taskToEdit?.setValue(self.datePicker.date, forKey: "dueDate")
+                if dateTextField.text != dateFormatter.string(from: (taskToEdit?.dueDate)!) {
+                    taskToEdit?.setValue(datePicker.date, forKey: "dueDate")
                 }
                 taskToEdit?.setValue(imageView.image?.pngData(), forKey: "taskImage")
                 coreDataStack?.saveContext()
             } else {
                 createNewTask()
             }
-            self.navigationController?.popViewController(animated: true)
+            navigationController?.popViewController(animated: true)
         }
     }
     
@@ -248,12 +248,12 @@ class NewTaskVC: UIViewController, UITextFieldDelegate {
     }
     
     private func createNewTask() {
-        let newTask = Task(context: (self.coreDataStack?.managedContext)!)
+        let newTask = Task(context: (coreDataStack?.managedContext)!)
         newTask.dueDate = datePicker.date
         newTask.status = false
         newTask.title = setTitle.text
         newTask.taskImage = imageView.image!.pngData()
-        newTask.parentProject = self.parentObject
+        newTask.parentProject = parentObject
         newTask.parentProject?.taskCount += 1
         newTask.parentProject?.projectStatus = "0Pending Tasks"
         coreDataStack?.saveContext()
