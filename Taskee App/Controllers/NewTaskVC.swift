@@ -48,10 +48,10 @@ class NewTaskVC: UIViewController, UITextFieldDelegate {
         let image = UIImageView()
         image.translatesAutoresizingMaskIntoConstraints = false
         image.image = UIImage(named: "no item image")
-//        image.contentMode = .scaleAspectFit
+        //        image.contentMode = .scaleAspectFit
         image.isUserInteractionEnabled = true
-//        image.layer.cornerRadius = 75
-//        image.layer.masksToBounds = true
+        image.layer.cornerRadius = 75
+        image.layer.masksToBounds = true
         return image
     }()
     
@@ -65,21 +65,23 @@ class NewTaskVC: UIViewController, UITextFieldDelegate {
     var taskToEdit: Task?
     var coreDataStack: CoreDataStack?
     
-    lazy var contentViewSize = CGSize(width: self.view.frame.width, height: self.view.frame.height + 920) //Step One
-
-    lazy var scrollView : UIScrollView = {
-        let view = UIScrollView(frame : .zero)
-        view.frame = self.view.bounds
-        view.contentInsetAdjustmentBehavior = .never
-        view.contentSize = contentViewSize
-        view.backgroundColor = .white
+    // Use lazy declaration to use self.
+    //    lazy var contentViewSize = CGSize(width: self.view.frame.width, height: self.view.frame.height + 920) //Step One
+    
+    let scrollView : UIScrollView = {
+        //        let view = UIScrollView(frame : .zero)
+        let view = UIScrollView()
+        //        view.frame = self.view.bounds
+        //        view.contentInsetAdjustmentBehavior = .never
+        //        view.contentSize = contentViewSize
+        view.translatesAutoresizingMaskIntoConstraints = false
         return view
     }()
-
-    lazy var containerView : UIView = {
+    
+    var containerView : UIView = {
         let view = UIView()
-        view.frame.size = contentViewSize
-        view.backgroundColor = .blue
+        //        view.frame.size = contentViewSize
+        view.translatesAutoresizingMaskIntoConstraints = false
         return view
     }()
     
@@ -88,7 +90,8 @@ class NewTaskVC: UIViewController, UITextFieldDelegate {
         super.viewDidLoad()
         self.view.backgroundColor = .white
         setupEditUI()
-        setupUI()
+        setupScrollViewUI()
+        //        setupUI()
         datePickerToolbar()
         addDoneButtonOnKeyboard()
         UITextField.connectFields(fields: [setTitle, dateTextField]) // for better user experience when filling out forms
@@ -97,13 +100,9 @@ class NewTaskVC: UIViewController, UITextFieldDelegate {
         
         // call the 'keyboardWillHide' function when the view controlelr receive notification that keyboard is going to be hidden
         NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillHide), name: UIResponder.keyboardWillHideNotification, object: nil)
-//
-//        self.view.addSubview(scrollView)
-//        self.scrollView.addSubview(containerView)
-//        self.scrollView.addSubview(setTitle)
-//        self.scrollView.addSubview(dateTextField)
-//        self.scrollView.addSubview(taskImageView)
-//        self.scrollView.addSubview(saveButton)
+        
+        
+        
     }
     
     @objc func keyboardWillShow(notification: NSNotification) {
@@ -113,7 +112,7 @@ class NewTaskVC: UIViewController, UITextFieldDelegate {
         }
         // move the root view up by the distance of keyboard height
         self.view.frame.origin.y = 100 - keyboardSize.height
-//        navigationController?.isNavigationBarHidden = true // This is preventing from moving screen properly when enable
+        //        navigationController?.isNavigationBarHidden = true // This is preventing from moving screen properly when enable
     }
     
     @objc func keyboardWillHide(notification: NSNotification) {
@@ -161,7 +160,8 @@ class NewTaskVC: UIViewController, UITextFieldDelegate {
         imagePicker.allowsEditing = true
         present(imagePicker, animated: true, completion: nil)
     }
-
+    
+    // Currently not using and using setupScrollViewUI instead
     private func setupUI() {
         self.view.addSubview(setTitle)
         self.view.addSubview(dateTextField)
@@ -173,39 +173,97 @@ class NewTaskVC: UIViewController, UITextFieldDelegate {
         taskImageView.addGestureRecognizer(singleTap)
         
         saveButton.addTarget(self, action: #selector(saveButtonTapped), for: .touchUpInside)
-
+        
         NSLayoutConstraint.activate([
             taskImageView.widthAnchor.constraint(equalToConstant: 150),
             taskImageView.heightAnchor.constraint(equalToConstant: 150),
             taskImageView.centerXAnchor.constraint(equalTo: view.centerXAnchor),
             taskImageView.centerYAnchor.constraint(equalTo: view.centerYAnchor, constant: -120)
-            
-//            taskImageView.widthAnchor.constraint(equalToConstant: self.view.frame.width),
-//            taskImageView.heightAnchor.constraint(equalToConstant: self.view.frame.width),
-//            taskImageView.topAnchor.constraint(equalTo: self.view.safeAreaLayoutGuide.topAnchor)
-//
-            
         ])
         
         NSLayoutConstraint.activate([
             setTitle.topAnchor.constraint(equalTo: taskImageView.bottomAnchor, constant: 45),
             setTitle.centerXAnchor.constraint(equalTo: view.centerXAnchor),
             setTitle.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 80),
-               setTitle.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -80)
+            setTitle.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -80)
         ])
         
         NSLayoutConstraint.activate([
             dateTextField.centerXAnchor.constraint(equalTo: view.centerXAnchor),
             dateTextField.topAnchor.constraint(equalTo: setTitle.bottomAnchor, constant: 45),
             dateTextField.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 100),
-               dateTextField.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -100)
+            dateTextField.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -100)
         ])
-    
+        
         NSLayoutConstraint.activate([
             saveButton.topAnchor.constraint(equalTo: dateTextField.bottomAnchor, constant: 55),
             saveButton.heightAnchor.constraint(equalToConstant: 48),
             saveButton.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 45),
             saveButton.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -45),
+        ])
+    }
+    
+    func setupScrollViewUI() {
+        self.view.addSubview(scrollView)
+        dateTextField.inputView = datePicker
+        
+        let singleTap = UITapGestureRecognizer(target: self, action: #selector(imageViewTapped))
+        taskImageView.addGestureRecognizer(singleTap)
+        
+        saveButton.addTarget(self, action: #selector(saveButtonTapped), for: .touchUpInside)
+        
+        //        scrollView.addSubview(saveButton)
+        scrollView.addSubview(containerView)
+        containerView.isUserInteractionEnabled = true
+        //        containerView.backgroundColor = .yellow
+        containerView.addSubview(taskImageView)
+        containerView.addSubview(setTitle)
+        containerView.addSubview(dateTextField)
+        containerView.addSubview(saveButton)
+        
+        
+        
+        NSLayoutConstraint.activate([
+            scrollView.topAnchor.constraint(equalTo: self.view.safeAreaLayoutGuide.topAnchor),
+            scrollView.leadingAnchor.constraint(equalTo: self.view.leadingAnchor),
+            scrollView.trailingAnchor.constraint(equalTo: self.view.trailingAnchor),
+            scrollView.bottomAnchor.constraint(equalTo: self.view.bottomAnchor),
+            
+            containerView.topAnchor.constraint(equalTo: self.scrollView.topAnchor),
+            containerView.heightAnchor.constraint(equalToConstant: 700),
+            containerView.widthAnchor.constraint(equalTo: scrollView.widthAnchor),
+            containerView.bottomAnchor.constraint(equalTo: self.scrollView.bottomAnchor, constant: -12),
+            
+            
+        ])
+        
+        
+        NSLayoutConstraint.activate([
+            taskImageView.centerXAnchor.constraint(equalTo: self.containerView.centerXAnchor),
+            taskImageView.widthAnchor.constraint(equalToConstant: 150),
+            taskImageView.heightAnchor.constraint(equalToConstant: 150),
+            taskImageView.topAnchor.constraint(equalTo: self.containerView.topAnchor, constant: 50),
+            
+            
+            setTitle.topAnchor.constraint(equalTo: taskImageView.bottomAnchor, constant: 45),
+            setTitle.centerXAnchor.constraint(equalTo: containerView.centerXAnchor),
+            setTitle.leadingAnchor.constraint(equalTo: containerView.leadingAnchor, constant: 80),
+            setTitle.trailingAnchor.constraint(equalTo: containerView.trailingAnchor, constant: -80),
+            
+            dateTextField.centerXAnchor.constraint(equalTo: containerView.centerXAnchor),
+            dateTextField.topAnchor.constraint(equalTo: setTitle.bottomAnchor, constant: 45),
+            dateTextField.leadingAnchor.constraint(equalTo: containerView.leadingAnchor, constant: 100),
+            dateTextField.trailingAnchor.constraint(equalTo: containerView.trailingAnchor, constant: -100),
+            
+            saveButton.topAnchor.constraint(equalTo: dateTextField.bottomAnchor, constant: 55),
+            saveButton.heightAnchor.constraint(equalToConstant: 48),
+            saveButton.leadingAnchor.constraint(equalTo: containerView.leadingAnchor, constant: 45),
+            saveButton.trailingAnchor.constraint(equalTo: containerView.trailingAnchor, constant: -45),
+            
+            
+            
+            
+            
         ])
     }
     
@@ -290,7 +348,7 @@ class NewTaskVC: UIViewController, UITextFieldDelegate {
         newTask.parentProject?.projectStatus = "0Pending Tasks"
         coreDataStack?.saveContext()
     }
-
+    
 }
 
 // - MARK: UIImagePickerControllerDelegate
