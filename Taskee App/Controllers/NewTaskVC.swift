@@ -97,13 +97,13 @@ class NewTaskVC: UIViewController, UITextFieldDelegate {
         
         // call the 'keyboardWillHide' function when the view controlelr receive notification that keyboard is going to be hidden
         NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillHide), name: UIResponder.keyboardWillHideNotification, object: nil)
-        
-        self.view.addSubview(scrollView)
-        self.scrollView.addSubview(containerView)
-        self.scrollView.addSubview(setTitle)
-        self.scrollView.addSubview(dateTextField)
-        self.scrollView.addSubview(taskImageView)
-        self.scrollView.addSubview(saveButton)
+//
+//        self.view.addSubview(scrollView)
+//        self.scrollView.addSubview(containerView)
+//        self.scrollView.addSubview(setTitle)
+//        self.scrollView.addSubview(dateTextField)
+//        self.scrollView.addSubview(taskImageView)
+//        self.scrollView.addSubview(saveButton)
     }
     
     @objc func keyboardWillShow(notification: NSNotification) {
@@ -175,15 +175,15 @@ class NewTaskVC: UIViewController, UITextFieldDelegate {
         saveButton.addTarget(self, action: #selector(saveButtonTapped), for: .touchUpInside)
 
         NSLayoutConstraint.activate([
-//            taskImageView.widthAnchor.constraint(equalToConstant: 150),
-//            taskImageView.heightAnchor.constraint(equalToConstant: 150),
-//            taskImageView.centerXAnchor.constraint(equalTo: view.centerXAnchor),
-//            taskImageView.centerYAnchor.constraint(equalTo: view.centerYAnchor, constant: -120)
+            taskImageView.widthAnchor.constraint(equalToConstant: 150),
+            taskImageView.heightAnchor.constraint(equalToConstant: 150),
+            taskImageView.centerXAnchor.constraint(equalTo: view.centerXAnchor),
+            taskImageView.centerYAnchor.constraint(equalTo: view.centerYAnchor, constant: -120)
             
-            taskImageView.widthAnchor.constraint(equalToConstant: self.view.frame.width),
-            taskImageView.heightAnchor.constraint(equalToConstant: self.view.frame.width),
-            taskImageView.topAnchor.constraint(equalTo: self.view.safeAreaLayoutGuide.topAnchor)
-            
+//            taskImageView.widthAnchor.constraint(equalToConstant: self.view.frame.width),
+//            taskImageView.heightAnchor.constraint(equalToConstant: self.view.frame.width),
+//            taskImageView.topAnchor.constraint(equalTo: self.view.safeAreaLayoutGuide.topAnchor)
+//
             
         ])
         
