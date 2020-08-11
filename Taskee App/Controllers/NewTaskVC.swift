@@ -106,18 +106,24 @@ class NewTaskVC: UIViewController, UITextFieldDelegate {
     }
     
     @objc func keyboardWillShow(notification: NSNotification) {
+        
         guard let keyboardSize = (notification.userInfo?[UIResponder.keyboardFrameEndUserInfoKey] as? NSValue)?.cgRectValue else {
             // if keyboard size is not available for some reason, dont do anything
             return
         }
         // move the root view up by the distance of keyboard height
-        self.view.frame.origin.y = 100 - keyboardSize.height
-        //        navigationController?.isNavigationBarHidden = true // This is preventing from moving screen properly when enable
+//        self.view.frame.origin.y = 100 - keyboardSize.height
+        
+        scrollView.setContentOffset(CGPoint(x: 0, y: view.frame.height/4), animated: true)
+
     }
     
     @objc func keyboardWillHide(notification: NSNotification) {
         // move back the root view origin to zero
-        self.view.frame.origin.y = 0
+//        self.view.frame.origin.y = 0
+        
+        scrollView.setContentOffset(CGPoint(x: 0, y: 0), animated: true)
+
         navigationController?.isNavigationBarHidden = false
     }
     
