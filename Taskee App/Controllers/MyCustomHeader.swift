@@ -11,21 +11,11 @@ import UIKit
 class MyCustomHeader: UITableViewHeaderFooterView {
 
     static var identifier: String = "sectionHeader"
-
-        
-//        var title : UILabel = {
-//            let title = UILabel()
-//            title.font = UIFont.systemFont(ofSize: 30.0)
-//            title.translatesAutoresizingMaskIntoConstraints = false
-//            title.textColor = #colorLiteral(red: 0.6000000238, green: 0.6000000238, blue: 0.6000000238, alpha: 1)
-//            return title
-//        }()
     
     let title: UITextField = {
         let textField = UITextField()
         textField.translatesAutoresizingMaskIntoConstraints = false
         textField.placeholder = "Task Title"
-//        textField.borderStyle = .roundedRect
         textField.textAlignment = .right
         textField.tag = 0
         textField.font = UIFont.systemFont(ofSize: 25)
@@ -37,7 +27,6 @@ class MyCustomHeader: UITableViewHeaderFooterView {
         let imageView = UIImageView()
         imageView.translatesAutoresizingMaskIntoConstraints = false
         imageView.contentMode = .scaleAspectFill
-//        imageView.image = UIImage(systemName: "person")
         return imageView
     }()
         
@@ -46,8 +35,6 @@ class MyCustomHeader: UITableViewHeaderFooterView {
             super.init(reuseIdentifier: reuseIdentifier)
             configureContents()
             self.contentView.backgroundColor = .white
-//            self.contentView.backgroundColor = #colorLiteral(red: 0.921431005, green: 0.9214526415, blue: 0.9214410186, alpha: 1)
-            
         }
         
         required init?(coder: NSCoder) {
@@ -55,7 +42,6 @@ class MyCustomHeader: UITableViewHeaderFooterView {
         }
         
         func configureContents() {
-
             self.contentView.addSubview(title)
             self.contentView.addSubview(headerImage)
             
@@ -71,9 +57,7 @@ class MyCustomHeader: UITableViewHeaderFooterView {
                 headerImage.leadingAnchor.constraint(equalTo: title.trailingAnchor, constant: 10),
                 headerImage.centerYAnchor.constraint(equalTo: self.contentView.centerYAnchor),
                 headerImage.heightAnchor.constraint(equalToConstant: 23),
-                
 
-    //            title.centerXAnchor.constraint(equalTo: contentView.centerXAnchor)
             ])
         }
     
@@ -81,7 +65,7 @@ class MyCustomHeader: UITableViewHeaderFooterView {
         title.text = sectionTitle
         switch sectionTitle {
         case "Pending Tasks":
-            let systemEllipsis = UIImage(systemName: "ellipsis.circle.fill")
+            let systemEllipsis = UIImage(systemName: "ellipsis.circle")
             let greenSystemEllipsis = systemEllipsis?.withTintColor(#colorLiteral(red: 0.3276759386, green: 0.759457171, blue: 0.1709203422, alpha: 1), renderingMode: .alwaysOriginal)
             headerImage.image = greenSystemEllipsis
         case "Task Not Set":
