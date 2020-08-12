@@ -235,20 +235,20 @@ class NewTaskVC: UIViewController, UITextFieldDelegate {
             scrollView.trailingAnchor.constraint(equalTo: self.view.trailingAnchor),
             scrollView.bottomAnchor.constraint(equalTo: self.view.bottomAnchor),
             
-            containerView.topAnchor.constraint(equalTo: self.scrollView.topAnchor),
+            containerView.topAnchor.constraint(equalTo: scrollView.topAnchor),
             containerView.heightAnchor.constraint(equalToConstant: 700),
             containerView.widthAnchor.constraint(equalTo: scrollView.widthAnchor),
-            containerView.bottomAnchor.constraint(equalTo: self.scrollView.bottomAnchor, constant: -12),
+            containerView.bottomAnchor.constraint(equalTo: scrollView.bottomAnchor, constant: -12),
             
             
         ])
         
         
         NSLayoutConstraint.activate([
-            taskImageView.centerXAnchor.constraint(equalTo: self.containerView.centerXAnchor),
+            taskImageView.centerXAnchor.constraint(equalTo: containerView.centerXAnchor),
             taskImageView.widthAnchor.constraint(equalToConstant: 150),
             taskImageView.heightAnchor.constraint(equalToConstant: 150),
-            taskImageView.topAnchor.constraint(equalTo: self.containerView.topAnchor, constant: 50),
+            taskImageView.topAnchor.constraint(equalTo: containerView.topAnchor, constant: 50),
             
             
             setTitle.topAnchor.constraint(equalTo: taskImageView.bottomAnchor, constant: 45),

@@ -19,9 +19,9 @@ class PreviewVC: UIViewController {
     var imageView: UIImageView = {
         let image = UIImageView()
         image.translatesAutoresizingMaskIntoConstraints = false
-//        image.contentMode = .scaleToFill
-        image.layer.masksToBounds = true
-        image.layer.cornerRadius = 12
+        image.contentMode = .scaleToFill
+//        image.layer.masksToBounds = true
+//        image.layer.cornerRadius = 12
         return image
     }()
     var taskDueDateLabel: UILabel = {
@@ -47,20 +47,26 @@ class PreviewVC: UIViewController {
         view.addSubview(taskDueDateLabel)
         
         NSLayoutConstraint.activate([
-            imageView.centerYAnchor.constraint(equalTo: view.centerYAnchor),
+//            imageView.centerYAnchor.constraint(equalTo: view.centerYAnchor),
+//            imageView.centerXAnchor.constraint(equalTo: view.centerXAnchor),
+//            imageView.heightAnchor.constraint(equalToConstant: 200),
+//            imageView.widthAnchor.constraint(equalToConstant: 200)
+            
+            imageView.topAnchor.constraint(equalTo: self.view.topAnchor),
+            imageView.widthAnchor.constraint(lessThanOrEqualToConstant: self.view.frame.width),
+            imageView.heightAnchor.constraint(lessThanOrEqualToConstant: self.view.frame.width/1.3),
             imageView.centerXAnchor.constraint(equalTo: view.centerXAnchor),
-            imageView.heightAnchor.constraint(equalToConstant: 200),
-            imageView.widthAnchor.constraint(equalToConstant: 200)
+            
         ])
         
         NSLayoutConstraint.activate([
             taskTitleLabel.centerXAnchor.constraint(equalTo: view.centerXAnchor),
-            taskTitleLabel.bottomAnchor.constraint(equalTo: imageView.topAnchor, constant: -45)
+            taskTitleLabel.topAnchor.constraint(equalTo: imageView.bottomAnchor, constant: 45)
         ])
         
         NSLayoutConstraint.activate([
             taskDueDateLabel.centerXAnchor.constraint(equalTo: view.centerXAnchor),
-            taskDueDateLabel.topAnchor.constraint(equalTo: imageView.bottomAnchor, constant: 55)
+            taskDueDateLabel.topAnchor.constraint(equalTo: taskTitleLabel.bottomAnchor, constant: 45)
         ])
     }
     
@@ -68,7 +74,7 @@ class PreviewVC: UIViewController {
         taskTitleLabel.text = task.title
         imageView.image = UIImage(data: task.taskImage!)
         taskDueDateLabel.text = task.status ? "Completed on \(dateFormatter.string(from: task.dateCompleted!))" : "Due by \(dateFormatter.string(from: task.dueDate!))"
-        taskDueDateLabel.textColor = task.status ? #colorLiteral(red: 0.2980392157, green: 0.7843137255, blue: 0.262745098, alpha: 1) : .black
+        taskDueDateLabel.textColor = task.status ? #colorLiteral(red: 0.2980392157, green: 0.7843137255, blue: 0.262745098, alpha: 1) : #colorLiteral(red: 0.501960814, green: 0.501960814, blue: 0.501960814, alpha: 1)
     }
     
 }
