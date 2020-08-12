@@ -23,6 +23,8 @@ class NewProjectVC: UIViewController, ButtonBackgroundColorProtocol {
         textField.backgroundColor = .white
         //        textfield.layer.cornerRadius = 7
         textField.borderStyle = .roundedRect
+        textField.font = UIFont.systemFont(ofSize: 35)
+        textField.setBottomBorder()
         return textField
     }()
     
@@ -91,9 +93,8 @@ class NewProjectVC: UIViewController, ButtonBackgroundColorProtocol {
         view.addSubview(setProjectName)
         
         NSLayoutConstraint.activate([
-            self.setProjectName.bottomAnchor.constraint(equalTo: self.colorGrid.topAnchor, constant: -50),
-            self.setProjectName.widthAnchor.constraint(equalToConstant: 180.0),
-            self.setProjectName.centerXAnchor.constraint(equalTo: self.view.centerXAnchor)
+            setProjectName.bottomAnchor.constraint(equalTo: self.colorGrid.topAnchor, constant: -50),
+            setProjectName.centerXAnchor.constraint(equalTo: self.view.centerXAnchor)
         ])
     }
     
@@ -105,7 +106,7 @@ class NewProjectVC: UIViewController, ButtonBackgroundColorProtocol {
             saveButton.topAnchor.constraint(equalTo: self.colorGrid.bottomAnchor, constant: 70),
             saveButton.leadingAnchor.constraint(equalTo: self.view.leadingAnchor, constant: 45),
             saveButton.trailingAnchor.constraint(equalTo: self.view.trailingAnchor, constant: -45),
-            saveButton.heightAnchor.constraint(equalToConstant: 48)
+            saveButton.heightAnchor.constraint(equalToConstant: 55)
 //            self.saveButton.centerXAnchor.constraint(equalTo: self.view.centerXAnchor)
         ])
     }

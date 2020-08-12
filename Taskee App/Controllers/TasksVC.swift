@@ -139,17 +139,6 @@ class TasksVC: UIViewController {
             segmentControl.selectedSegmentIndex = 0
         }
         
-        //To set Text Colour when Segment Selected
-//        segmentControl.setTitleTextAttributes([NSAttributedString.Key.foregroundColor: UIColor.red], for: UIControl.State.selected)
-
-        //To Set Background Colour when Segment Selected,
-        //The number in the [] is the segment that gets value change
-//        let subViewOfSegment: UIView = segmentControl.subviews[0] as UIView
-//                subViewOfSegment.backgroundColor = UIColor.blue
-//        
-//        let subViewOfSegment2: UIView = segmentControl.subviews[1] as UIView
-//        subViewOfSegment2.backgroundColor = UIColor.yellow
-        
         view.addSubview(segmentControl)
         segmentControl.translatesAutoresizingMaskIntoConstraints = false
         NSLayoutConstraint.activate([
@@ -164,15 +153,12 @@ class TasksVC: UIViewController {
     // what happens when user taps on the segment
     @objc func segmentControlTapped(_ segmentedControl: UISegmentedControl) {
         notifyEmptyTableLabel.isHidden = true
+        
         switch (segmentedControl.selectedSegmentIndex) {
         case 0:  // First segment tapped
             getPendingTasks()
-            //            print(tasks)
-        //            print(tasks.count)
         case 1:  // Second segment tapped
             getFinshedTasks()
-            //            print(tasks)
-        //            print(tasks.count)
         default:
             break
         }
@@ -247,7 +233,6 @@ extension TasksVC: UITableViewDelegate, UITableViewDataSource {
     }
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        print("slected")
         let selectedTask = tasks[indexPath.row]
         //        print(selectedTask)
         selectedTask.status = !selectedTask.status
@@ -255,12 +240,8 @@ extension TasksVC: UITableViewDelegate, UITableViewDataSource {
         
         if selectedTask.status { // decrement or increment to keep track of task  count
             selectedTask.parentProject?.taskCount -= 1
-            print("completed")
-            print(selectedTask.parentProject?.taskCount)
         } else {
             selectedTask.parentProject?.taskCount += 1
-            print("not completed")
-            print(selectedTask.parentProject?.taskCount)
         }
         
         if selectedTask.parentProject?.taskCount == 0 { // changing the status
@@ -304,14 +285,6 @@ extension TasksVC: UITableViewDelegate, UITableViewDataSource {
         coreDataStack.saveContext()
     }
     
-    //    func tableView(_ tableView: UITableView, moveRowAt sourceIndexPath: IndexPath, to destinationIndexPath: IndexPath) {
-    //
-    //        let habitToSwap = self.tasks[sourceIndexPath.row]
-    //        self.tasks.remove(at: sourceIndexPath.row)
-    //        self.tasks.insert(habitToSwap, at: destinationIndexPath.row)
-    //        self.coreDataStack.saveContext()
-    //
-    //    }
 }
 
 // - MARK: UIContextMenuInteractionDelegate
