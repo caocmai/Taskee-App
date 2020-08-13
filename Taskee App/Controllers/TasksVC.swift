@@ -53,6 +53,7 @@ class TasksVC: UIViewController {
     // fetch item right after user adds task, to get it to show/update
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
+        segmentControl.selectedSegmentIndex = 0
         
         if segmentControl.selectedSegmentIndex == 0 {
             getPendingTasks()
@@ -134,7 +135,7 @@ class TasksVC: UIViewController {
         segmentControl = UISegmentedControl(items: segmentItems)
         segmentControl.addTarget(self, action: #selector(segmentControlTapped(_:)), for: .valueChanged)
         if selectedProject?.projectStatus == "2Tasks Completed" {
-            segmentControl.selectedSegmentIndex = 1 // to show complete tasks by default
+            segmentControl.selectedSegmentIndex = 1 // to show complete tasks by default when project is completed
         } else {
             segmentControl.selectedSegmentIndex = 0
         }

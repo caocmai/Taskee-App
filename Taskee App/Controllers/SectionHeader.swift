@@ -8,7 +8,7 @@
 
 import UIKit
 
-class MyCustomHeader: UITableViewHeaderFooterView {
+class SectionHeader: UITableViewHeaderFooterView {
     
     static var identifier: String = "sectionHeader"
     

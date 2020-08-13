@@ -107,7 +107,7 @@ class ProjectsVC: UIViewController, NSFetchedResultsControllerDelegate {
         view.addSubview(table)
         table.frame = self.view.bounds
         table.register(CustomCell.self, forCellReuseIdentifier: CustomCell.identifier)
-        table.register(MyCustomHeader.self, forHeaderFooterViewReuseIdentifier: MyCustomHeader.identifier)
+        table.register(SectionHeader.self, forHeaderFooterViewReuseIdentifier: SectionHeader.identifier)
         table.delegate = self
         table.dataSource = self
         table.separatorStyle = .none
@@ -162,7 +162,7 @@ extension ProjectsVC: UITableViewDelegate, UITableViewDataSource {
     
         func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
             let headerView = tableView.dequeueReusableHeaderFooterView(withIdentifier:
-                "sectionHeader") as! MyCustomHeader
+                "sectionHeader") as! SectionHeader
             let sectionInfo = fetchedResultsController.sections?[section]
 //            headerView.title.text = String(String(sectionInfo!.name).dropFirst())
             headerView.configureTitle(String(String(sectionInfo!.name).dropFirst()))
