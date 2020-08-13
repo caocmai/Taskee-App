@@ -15,6 +15,9 @@ class TasksVC: UIViewController {
     var tasks = [Task]()
     var coreDataStack: CoreDataStack!
     
+    let searchController = UISearchController()
+
+    
     lazy var dateFormatter: DateFormatter = {
         let formatter = DateFormatter()
         formatter.dateStyle = .short

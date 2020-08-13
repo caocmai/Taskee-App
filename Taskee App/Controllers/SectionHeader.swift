@@ -48,7 +48,6 @@ class SectionHeader: UITableViewHeaderFooterView {
         self.contentView.addSubview(headerImage)
         
         NSLayoutConstraint.activate([
-            self.contentView.heightAnchor.constraint(equalToConstant: 40),
             title.centerYAnchor.constraint(equalTo: contentView.centerYAnchor),
             title.leadingAnchor.constraint(equalTo: self.contentView.leadingAnchor, constant: 10),
             title.trailingAnchor.constraint(equalTo: self.contentView.trailingAnchor, constant: -40),

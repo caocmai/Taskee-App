@@ -12,9 +12,22 @@ import CoreData
 class ProjectsVC: UIViewController, NSFetchedResultsControllerDelegate {
     
     var coreDataStack = CoreDataStack()
-    let searchController = UISearchController()
-    var table: UITableView = {
+    lazy var searchController : UISearchController = {
+        let searchBar = UISearchController()
+        searchBar.searchResultsUpdater = self
+        searchBar.searchBar.placeholder = "Seach"
+        searchBar.searchBar.delegate = self
+        searchBar.obscuresBackgroundDuringPresentation  = false
+        return searchBar
+    }()
+    lazy var table: UITableView = {
         let newTable = UITableView()
+        newTable.register(CustomCell.self, forCellReuseIdentifier: CustomCell.identifier)
+        newTable.register(SectionHeader.self, forHeaderFooterViewReuseIdentifier: SectionHeader.identifier)
+        newTable.frame = self.view.bounds
+        newTable.delegate = self
+        newTable.dataSource = self
+        newTable.separatorStyle = .none
         return newTable
     }()
     let notifyEmptyTableLabel: UILabel = {
@@ -44,7 +57,6 @@ class ProjectsVC: UIViewController, NSFetchedResultsControllerDelegate {
         
         return fetchedResultsController
     }()
-    
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -91,10 +103,7 @@ class ProjectsVC: UIViewController, NSFetchedResultsControllerDelegate {
         
         // Add searchController to under navBar
         self.navigationItem.searchController = searchController
-        searchController.searchResultsUpdater = self
-        searchController.searchBar.placeholder = "Seach"
-        searchController.searchBar.delegate = self
-        searchController.obscuresBackgroundDuringPresentation  = false
+        
     }
     
     private func configureCell(cell: UITableViewCell, for indexPath: IndexPath) {
@@ -105,12 +114,6 @@ class ProjectsVC: UIViewController, NSFetchedResultsControllerDelegate {
     
     private func configureTable() {
         view.addSubview(table)
-        table.frame = self.view.bounds
-        table.register(CustomCell.self, forCellReuseIdentifier: CustomCell.identifier)
-        table.register(SectionHeader.self, forHeaderFooterViewReuseIdentifier: SectionHeader.identifier)
-        table.delegate = self
-        table.dataSource = self
-        table.separatorStyle = .none
         
         // Refresh added to tableview
         let refreshControl = UIRefreshControl()
