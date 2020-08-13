@@ -12,7 +12,7 @@ import CoreData
 class ProjectsVC: UIViewController, NSFetchedResultsControllerDelegate {
     
     var coreDataStack = CoreDataStack()
-    let searchController = UISearchController(searchResultsController: nil)
+    let searchController = UISearchController()
     var table: UITableView = {
         let newTable = UITableView()
         return newTable

@@ -217,6 +217,9 @@ class NewTaskVC: UIViewController, UITextFieldDelegate {
         let singleTap = UITapGestureRecognizer(target: self, action: #selector(imageViewTapped))
         taskImageView.addGestureRecognizer(singleTap)
         
+        let barButtonItem = UIBarButtonItem(barButtonSystemItem: .camera, target: self, action: #selector(camerButtonTapped))
+        self.navigationItem.rightBarButtonItem = barButtonItem
+        
         scrollView.addSubview(containerView)
         containerView.addSubview(taskImageView)
         containerView.addSubview(setTitle)
@@ -273,6 +276,11 @@ class NewTaskVC: UIViewController, UITextFieldDelegate {
             }
             navigationController?.popViewController(animated: true)
         }
+    }
+    
+    @objc func camerButtonTapped(){
+        imagePicker.sourceType = .camera
+        self.present(imagePicker, animated: true, completion: nil)
     }
     
     private func checkAreFieldsEmpty() -> Bool {
