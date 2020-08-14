@@ -159,7 +159,7 @@ class NewTaskVC: UIViewController, UITextFieldDelegate {
     }
     
     private func setupEditUI() {
-        if taskToEdit != nil {
+        if taskToEdit != nil { // to popluate content of the task to edit
             setTitle.text = taskToEdit?.title
             taskImageView.image = UIImage(data: (taskToEdit?.taskImage)!)
             dateTextField.text = dateFormatter.string(from: (taskToEdit?.dueDate)!)
@@ -278,6 +278,8 @@ class NewTaskVC: UIViewController, UITextFieldDelegate {
                 taskToEdit?.setValue(setTitle.text, forKey: "title")
                 if dateTextField.text != dateFormatter.string(from: (taskToEdit?.dueDate)!) {
                     taskToEdit?.setValue(datePicker.date, forKey: "dueDate")
+                    taskToEdit?.status = false // because the date if different then the task is modified to be remarked to be incomplete
+                    taskToEdit?.parentProject!.taskCount += 1
                 }
                 taskToEdit?.setValue(taskImageView.image?.pngData(), forKey: "taskImage")
                 coreDataStack?.saveContext()

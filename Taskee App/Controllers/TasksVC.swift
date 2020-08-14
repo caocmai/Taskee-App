@@ -59,8 +59,16 @@ class TasksVC: UIViewController {
     // fetch item right after user adds task, to get it to show/update
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-        segmentControl.selectedSegmentIndex = 0
+//        segmentControl.selectedSegmentIndex = 0
         getPendingTasks()
+        determineSection()
+        if selectedProject?.projectStatus == "2Tasks Completed" {
+            segmentControl.selectedSegmentIndex = 1
+            getFinshedTasks()
+        } else {
+            segmentControl.selectedSegmentIndex = 0
+            getPendingTasks()
+        }
 //        if segmentControl.selectedSegmentIndex == 0 {
 //            getPendingTasks()
 //        } else {
@@ -140,12 +148,12 @@ class TasksVC: UIViewController {
         let segmentItems = ["Pending", "Completed"]
         segmentControl = UISegmentedControl(items: segmentItems)
         segmentControl.addTarget(self, action: #selector(segmentControlTapped(_:)), for: .valueChanged)
-        if selectedProject?.projectStatus == "2Tasks Completed" {
-            segmentControl.selectedSegmentIndex = 1 // to show complete tasks by default when project is completed
-        } else {
-            segmentControl.selectedSegmentIndex = 0
-        }
-        
+//        if selectedProject?.projectStatus == "2Tasks Completed" {
+//            segmentControl.selectedSegmentIndex = 1 // to show complete tasks by default when project is completed
+//        } else {
+//            segmentControl.selectedSegmentIndex = 0
+//        }
+//        
         view.addSubview(segmentControl)
         segmentControl.translatesAutoresizingMaskIntoConstraints = false
         NSLayoutConstraint.activate([
@@ -241,19 +249,19 @@ extension TasksVC: UITableViewDelegate, UITableViewDataSource {
         selectedTask.status = !selectedTask.status
         selectedTask.dateCompleted = Date()
         
-        if selectedTask.status { // decrement or increment to keep track of task  count
-            selectedTask.parentProject?.taskCount -= 1
-        } else {
-            selectedTask.parentProject?.taskCount += 1
-        }
-        
-        if selectedTask.parentProject?.taskCount == 0 { // changing the status
-            selectedTask.parentProject?.projectStatus = "2Tasks Completed"
-        } else {
-            selectedTask.parentProject?.projectStatus = "0Pending Tasks"
-        }
-        
-        coreDataStack.saveContext()
+//        if selectedTask.status { // decrement or increment to keep track of task  count
+//            selectedTask.parentProject?.taskCount -= 1
+//        } else {
+//            selectedTask.parentProject?.taskCount += 1
+//        }
+//
+//        if selectedTask.parentProject?.taskCount == 0 { // changing the status
+//            selectedTask.parentProject?.projectStatus = "2Tasks Completed"
+//        } else {
+//            selectedTask.parentProject?.projectStatus = "0Pending Tasks"
+//        }
+        determineSection()
+//        coreDataStack.saveContext()
         taskTable.reloadData() // To get checkmark to show
         
     }
@@ -273,18 +281,40 @@ extension TasksVC: UITableViewDelegate, UITableViewDataSource {
     }
     
     private func deleteTask(with task: Task, at indexPath: IndexPath) {
-        if !task.status {
-            task.parentProject?.taskCount -= 1 // To decrement accordingly
-        }
-        if task.parentProject?.taskCount == 0 {
-            task.parentProject?.projectStatus = "2Tasks Completed"
-        }
-        if selectedProject?.projectTasks?.count == 1 { // 1 because when not yet updated (haven't saved core data)
-            task.parentProject?.projectStatus = "1Task Not Set"
-        }
+//        if !task.status {
+//            task.parentProject?.taskCount -= 1 // To decrement accordingly
+//        }
+//        if task.parentProject?.taskCount == 0 {
+//            task.parentProject?.projectStatus = "2Tasks Completed"
+//        }
+//        if selectedProject?.projectTasks?.count == 1 { // 1 because when not yet updated (haven't saved core data)
+//            task.parentProject?.projectStatus = "1Task Not Set"
+//        }
         coreDataStack.managedContext.delete(task)
         tasks.remove(at: indexPath.row)
         taskTable.deleteRows(at: [indexPath], with: .fade)
+//        coreDataStack.saveContext()
+        determineSection()
+    }
+    
+    private func determineSection() {
+        var pendingTaskCount = 0
+        
+        for task in selectedProject!.projectTasks! {
+            if (task as! Task).status == false {
+                pendingTaskCount += 1
+            }
+        }
+        
+        if selectedProject!.projectTasks?.count == 0 {
+            selectedProject?.projectStatus = "1Task Not Set"
+        }
+        else if pendingTaskCount == 0 {
+            selectedProject!.projectStatus = "2Tasks Completed"
+        } else {
+            selectedProject!.projectStatus = "0Pending Tasks"
+        }
+        
         coreDataStack.saveContext()
     }
     
