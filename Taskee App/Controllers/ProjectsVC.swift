@@ -150,27 +150,27 @@ extension ProjectsVC: UITableViewDelegate, UITableViewDataSource {
     }
     
     
-//    func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
-//
-//        let sectionInfo = fetchedResultsController.sections?[section]
-////        print(sectionInfo?.name)
-//        return sectionInfo?.name
-//
-//
-//        //OR
-//        //    let sectionInfo = fetchedResultsController.sections?[section]
-//        //    return sectionInfo?.name
-//
-//    }
+    //    func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
+    //
+    //        let sectionInfo = fetchedResultsController.sections?[section]
+    ////        print(sectionInfo?.name)
+    //        return sectionInfo?.name
+    //
+    //
+    //        //OR
+    //        //    let sectionInfo = fetchedResultsController.sections?[section]
+    //        //    return sectionInfo?.name
+    //
+    //    }
     
-        func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
-            let headerView = tableView.dequeueReusableHeaderFooterView(withIdentifier:
-                "sectionHeader") as! SectionHeader
-            let sectionInfo = fetchedResultsController.sections?[section]
-//            headerView.title.text = String(String(sectionInfo!.name).dropFirst())
-            headerView.configureTitle(String(String(sectionInfo!.name).dropFirst()))
-            return headerView
-        }
+    func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
+        let headerView = tableView.dequeueReusableHeaderFooterView(withIdentifier:
+            "sectionHeader") as! SectionHeader
+        let sectionInfo = fetchedResultsController.sections?[section]
+        //            headerView.title.text = String(String(sectionInfo!.name).dropFirst())
+        headerView.configureTitle(String(String(sectionInfo!.name).dropFirst()))
+        return headerView
+    }
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         guard let sectionInfo = fetchedResultsController.sections?[section] else { return 0 }

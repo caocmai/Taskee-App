@@ -12,7 +12,12 @@ import CoreData
 class NewTaskVC: UIViewController, UITextFieldDelegate {
     
     var datePicker = UIDatePicker()
-    var imagePicker = UIImagePickerController()
+    lazy var imagePicker: UIImagePickerController = {
+        let imagePicker = UIImagePickerController()
+        imagePicker.delegate = self
+        imagePicker.allowsEditing = true
+        return imagePicker
+    }()
     
     lazy var setTitle: UITextField = {
         let textField = UITextField()
@@ -166,10 +171,15 @@ class NewTaskVC: UIViewController, UITextFieldDelegate {
     }
     
     @objc func imageViewTapped() {
-        imagePicker.delegate = self
+//        imagePicker.delegate = self
         imagePicker.sourceType = .photoLibrary
-        imagePicker.allowsEditing = true
-        present(imagePicker, animated: true, completion: nil)
+//        imagePicker.allowsEditing = true
+        self.present(imagePicker, animated: true, completion: nil)
+    }
+    
+    @objc func camerButtonTapped(){
+        imagePicker.sourceType = .camera
+        self.present(imagePicker, animated: true, completion: nil)
     }
     
     // Currently not using and using setupScrollViewUI instead
@@ -276,11 +286,6 @@ class NewTaskVC: UIViewController, UITextFieldDelegate {
             }
             navigationController?.popViewController(animated: true)
         }
-    }
-    
-    @objc func camerButtonTapped(){
-        imagePicker.sourceType = .camera
-        self.present(imagePicker, animated: true, completion: nil)
     }
     
     private func checkAreFieldsEmpty() -> Bool {
