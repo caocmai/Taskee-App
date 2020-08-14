@@ -306,6 +306,9 @@ extension ProjectsVC: UISearchBarDelegate, UISearchResultsUpdating {
             do {
                 try self.fetchedResultsController.performFetch()
                 self.table.reloadData()
+                if fetchedResultsController.sections?.count == 0 {
+                    notifyEmptyTableLabel.text = "Search Not Found"
+                }
             } catch {}
         }
     }

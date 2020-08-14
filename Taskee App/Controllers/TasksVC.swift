@@ -17,7 +17,6 @@ class TasksVC: UIViewController {
     
     let searchController = UISearchController()
 
-    
     lazy var dateFormatter: DateFormatter = {
         let formatter = DateFormatter()
         formatter.dateStyle = .short
@@ -25,8 +24,12 @@ class TasksVC: UIViewController {
         return formatter
     }()
     
-    let taskTable: UITableView = {
+    lazy var taskTable: UITableView = {
         let table = UITableView()
+        table.delegate = self
+        table.dataSource = self
+        table.register(CustomCell.self, forCellReuseIdentifier: CustomCell.identifier)
+        table.separatorStyle = .none
         table.translatesAutoresizingMaskIntoConstraints = false
         return table
     }()
@@ -57,12 +60,12 @@ class TasksVC: UIViewController {
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         segmentControl.selectedSegmentIndex = 0
-        
-        if segmentControl.selectedSegmentIndex == 0 {
-            getPendingTasks()
-        } else {
-            getFinshedTasks()
-        }
+        getPendingTasks()
+//        if segmentControl.selectedSegmentIndex == 0 {
+//            getPendingTasks()
+//        } else {
+//            getFinshedTasks()
+//        }
     }
     
     private func setupUIForEmptyPendingTasks(withDuration time: Double) {
@@ -190,11 +193,7 @@ class TasksVC: UIViewController {
     }
     
     private func configureTable() {
-        taskTable.delegate = self
-        taskTable.dataSource = self
-        taskTable.register(CustomCell.self, forCellReuseIdentifier: CustomCell.identifier)
         self.view.addSubview(taskTable)
-        taskTable.separatorStyle = .none
         // Refresh control
         let refreshControl = UIRefreshControl()
         refreshControl.addTarget(self, action: #selector(refresh), for: .valueChanged)
