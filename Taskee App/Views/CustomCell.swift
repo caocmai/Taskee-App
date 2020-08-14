@@ -114,11 +114,11 @@ class CustomCell: UITableViewCell {
         }
         
         if project.projectTasks?.count == 0 {
-            pendingTasksLabel.text = "Tasks not set"
+            pendingTasksLabel.text = "Set a task"
             pendingTasksLabel.textColor = #colorLiteral(red: 0.6000000238, green: 0.6000000238, blue: 0.6000000238, alpha: 0.7964469178)
         }
         else if pendingTaskCount == 0 {
-            pendingTasksLabel.text = "Tasks completed!"
+            pendingTasksLabel.text = "No more tasks"
             pendingTasksLabel.textColor = #colorLiteral(red: 0.8039215803, green: 0.8248440974, blue: 0.8039215803, alpha: 1)
         } else {
             pendingTasksLabel.text = "\(pendingTaskCount) Pending task\(pendingTaskCount <= 1 ? "" : "s")"

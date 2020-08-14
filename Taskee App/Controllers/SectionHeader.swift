@@ -17,7 +17,6 @@ class SectionHeader: UITableViewHeaderFooterView {
         textField.translatesAutoresizingMaskIntoConstraints = false
         textField.placeholder = "Task Title"
         textField.textAlignment = .right
-        textField.tag = 0
         textField.font = UIFont.systemFont(ofSize: 25)
         textField.textColor = #colorLiteral(red: 0.3720658123, green: 0.3721333742, blue: 0.3720569015, alpha: 1)
         textField.setBottomBorder()
@@ -35,8 +34,10 @@ class SectionHeader: UITableViewHeaderFooterView {
     
     override init(reuseIdentifier: String?) {
         super.init(reuseIdentifier: reuseIdentifier)
+//        self.contentView.heightAnchor.constraint(equalToConstant: 35).isActive = true
         configureContents()
         self.contentView.backgroundColor = .white
+        
     }
     
     required init?(coder: NSCoder) {
@@ -53,7 +54,7 @@ class SectionHeader: UITableViewHeaderFooterView {
             title.trailingAnchor.constraint(equalTo: self.contentView.trailingAnchor, constant: -40),
             
             headerImage.leadingAnchor.constraint(equalTo: title.trailingAnchor, constant: 10),
-            headerImage.centerYAnchor.constraint(equalTo: self.contentView.centerYAnchor),
+            headerImage.centerYAnchor.constraint(equalTo: self.contentView.centerYAnchor, constant: 1),
             headerImage.heightAnchor.constraint(equalToConstant: 23),
             
         ])

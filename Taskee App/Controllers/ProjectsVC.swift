@@ -203,6 +203,9 @@ extension ProjectsVC: UITableViewDelegate, UITableViewDataSource {
         return 90
     }
     
+    func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
+        return 35
+    }
 }
 
 // - MARK: NSFetchResultsController
