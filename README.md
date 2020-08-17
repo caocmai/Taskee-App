@@ -7,10 +7,10 @@ This is a to-do type app that allows users to create and modify projects and tas
 Core Data is used to persistently store user created content, meaning thier projects and tasks will not be lost when the application is purged from memory intentionally or by accident. 
 
 ### Features 
-* CRUD(Create, Read, Update, and Delete) plus Search projects 
-* CRUD(Create, Read, Update, and Delete) tasks of projects with ability to toggle between pending and completed
+* CRUD(Create, Read, Update, and Delete) plus ability to search projects 
+* CRUD(Create, Read, Update, and Delete) tasks with ability to toggle between pending and completed
 * Empty field validation 
-* Edit/update a project or task which is accessible by 3D touch (context menu)
+* Edit/update a project or task that is accessible by 3D touch (context menu)
 * Core Data to persist projects and tasks
 * Local notification with text and image 1 hour prior to a task's due date
 
