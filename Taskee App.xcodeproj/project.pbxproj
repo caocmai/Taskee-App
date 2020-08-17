@@ -34,6 +34,7 @@
 
 /* Begin PBXFileReference section */
 		2C03D0AF24D2928000E00FA5 /* SectionHeader.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SectionHeader.swift; sourceTree = "<group>"; };
+		2C30D75424EA2F8C00C6D8DA /* Taskee App.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = "Taskee App.entitlements"; sourceTree = "<group>"; };
 		2C37381B24B9762E00E05654 /* UITextField.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UITextField.swift; sourceTree = "<group>"; };
 		2C4ED4B524ABD6B800FD05D4 /* CoreDataStack.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CoreDataStack.swift; sourceTree = "<group>"; };
 		2C5258D124B2D164005D662D /* ColorGrid.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ColorGrid.swift; sourceTree = "<group>"; };
@@ -104,6 +105,7 @@
 		2C9BB4CA24A9A55400936C1C /* Taskee App */ = {
 			isa = PBXGroup;
 			children = (
+				2C30D75424EA2F8C00C6D8DA /* Taskee App.entitlements */,
 				2C9BB4CB24A9A55400936C1C /* AppDelegate.swift */,
 				2C9BB4CD24A9A55400936C1C /* SceneDelegate.swift */,
 				2C8F175524ABE95B002B0352 /* Core Data */,
@@ -392,6 +394,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_ENTITLEMENTS = "Taskee App/Taskee App.entitlements";
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = 8LPD7G35TZ;
 				INFOPLIST_FILE = "Taskee App/Info.plist";
@@ -410,6 +413,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_ENTITLEMENTS = "Taskee App/Taskee App.entitlements";
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = 8LPD7G35TZ;
 				INFOPLIST_FILE = "Taskee App/Info.plist";

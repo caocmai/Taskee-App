@@ -61,7 +61,7 @@ class TasksVC: UIViewController {
         super.viewWillAppear(animated)
 //        segmentControl.selectedSegmentIndex = 0
         getPendingTasks()
-        determineSection()
+        determineProjectSection()
         if selectedProject?.projectStatus == "2Tasks Completed" {
             segmentControl.selectedSegmentIndex = 1
             getFinshedTasks()
@@ -69,11 +69,11 @@ class TasksVC: UIViewController {
             segmentControl.selectedSegmentIndex = 0
             getPendingTasks()
         }
-//        if segmentControl.selectedSegmentIndex == 0 {
-//            getPendingTasks()
-//        } else {
-//            getFinshedTasks()
-//        }
+    }
+    
+    override func viewWillDisappear(_ animated: Bool) {
+        super.viewWillDisappear(animated)
+        determineProjectSection() // determine proper sections before view disappears
     }
     
     private func setupUIForEmptyPendingTasks(withDuration time: Double) {
@@ -153,7 +153,7 @@ class TasksVC: UIViewController {
 //        } else {
 //            segmentControl.selectedSegmentIndex = 0
 //        }
-//        
+//
         view.addSubview(segmentControl)
         segmentControl.translatesAutoresizingMaskIntoConstraints = false
         NSLayoutConstraint.activate([
@@ -260,7 +260,7 @@ extension TasksVC: UITableViewDelegate, UITableViewDataSource {
 //        } else {
 //            selectedTask.parentProject?.projectStatus = "0Pending Tasks"
 //        }
-        determineSection()
+        determineProjectSection()
 //        coreDataStack.saveContext()
         taskTable.reloadData() // To get checkmark to show
         
@@ -294,10 +294,10 @@ extension TasksVC: UITableViewDelegate, UITableViewDataSource {
         tasks.remove(at: indexPath.row)
         taskTable.deleteRows(at: [indexPath], with: .fade)
 //        coreDataStack.saveContext()
-        determineSection()
+        determineProjectSection()
     }
     
-    private func determineSection() {
+    private func determineProjectSection() {
         var pendingTaskCount = 0
         
         for task in selectedProject!.projectTasks! {

@@ -65,7 +65,7 @@ class PreviewVC: UIViewController {
         ])
     }
     
-    func configureTask(with task: Task){
+    internal func configureTask(with task: Task){
         taskTitleLabel.text = task.title
         imageView.image = UIImage(data: task.taskImage!)
         taskDueDateLabel.text = task.status ? "Completed on \(dateFormatter.string(from: task.dateCompleted!))" : "Due by \(dateFormatter.string(from: task.dueDate!))"

@@ -59,10 +59,10 @@ class NewTaskVC: UIViewController, UITextFieldDelegate {
         let image = UIImageView()
         image.translatesAutoresizingMaskIntoConstraints = false
         image.image = UIImage(named: "no item image")
-//        image.image = UIImage(systemName: "photo.on.rectangle.fill")
+        //        image.image = UIImage(systemName: "photo.on.rectangle.fill")
         image.contentMode = .scaleAspectFill
         image.isUserInteractionEnabled = true
-//        image.layer.cornerRadius = 75
+        //        image.layer.cornerRadius = 75
         image.layer.masksToBounds = true
         image.layer.cornerRadius = 20
         
@@ -114,7 +114,7 @@ class NewTaskVC: UIViewController, UITextFieldDelegate {
         
         // call the 'keyboardWillHide' function when the view controlelr receive notification that keyboard is going to be hidden
         NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillHide), name: UIResponder.keyboardWillHideNotification, object: nil)
-
+        
     }
     
     @objc func keyboardWillShow(notification: NSNotification) {
@@ -124,15 +124,15 @@ class NewTaskVC: UIViewController, UITextFieldDelegate {
             return
         }
         // move the root view up by the distance of keyboard height
-//        self.view.frame.origin.y = 100 - keyboardSize.height
+        //        self.view.frame.origin.y = 100 - keyboardSize.height
         
         scrollView.setContentOffset(CGPoint(x: 0, y: view.frame.height/4), animated: true)
-
+        
     }
     
     @objc func keyboardWillHide(notification: NSNotification) {
         // move back the root view origin to zero
-//        self.view.frame.origin.y = 0
+        //        self.view.frame.origin.y = 0
         
         scrollView.setContentOffset(CGPoint(x: 0, y: 0), animated: true)
     }
@@ -171,9 +171,9 @@ class NewTaskVC: UIViewController, UITextFieldDelegate {
     }
     
     @objc func imageViewTapped() {
-//        imagePicker.delegate = self
+        //        imagePicker.delegate = self
         imagePicker.sourceType = .photoLibrary
-//        imagePicker.allowsEditing = true
+        //        imagePicker.allowsEditing = true
         self.present(imagePicker, animated: true, completion: nil)
     }
     
@@ -191,7 +191,7 @@ class NewTaskVC: UIViewController, UITextFieldDelegate {
         
         let singleTap = UITapGestureRecognizer(target: self, action: #selector(imageViewTapped))
         taskImageView.addGestureRecognizer(singleTap)
-                
+        
         NSLayoutConstraint.activate([
             taskImageView.widthAnchor.constraint(equalToConstant: 150),
             taskImageView.heightAnchor.constraint(equalToConstant: 150),
@@ -221,7 +221,7 @@ class NewTaskVC: UIViewController, UITextFieldDelegate {
         ])
     }
     
-    func setupScrollViewUI() {
+    private func setupScrollViewUI() {
         self.view.addSubview(scrollView)
         
         let singleTap = UITapGestureRecognizer(target: self, action: #selector(imageViewTapped))
@@ -235,7 +235,7 @@ class NewTaskVC: UIViewController, UITextFieldDelegate {
         containerView.addSubview(setTitle)
         containerView.addSubview(dateTextField)
         containerView.addSubview(saveButton)
-
+        
         NSLayoutConstraint.activate([
             scrollView.topAnchor.constraint(equalTo: self.view.safeAreaLayoutGuide.topAnchor),
             scrollView.leadingAnchor.constraint(equalTo: self.view.leadingAnchor),
@@ -268,7 +268,7 @@ class NewTaskVC: UIViewController, UITextFieldDelegate {
             saveButton.heightAnchor.constraint(equalToConstant: 55),
             saveButton.leadingAnchor.constraint(equalTo: containerView.leadingAnchor, constant: 45),
             saveButton.trailingAnchor.constraint(equalTo: containerView.trailingAnchor, constant: -45),
-
+            
         ])
     }
     
@@ -278,7 +278,7 @@ class NewTaskVC: UIViewController, UITextFieldDelegate {
                 taskToEdit?.setValue(setTitle.text, forKey: "title")
                 if dateTextField.text != dateFormatter.string(from: (taskToEdit?.dueDate)!) {
                     taskToEdit?.setValue(datePicker.date, forKey: "dueDate")
-                    taskToEdit?.status = false // because the date if different then the task is modified to be remarked to be incomplete
+                    taskToEdit?.status = false // because the if date different then original then remark as status as incomplete
                     taskToEdit?.parentProject!.taskCount += 1
                 }
                 taskToEdit?.setValue(taskImageView.image?.pngData(), forKey: "taskImage")
@@ -351,9 +351,50 @@ class NewTaskVC: UIViewController, UITextFieldDelegate {
         newTask.title = setTitle.text
         newTask.taskImage = taskImageView.image!.pngData()
         newTask.parentProject = parentObject
-        newTask.parentProject?.taskCount += 1
-        newTask.parentProject?.projectStatus = "0Pending Tasks"
+        newTask.parentProject?.taskCount += 1 // not currenlty using
+        //        newTask.parentProject?.projectStatus = "0Pending Tasks"
         coreDataStack?.saveContext()
+        //        newTask.objectID
+        
+        print(newTask.objectID)
+//        print(taskImageView.image!)
+        
+        
+        // add to notification
+        let uniqueID = UUID().uuidString
+        addNotification(at: datePicker.date, uniqueID: uniqueID, image: taskImageView.image!)
+    }
+    
+    func addNotification(at date: Date, uniqueID id: String, image: UIImage) {
+        let center = UNUserNotificationCenter.current()
+        center.requestAuthorization(options: [.alert, .sound]) { (granted, error) in
+            //            print(error as Any)
+        }
+        
+        let content = UNMutableNotificationContent()
+        content.title = "Plant Notification"
+        content.body = "A notification example of plant time"
+        
+        if let attachment = UNNotificationAttachment.create(identifier: id, image: image, options: nil) {
+            content.attachments = [attachment]
+        }
+        
+        
+        //        let date = Date().addingTimeInterval(5)
+        
+        let dateComponents = Calendar.current.dateComponents([.year, .month, .day, .hour, .minute], from: date)
+        
+        let trigger = UNCalendarNotificationTrigger(dateMatching: dateComponents, repeats: false)
+        
+        //        let uiidString = UUID().uuidString
+        let request = UNNotificationRequest(identifier: id, content: content, trigger: trigger)
+        
+        center.add(request) { (error) in
+            if error != nil {
+                print(error as Any, "error!!!")
+                
+            }
+        }
     }
     
 }
@@ -362,17 +403,37 @@ class NewTaskVC: UIViewController, UITextFieldDelegate {
 
 extension NewTaskVC: UINavigationControllerDelegate, UIImagePickerControllerDelegate {
     
-    func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [UIImagePickerController.InfoKey : Any]) {
+    internal func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [UIImagePickerController.InfoKey : Any]) {
         if let image = info[UIImagePickerController.InfoKey.editedImage] as? UIImage {
             taskImageView.image = image
         }
         dismiss(animated: true, completion: nil)
     }
     
-    func imagePickerControllerDidCancel(_ picker: UIImagePickerController) {
+    internal func imagePickerControllerDidCancel(_ picker: UIImagePickerController) {
         // Dismiss the picker if the user canceled.
         dismiss(animated: true, completion: nil)
     }
     
 }
 
+extension UNNotificationAttachment {
+    static func create(identifier: String, image: UIImage, options: [NSObject : AnyObject]?) -> UNNotificationAttachment? {
+        let fileManager = FileManager.default
+        let tmpSubFolderName = ProcessInfo.processInfo.globallyUniqueString
+        let tmpSubFolderURL = URL(fileURLWithPath: NSTemporaryDirectory()).appendingPathComponent(tmpSubFolderName, isDirectory: true)
+        do {
+            try fileManager.createDirectory(at: tmpSubFolderURL, withIntermediateDirectories: true, attributes: nil)
+            let imageFileIdentifier = identifier+".png"
+            let fileURL = tmpSubFolderURL.appendingPathComponent(imageFileIdentifier)
+            guard let imageData = image.pngData() else {
+                return nil
+            }
+            try imageData.write(to: fileURL)
+            let imageAttachment = try UNNotificationAttachment.init(identifier: imageFileIdentifier, url: fileURL, options: options)
+            return imageAttachment        } catch {
+                print("error " + error.localizedDescription)
+        }
+        return nil
+    }
+}

@@ -56,7 +56,7 @@ class CustomCell: UITableViewCell {
         // Initialization code
     }
     
-    func configureUIForTask(with task: Task) {
+    internal func configureUIForTask(with task: Task) {
         self.contentView.addSubview(taskImage)
         self.contentView.addSubview(taskStatusImage)
         
@@ -95,7 +95,7 @@ class CustomCell: UITableViewCell {
         pendingTasksLabel.textColor = #colorLiteral(red: 0.6000000238, green: 0.6000000238, blue: 0.6000000238, alpha: 1)
     }
     
-    func configureUIForProject(with project: Project) {
+    internal func configureUIForProject(with project: Project) {
         //        print(project.taskCount)
         NSLayoutConstraint.activate([
             cellTitleLabel.centerYAnchor.constraint(equalTo: self.contentView.centerYAnchor, constant: -3),

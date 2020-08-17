@@ -44,7 +44,7 @@ class SectionHeader: UITableViewHeaderFooterView {
         fatalError("init(coder:) has not been implemented")
     }
     
-    func configureContents() {
+    private func configureContents() {
         self.contentView.addSubview(title)
         self.contentView.addSubview(headerImage)
         
@@ -60,7 +60,7 @@ class SectionHeader: UITableViewHeaderFooterView {
         ])
     }
     
-    func configureTitle(_ sectionTitle: String){
+    internal func configureTitle(_ sectionTitle: String){
         title.text = sectionTitle
         
         switch sectionTitle {

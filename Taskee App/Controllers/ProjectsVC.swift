@@ -263,8 +263,7 @@ extension ProjectsVC {
 extension ProjectsVC: UIContextMenuInteractionDelegate {
     
     func contextMenuInteraction(_ interaction: UIContextMenuInteraction,
-                                configurationForMenuAtLocation location: CGPoint)
-        -> UIContextMenuConfiguration? {
+                                configurationForMenuAtLocation location: CGPoint) -> UIContextMenuConfiguration? {
             return nil
     }
     

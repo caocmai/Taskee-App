@@ -50,7 +50,7 @@ class NewProjectVC: UIViewController, ButtonBackgroundColorProtocol {
         UITextField.connectFields(fields: [setProjectName])
     }
     
-    func getButtonColor(buttonColor: UIColor) { // from protocol/delegate
+    internal func getButtonColor(buttonColor: UIColor) { // from protocol/delegate
         self.view.backgroundColor = buttonColor
         getColorFromColorGrid = buttonColor
     }
@@ -111,7 +111,7 @@ class NewProjectVC: UIViewController, ButtonBackgroundColorProtocol {
         ])
     }
     
-    func checkAreFieldsEmpty() -> Bool {
+    private func checkAreFieldsEmpty() -> Bool {
         if setProjectName.text == "" {
             setProjectName.layer.borderWidth = 2
             setProjectName.layer.cornerRadius = 7
