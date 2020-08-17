@@ -8,7 +8,7 @@
 
 import UIKit
 
-///https://stackoverflow.com/questions/1347779/how-to-navigate-through-textfields-next-done-buttons
+/// from https://stackoverflow.com/questions/1347779/how-to-navigate-through-textfields-next-done-buttons
 extension UITextField { // Gives you done button when end of textfields, otherwise get next button to move to next UItextfield, (form entry helper)
     class func connectFields(fields:[UITextField]) -> Void {
         guard let last = fields.last else {
@@ -22,6 +22,7 @@ extension UITextField { // Gives you done button when end of textfields, otherwi
         last.addTarget(last, action: #selector(UIResponder.resignFirstResponder), for: .editingDidEndOnExit)
     }
     
+    // add underline to uitextfield
     func setBottomBorder() {
       self.borderStyle = .none
       self.layer.backgroundColor = UIColor.white.cgColor

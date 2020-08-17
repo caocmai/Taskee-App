@@ -16,8 +16,8 @@ class TasksVC: UIViewController {
     var coreDataStack: CoreDataStack!
     
     let searchController = UISearchController()
-
-    lazy var dateFormatter: DateFormatter = {
+    
+    let dateFormatter: DateFormatter = {
         let formatter = DateFormatter()
         formatter.dateStyle = .short
         formatter.timeStyle = .short
@@ -49,7 +49,7 @@ class TasksVC: UIViewController {
         addSegmentControl()
         configureNavBar()
         configureTable()
-        getPendingTasks()
+        //        getPendingTasks()
         // For context menu to have preview
         let interaction = UIContextMenuInteraction(delegate: self)
         self.view.addInteraction(interaction)
@@ -59,15 +59,17 @@ class TasksVC: UIViewController {
     // fetch item right after user adds task, to get it to show/update
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-//        segmentControl.selectedSegmentIndex = 0
-        getPendingTasks()
+//        getPendingTasks()
         determineProjectSection()
-        if selectedProject?.projectStatus == "2Tasks Completed" {
+        
+        if selectedProject?.projectStatus == "2Tasks Completed" { // to show completed tasks when none pending tasks
             segmentControl.selectedSegmentIndex = 1
             getFinshedTasks()
+//            determineProjectSection()
         } else {
             segmentControl.selectedSegmentIndex = 0
             getPendingTasks()
+//            determineProjectSection()
         }
     }
     
@@ -120,6 +122,18 @@ class TasksVC: UIViewController {
                 } else {
                     self.notifyEmptyTableLabel.isHidden = true
                 }
+                
+                // add to notification
+                print("setting up notfi")
+                DispatchQueue.main.async {
+                    for task in tasks {
+                        let id = task.objectID.uriRepresentation().absoluteString
+                        print(id)
+                        let image = UIImage(data: task.taskImage!)
+                        self.addNotification(about: task.title!, at: task.dueDate!, uniqueID: task.title!, image: image!)
+                    }
+                }
+                
             case .failure(let error):
                 print(error)
             }
@@ -138,6 +152,18 @@ class TasksVC: UIViewController {
                 } else {
                     self.notifyEmptyTableLabel.isHidden = true
                 }
+                
+                // remove from notification
+                var taskIDs = [String]()
+                for task in tasks {
+                    let id = task.objectID.uriRepresentation().absoluteString
+                    taskIDs.append(id)
+                }
+                
+                let center = UNUserNotificationCenter.current()
+                // center.removeDeliveredNotifications(withIdentifiers: [String])
+                center.removePendingNotificationRequests(withIdentifiers: taskIDs)
+                
             case .failure(let error):
                 print(error)
             }
@@ -148,12 +174,12 @@ class TasksVC: UIViewController {
         let segmentItems = ["Pending", "Completed"]
         segmentControl = UISegmentedControl(items: segmentItems)
         segmentControl.addTarget(self, action: #selector(segmentControlTapped(_:)), for: .valueChanged)
-//        if selectedProject?.projectStatus == "2Tasks Completed" {
-//            segmentControl.selectedSegmentIndex = 1 // to show complete tasks by default when project is completed
-//        } else {
-//            segmentControl.selectedSegmentIndex = 0
-//        }
-//
+        //        if selectedProject?.projectStatus == "2Tasks Completed" {
+        //            segmentControl.selectedSegmentIndex = 1 // to show complete tasks by default when project is completed
+        //        } else {
+        //            segmentControl.selectedSegmentIndex = 0
+        //        }
+        //
         view.addSubview(segmentControl)
         segmentControl.translatesAutoresizingMaskIntoConstraints = false
         NSLayoutConstraint.activate([
@@ -225,6 +251,36 @@ class TasksVC: UIViewController {
         self.taskTable.reloadData()
     }
     
+    // - MARK: Notification
+    
+    func addNotification(about title: String, at date: Date, uniqueID id: String, image: UIImage) {
+        let center = UNUserNotificationCenter.current()
+        center.requestAuthorization(options: [.alert, .sound]) { (granted, error) in
+            //            print(error as Any)
+        }
+        
+        let content = UNMutableNotificationContent()
+        content.title = "Task Deadline Near!"
+        content.body = "\(title) is due in 1 hour."
+        
+        if let attachment = UNNotificationAttachment.create(identifier: id, image: image, options: nil) {
+            content.attachments = [attachment]
+        }
+        
+        let dateNew = date.addingTimeInterval(-3600) // move the date back an hour to notify 1 hour advance
+        
+        let dateComponents = Calendar.current.dateComponents([.year, .month, .day, .hour, .minute], from: dateNew)
+        let trigger = UNCalendarNotificationTrigger(dateMatching: dateComponents, repeats: false)
+        let request = UNNotificationRequest(identifier: id, content: content, trigger: trigger)
+        
+        center.add(request) { (error) in
+            if error != nil {
+                print(error as Any, "error!!!")
+                
+            }
+        }
+    }
+    
 }
 
 // - MARK: UITableView
@@ -238,7 +294,7 @@ extension TasksVC: UITableViewDelegate, UITableViewDataSource {
         let cell = tableView.dequeueReusableCell(withIdentifier: CustomCell.identifier, for: indexPath) as! CustomCell
         let task = tasks[indexPath.row]
         cell.configureUIForTask(with: task)
-//        cell.accessoryType = task.status ? .checkmark : .none
+        //        cell.accessoryType = task.status ? .checkmark : .none
         
         return cell
     }
@@ -249,19 +305,19 @@ extension TasksVC: UITableViewDelegate, UITableViewDataSource {
         selectedTask.status = !selectedTask.status
         selectedTask.dateCompleted = Date()
         
-//        if selectedTask.status { // decrement or increment to keep track of task  count
-//            selectedTask.parentProject?.taskCount -= 1
-//        } else {
-//            selectedTask.parentProject?.taskCount += 1
-//        }
-//
-//        if selectedTask.parentProject?.taskCount == 0 { // changing the status
-//            selectedTask.parentProject?.projectStatus = "2Tasks Completed"
-//        } else {
-//            selectedTask.parentProject?.projectStatus = "0Pending Tasks"
-//        }
+        //        if selectedTask.status { // decrement or increment to keep track of task  count
+        //            selectedTask.parentProject?.taskCount -= 1
+        //        } else {
+        //            selectedTask.parentProject?.taskCount += 1
+        //        }
+        //
+        //        if selectedTask.parentProject?.taskCount == 0 { // changing the status
+        //            selectedTask.parentProject?.projectStatus = "2Tasks Completed"
+        //        } else {
+        //            selectedTask.parentProject?.projectStatus = "0Pending Tasks"
+        //        }
         determineProjectSection()
-//        coreDataStack.saveContext()
+        //        coreDataStack.saveContext()
         taskTable.reloadData() // To get checkmark to show
         
     }
@@ -281,19 +337,19 @@ extension TasksVC: UITableViewDelegate, UITableViewDataSource {
     }
     
     private func deleteTask(with task: Task, at indexPath: IndexPath) {
-//        if !task.status {
-//            task.parentProject?.taskCount -= 1 // To decrement accordingly
-//        }
-//        if task.parentProject?.taskCount == 0 {
-//            task.parentProject?.projectStatus = "2Tasks Completed"
-//        }
-//        if selectedProject?.projectTasks?.count == 1 { // 1 because when not yet updated (haven't saved core data)
-//            task.parentProject?.projectStatus = "1Task Not Set"
-//        }
+        //        if !task.status {
+        //            task.parentProject?.taskCount -= 1 // To decrement accordingly
+        //        }
+        //        if task.parentProject?.taskCount == 0 {
+        //            task.parentProject?.projectStatus = "2Tasks Completed"
+        //        }
+        //        if selectedProject?.projectTasks?.count == 1 { // 1 because when not yet updated (haven't saved core data)
+        //            task.parentProject?.projectStatus = "1Task Not Set"
+        //        }
         coreDataStack.managedContext.delete(task)
         tasks.remove(at: indexPath.row)
         taskTable.deleteRows(at: [indexPath], with: .fade)
-//        coreDataStack.saveContext()
+        //        coreDataStack.saveContext()
         determineProjectSection()
     }
     

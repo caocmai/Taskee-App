@@ -356,24 +356,24 @@ class NewTaskVC: UIViewController, UITextFieldDelegate {
         coreDataStack?.saveContext()
         //        newTask.objectID
         
-        print(newTask.objectID)
+//        print(newTask.objectID)
 //        print(taskImageView.image!)
         
         
         // add to notification
-        let uniqueID = UUID().uuidString
-        addNotification(at: datePicker.date, uniqueID: uniqueID, image: taskImageView.image!)
+//        let uniqueID = UUID().uuidString
+//        addNotification(at: datePicker.date, uniqueID: "p32", image: taskImageView.image!, about: setTitle.text!)
     }
     
-    func addNotification(at date: Date, uniqueID id: String, image: UIImage) {
+    func addNotification(at date: Date, uniqueID id: String, image: UIImage, about title: String) {
         let center = UNUserNotificationCenter.current()
         center.requestAuthorization(options: [.alert, .sound]) { (granted, error) in
             //            print(error as Any)
         }
         
         let content = UNMutableNotificationContent()
-        content.title = "Plant Notification"
-        content.body = "A notification example of plant time"
+        content.title = "Task Deadline Near!"
+        content.body = "\(title)'s due date is coming up"
         
         if let attachment = UNNotificationAttachment.create(identifier: id, image: image, options: nil) {
             content.attachments = [attachment]
@@ -415,25 +415,4 @@ extension NewTaskVC: UINavigationControllerDelegate, UIImagePickerControllerDele
         dismiss(animated: true, completion: nil)
     }
     
-}
-
-extension UNNotificationAttachment {
-    static func create(identifier: String, image: UIImage, options: [NSObject : AnyObject]?) -> UNNotificationAttachment? {
-        let fileManager = FileManager.default
-        let tmpSubFolderName = ProcessInfo.processInfo.globallyUniqueString
-        let tmpSubFolderURL = URL(fileURLWithPath: NSTemporaryDirectory()).appendingPathComponent(tmpSubFolderName, isDirectory: true)
-        do {
-            try fileManager.createDirectory(at: tmpSubFolderURL, withIntermediateDirectories: true, attributes: nil)
-            let imageFileIdentifier = identifier+".png"
-            let fileURL = tmpSubFolderURL.appendingPathComponent(imageFileIdentifier)
-            guard let imageData = image.pngData() else {
-                return nil
-            }
-            try imageData.write(to: fileURL)
-            let imageAttachment = try UNNotificationAttachment.init(identifier: imageFileIdentifier, url: fileURL, options: options)
-            return imageAttachment        } catch {
-                print("error " + error.localizedDescription)
-        }
-        return nil
-    }
 }

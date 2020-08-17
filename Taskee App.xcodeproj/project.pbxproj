@@ -26,6 +26,7 @@
 		2C9BB4D824A9A55500936C1C /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 2C9BB4D624A9A55500936C1C /* LaunchScreen.storyboard */; };
 		2C9BB4E524A9B48F00936C1C /* README.md in Resources */ = {isa = PBXBuildFile; fileRef = 2C9BB4E424A9B48F00936C1C /* README.md */; };
 		2CA75BD124BEC3480091DB06 /* PreviewVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2CA75BD024BEC3480091DB06 /* PreviewVC.swift */; };
+		2CE8732724EAECB500D2B6CE /* UNNotificationAttachment.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2CE8732624EAECB500D2B6CE /* UNNotificationAttachment.swift */; };
 		2CEBDFCC24ABF5240097094F /* TasksVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2CEBDFCB24ABF5240097094F /* TasksVC.swift */; };
 		2CEBDFD024AC19E40097094F /* NewTaskVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2CEBDFCF24AC19E40097094F /* NewTaskVC.swift */; };
 		2CEBDFD224AC45450097094F /* CustomCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2CEBDFD124AC45450097094F /* CustomCell.swift */; };
@@ -55,6 +56,7 @@
 		2C9BB4D924A9A55500936C1C /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		2C9BB4E424A9B48F00936C1C /* README.md */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = net.daringfireball.markdown; path = README.md; sourceTree = "<group>"; };
 		2CA75BD024BEC3480091DB06 /* PreviewVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PreviewVC.swift; sourceTree = "<group>"; };
+		2CE8732624EAECB500D2B6CE /* UNNotificationAttachment.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UNNotificationAttachment.swift; sourceTree = "<group>"; };
 		2CEBDFCB24ABF5240097094F /* TasksVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TasksVC.swift; sourceTree = "<group>"; };
 		2CEBDFCF24AC19E40097094F /* NewTaskVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewTaskVC.swift; sourceTree = "<group>"; };
 		2CEBDFD124AC45450097094F /* CustomCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomCell.swift; sourceTree = "<group>"; };
@@ -156,6 +158,7 @@
 			children = (
 				2CECFAF724AB0B57006564AA /* UIColor.swift */,
 				2C37381B24B9762E00E05654 /* UITextField.swift */,
+				2CE8732624EAECB500D2B6CE /* UNNotificationAttachment.swift */,
 			);
 			path = Extensions;
 			sourceTree = "<group>";
@@ -244,6 +247,7 @@
 				2CEBDFD224AC45450097094F /* CustomCell.swift in Sources */,
 				2C03D0B024D2928000E00FA5 /* SectionHeader.swift in Sources */,
 				2CEBDFCC24ABF5240097094F /* TasksVC.swift in Sources */,
+				2CE8732724EAECB500D2B6CE /* UNNotificationAttachment.swift in Sources */,
 				2C8242D624DA7209006BC447 /* Task+CoreDataProperties.swift in Sources */,
 				2C8242D524DA7209006BC447 /* Task+CoreDataClass.swift in Sources */,
 				2C4ED4B624ABD6B800FD05D4 /* CoreDataStack.swift in Sources */,
