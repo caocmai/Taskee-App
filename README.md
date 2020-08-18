@@ -1,24 +1,24 @@
 # Taskee App
-Taskee is an app that users can create and modify projects along with their tasks. 
+Taskee is an app where the user can create and modify projects along with their tasks. 
 
 ## Description
-This is a to-do type app that allows users to create and modify projects and tasks objects with a one to many relationship. This app essentially allows users to create and modify parent and child objects. More specifically, the parent object is the project and its child is the task object. There can be multiple projects and each project can have multiple tasks. 
+This is a to-do type app that allows users to create and modify project and task objects. This app essentially allows users to create and modify parent and child objects with a one-to-many relationship. More specifically, the parent object is the project and its children are the task objects. There can be multiple projects and each project can have multiple tasks. 
 
-Core Data is used to persistently store user created content, meaning thier projects and tasks will not be lost when the application is purged from memory intentionally or by accident. 
+Core Data is used to persistently store user created content, meaning their projects and tasks will not be lost when the application is purged from memory intentionally or by accident. 
 
-### Features 
+### Features
 * CRUD(Create, Read, Update, and Delete) plus ability to search projects 
 * CRUD(Create, Read, Update, and Delete) tasks with ability to toggle between pending and completed
 * Empty field validation 
 * Edit/update a project or task that is accessible by 3D touch (context menu)
 * Core Data to persist projects and tasks
-* Local notification with text and image presented based on the user's choice
+* Local notification with text and an image is presented based on the user's choice
 
 ### App Demo (gif)
 ![](Project%20Gif/Taskee1.gif)
 
 ### Usage
-The user can create a project by giving it a name and color of their choosing to make projects easier to differentiate between them. 
+The user can create a project by giving it a name and color to make projects easier to differentiate between them. 
 
 The user can then create tasks for that project by giving them a title, image, and due date. These tasks can then be marked as completed by a tap gesture.
 

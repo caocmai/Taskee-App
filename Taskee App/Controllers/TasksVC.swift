@@ -52,34 +52,26 @@ class TasksVC: UIViewController {
         let interaction = UIContextMenuInteraction(delegate: self)
         self.view.addInteraction(interaction)
         addNotifyEmptyTableLabel()
-        determineProjectSection()
 
     }
     
     // fetch item right after user adds task, to get it to show/update
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-//        getPendingTasks()
-        
-        
         if selectedProject?.projectStatus == "2Completed Projects" { // to show completed tasks when none pending tasks
             segmentControl.selectedSegmentIndex = 1
             getFinshedTasks()
-//            determineProjectSection()
         } else {
             segmentControl.selectedSegmentIndex = 0
             getPendingTasks()
-//            determineProjectSection()
         }
-//        determineProjectSection()
 
     }
     
     override func viewWillDisappear(_ animated: Bool) {
         super.viewWillDisappear(animated)
          // determine proper sections before view disappears
-
-
+        determineProjectSection()
     }
     
     private func setupUIForEmptyPendingTasks(withDuration time: Double) {

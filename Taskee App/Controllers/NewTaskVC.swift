@@ -398,6 +398,7 @@ class NewTaskVC: UIViewController, UITextFieldDelegate {
         newTask.title = setTitle.text
         newTask.taskImage = taskImageView.image!.pngData()
         newTask.parentProject = parentObject
+        newTask.parentProject?.projectStatus = "0Active Projects"
         let uniqueID = UUID()
         newTask.taskID = uniqueID
         newTask.parentProject?.taskCount += 1 // not currenlty using
