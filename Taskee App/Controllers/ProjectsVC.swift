@@ -61,6 +61,8 @@ class ProjectsVC: UIViewController, NSFetchedResultsControllerDelegate {
         super.viewDidLoad()
         configureNavBarAndSearch()
         configureTable()
+        
+        
     }
     
     override func viewWillAppear(_ animated: Bool) {

@@ -122,6 +122,13 @@ class NewTaskVC: UIViewController, UITextFieldDelegate {
         setupScrollViewUI()
         datePickerToolbar()
         addDoneButtonOnKeyboard()
+        
+        // ask for user permission to notify them of stuff
+        let center = UNUserNotificationCenter.current()
+        center.requestAuthorization(options: [.alert, .sound]) { (granted, error) in
+            //            print(error as Any)
+        }
+        
         UITextField.connectFields(fields: [setTitle, dateTextField]) // for better user experience when filling out forms
         
         NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillShow), name: UIResponder.keyboardWillShowNotification, object: nil)

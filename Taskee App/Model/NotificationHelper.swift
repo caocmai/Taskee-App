@@ -42,7 +42,7 @@ class NotificationHelper {
             content.attachments = [attachment]
         }
         
-        let dateNew = date.addingTimeInterval(sec * -1) // move the date back an hour to notify 1 hour before task due date
+        let dateNew = date.addingTimeInterval(sec * -1) // move the date back before task due date based on user choice
         
         let dateComponents = Calendar.current.dateComponents([.year, .month, .day, .hour, .minute], from: dateNew)
         let trigger = UNCalendarNotificationTrigger(dateMatching: dateComponents, repeats: false)
