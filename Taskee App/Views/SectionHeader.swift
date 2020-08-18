@@ -36,7 +36,6 @@ class SectionHeader: UITableViewHeaderFooterView {
         super.init(reuseIdentifier: reuseIdentifier)
 //        self.contentView.heightAnchor.constraint(equalToConstant: 35).isActive = true
         configureContents()
-        self.contentView.backgroundColor = .white
         
     }
     
@@ -47,6 +46,8 @@ class SectionHeader: UITableViewHeaderFooterView {
     private func configureContents() {
         self.contentView.addSubview(title)
         self.contentView.addSubview(headerImage)
+        self.contentView.backgroundColor = .white
+
         
         NSLayoutConstraint.activate([
             title.centerYAnchor.constraint(equalTo: contentView.centerYAnchor),
@@ -56,23 +57,23 @@ class SectionHeader: UITableViewHeaderFooterView {
             headerImage.leadingAnchor.constraint(equalTo: title.trailingAnchor, constant: 10),
             headerImage.centerYAnchor.constraint(equalTo: self.contentView.centerYAnchor, constant: 1),
             headerImage.heightAnchor.constraint(equalToConstant: 23),
-            
         ])
     }
     
     internal func configureTitle(_ sectionTitle: String){
-        title.text = sectionTitle
+        let dropLeadingIndexString = String(sectionTitle.dropFirst())
+        title.text = dropLeadingIndexString
         
-        switch sectionTitle {
-        case "Pending Tasks":
+        switch dropLeadingIndexString {
+        case "Active Projects":
             let systemEllipsis = UIImage(systemName: "ellipsis.circle")
             let greenSystemEllipsis = systemEllipsis?.withTintColor(#colorLiteral(red: 0.3276759386, green: 0.759457171, blue: 0.1709203422, alpha: 1), renderingMode: .alwaysOriginal)
             headerImage.image = greenSystemEllipsis
-        case "Task Not Set":
+        case "New Projects":
             let systemCircle = UIImage(systemName: "circle")
             let greenSystemCircle = systemCircle?.withTintColor(#colorLiteral(red: 0.3276759386, green: 0.759457171, blue: 0.1709203422, alpha: 1), renderingMode: .alwaysOriginal)
             headerImage.image = greenSystemCircle
-        case "Tasks Completed":
+        case "Completed Projects":
             let systemCheckCircle = UIImage(systemName: "checkmark.circle.fill")
             let greenSystemCheckCircle = systemCheckCircle?.withTintColor(#colorLiteral(red: 0.3276759386, green: 0.759457171, blue: 0.1709203422, alpha: 1), renderingMode: .alwaysOriginal)
             headerImage.image = greenSystemCheckCircle

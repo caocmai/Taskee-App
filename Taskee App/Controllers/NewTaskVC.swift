@@ -11,7 +11,11 @@ import CoreData
 
 class NewTaskVC: UIViewController, UITextFieldDelegate {
     
+    var parentObject: Project!
+    var taskToEdit: Task?
+    var coreDataStack: CoreDataStack?
     var datePicker = UIDatePicker()
+    
     lazy var imagePicker: UIImagePickerController = {
         let imagePicker = UIImagePickerController()
         imagePicker.delegate = self
@@ -75,10 +79,6 @@ class NewTaskVC: UIViewController, UITextFieldDelegate {
         return dateFormat
     }()
     
-    var parentObject: Project!
-    var taskToEdit: Task?
-    var coreDataStack: CoreDataStack?
-    
     // Use lazy declaration to use self.
     //    lazy var contentViewSize = CGSize(width: self.view.frame.width, height: self.view.frame.height + 920) //Step One
     
@@ -105,7 +105,6 @@ class NewTaskVC: UIViewController, UITextFieldDelegate {
         self.view.backgroundColor = .white
         setupEditUI()
         setupScrollViewUI()
-        //        setupUI()
         datePickerToolbar()
         addDoneButtonOnKeyboard()
         UITextField.connectFields(fields: [setTitle, dateTextField]) // for better user experience when filling out forms
@@ -127,13 +126,11 @@ class NewTaskVC: UIViewController, UITextFieldDelegate {
         //        self.view.frame.origin.y = 100 - keyboardSize.height
         
         scrollView.setContentOffset(CGPoint(x: 0, y: view.frame.height/4), animated: true)
-        
     }
     
     @objc func keyboardWillHide(notification: NSNotification) {
         // move back the root view origin to zero
         //        self.view.frame.origin.y = 0
-        
         scrollView.setContentOffset(CGPoint(x: 0, y: 0), animated: true)
     }
     
@@ -276,12 +273,14 @@ class NewTaskVC: UIViewController, UITextFieldDelegate {
         if !checkAreFieldsEmpty() {
             if taskToEdit != nil {
                 taskToEdit?.setValue(setTitle.text, forKey: "title")
+                taskToEdit?.setValue(taskImageView.image?.pngData(), forKey: "taskImage")
                 if dateTextField.text != dateFormatter.string(from: (taskToEdit?.dueDate)!) {
                     taskToEdit?.setValue(datePicker.date, forKey: "dueDate")
-                    taskToEdit?.status = false // because the if date different then original then remark as status as incomplete
+                    taskToEdit?.isCompleted = false // because the if new date is different then original then change status as incomplete
+                    // update the notfication with the new date
+                    NotificationHelper.addNotification(about: setTitle.text!, at: datePicker.date, uniqueID: (taskToEdit?.taskID?.uuidString)!, image: taskImageView.image!)
                     taskToEdit?.parentProject!.taskCount += 1
                 }
-                taskToEdit?.setValue(taskImageView.image?.pngData(), forKey: "taskImage")
                 coreDataStack?.saveContext()
             } else {
                 createNewTask()
@@ -347,54 +346,18 @@ class NewTaskVC: UIViewController, UITextFieldDelegate {
     private func createNewTask() {
         let newTask = Task(context: (coreDataStack?.managedContext)!)
         newTask.dueDate = datePicker.date
-        newTask.status = false
+        newTask.isCompleted = false
         newTask.title = setTitle.text
         newTask.taskImage = taskImageView.image!.pngData()
         newTask.parentProject = parentObject
+        let uniqueID = UUID()
+        newTask.taskID = uniqueID
         newTask.parentProject?.taskCount += 1 // not currenlty using
-        //        newTask.parentProject?.projectStatus = "0Pending Tasks"
         coreDataStack?.saveContext()
-        //        newTask.objectID
-        
-//        print(newTask.objectID)
-//        print(taskImageView.image!)
-        
-        
+
         // add to notification
-//        let uniqueID = UUID().uuidString
-//        addNotification(at: datePicker.date, uniqueID: "p32", image: taskImageView.image!, about: setTitle.text!)
-    }
-    
-    func addNotification(at date: Date, uniqueID id: String, image: UIImage, about title: String) {
-        let center = UNUserNotificationCenter.current()
-        center.requestAuthorization(options: [.alert, .sound]) { (granted, error) in
-            //            print(error as Any)
-        }
-        
-        let content = UNMutableNotificationContent()
-        content.title = "Task Deadline Near!"
-        content.body = "\(title)'s due date is coming up"
-        
-        if let attachment = UNNotificationAttachment.create(identifier: id, image: image, options: nil) {
-            content.attachments = [attachment]
-        }
-        
-        
-        //        let date = Date().addingTimeInterval(5)
-        
-        let dateComponents = Calendar.current.dateComponents([.year, .month, .day, .hour, .minute], from: date)
-        
-        let trigger = UNCalendarNotificationTrigger(dateMatching: dateComponents, repeats: false)
-        
-        //        let uiidString = UUID().uuidString
-        let request = UNNotificationRequest(identifier: id, content: content, trigger: trigger)
-        
-        center.add(request) { (error) in
-            if error != nil {
-                print(error as Any, "error!!!")
-                
-            }
-        }
+        NotificationHelper.addNotification(about: setTitle.text!, at: datePicker.date, uniqueID: uniqueID.uuidString, image: taskImageView.image!)
+
     }
     
 }

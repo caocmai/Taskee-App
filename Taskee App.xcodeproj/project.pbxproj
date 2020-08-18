@@ -13,11 +13,12 @@
 		2C5258D224B2D164005D662D /* ColorGrid.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C5258D124B2D164005D662D /* ColorGrid.swift */; };
 		2C5258D424B2D4E6005D662D /* NewProjectVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C5258D324B2D4E6005D662D /* NewProjectVC.swift */; };
 		2C5258D624B2E419005D662D /* CustomColor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C5258D524B2E419005D662D /* CustomColor.swift */; };
-		2C8242D524DA7209006BC447 /* Task+CoreDataClass.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C8242D124DA7209006BC447 /* Task+CoreDataClass.swift */; };
-		2C8242D624DA7209006BC447 /* Task+CoreDataProperties.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C8242D224DA7209006BC447 /* Task+CoreDataProperties.swift */; };
-		2C8242D724DA7209006BC447 /* Project+CoreDataClass.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C8242D324DA7209006BC447 /* Project+CoreDataClass.swift */; };
-		2C8242D824DA7209006BC447 /* Project+CoreDataProperties.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C8242D424DA7209006BC447 /* Project+CoreDataProperties.swift */; };
 		2C8F175424ABE953002B0352 /* Project.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 2C8F175224ABE953002B0352 /* Project.xcdatamodeld */; };
+		2C94F1A224EB42530089AAAB /* NotificationHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C94F1A124EB42530089AAAB /* NotificationHelper.swift */; };
+		2C94F1A724EB46C60089AAAB /* Project+CoreDataClass.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C94F1A324EB46C60089AAAB /* Project+CoreDataClass.swift */; };
+		2C94F1A824EB46C60089AAAB /* Project+CoreDataProperties.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C94F1A424EB46C60089AAAB /* Project+CoreDataProperties.swift */; };
+		2C94F1A924EB46C60089AAAB /* Task+CoreDataClass.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C94F1A524EB46C60089AAAB /* Task+CoreDataClass.swift */; };
+		2C94F1AA24EB46C60089AAAB /* Task+CoreDataProperties.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C94F1A624EB46C60089AAAB /* Task+CoreDataProperties.swift */; };
 		2C9BB4CC24A9A55400936C1C /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C9BB4CB24A9A55400936C1C /* AppDelegate.swift */; };
 		2C9BB4CE24A9A55400936C1C /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C9BB4CD24A9A55400936C1C /* SceneDelegate.swift */; };
 		2C9BB4D024A9A55400936C1C /* ProjectsVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C9BB4CF24A9A55400936C1C /* ProjectsVC.swift */; };
@@ -41,11 +42,12 @@
 		2C5258D124B2D164005D662D /* ColorGrid.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ColorGrid.swift; sourceTree = "<group>"; };
 		2C5258D324B2D4E6005D662D /* NewProjectVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewProjectVC.swift; sourceTree = "<group>"; };
 		2C5258D524B2E419005D662D /* CustomColor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomColor.swift; sourceTree = "<group>"; };
-		2C8242D124DA7209006BC447 /* Task+CoreDataClass.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Task+CoreDataClass.swift"; sourceTree = "<group>"; };
-		2C8242D224DA7209006BC447 /* Task+CoreDataProperties.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Task+CoreDataProperties.swift"; sourceTree = "<group>"; };
-		2C8242D324DA7209006BC447 /* Project+CoreDataClass.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Project+CoreDataClass.swift"; sourceTree = "<group>"; };
-		2C8242D424DA7209006BC447 /* Project+CoreDataProperties.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Project+CoreDataProperties.swift"; sourceTree = "<group>"; };
 		2C8F175324ABE953002B0352 /* Project.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = Project.xcdatamodel; sourceTree = "<group>"; };
+		2C94F1A124EB42530089AAAB /* NotificationHelper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificationHelper.swift; sourceTree = "<group>"; };
+		2C94F1A324EB46C60089AAAB /* Project+CoreDataClass.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Project+CoreDataClass.swift"; sourceTree = "<group>"; };
+		2C94F1A424EB46C60089AAAB /* Project+CoreDataProperties.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Project+CoreDataProperties.swift"; sourceTree = "<group>"; };
+		2C94F1A524EB46C60089AAAB /* Task+CoreDataClass.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Task+CoreDataClass.swift"; sourceTree = "<group>"; };
+		2C94F1A624EB46C60089AAAB /* Task+CoreDataProperties.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Task+CoreDataProperties.swift"; sourceTree = "<group>"; };
 		2C9BB4C824A9A55400936C1C /* Taskee App.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Taskee App.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		2C9BB4CB24A9A55400936C1C /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		2C9BB4CD24A9A55400936C1C /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -77,10 +79,10 @@
 		2C8F175524ABE95B002B0352 /* Core Data */ = {
 			isa = PBXGroup;
 			children = (
-				2C8242D124DA7209006BC447 /* Task+CoreDataClass.swift */,
-				2C8242D224DA7209006BC447 /* Task+CoreDataProperties.swift */,
-				2C8242D324DA7209006BC447 /* Project+CoreDataClass.swift */,
-				2C8242D424DA7209006BC447 /* Project+CoreDataProperties.swift */,
+				2C94F1A324EB46C60089AAAB /* Project+CoreDataClass.swift */,
+				2C94F1A424EB46C60089AAAB /* Project+CoreDataProperties.swift */,
+				2C94F1A524EB46C60089AAAB /* Task+CoreDataClass.swift */,
+				2C94F1A624EB46C60089AAAB /* Task+CoreDataProperties.swift */,
 				2C8F175224ABE953002B0352 /* Project.xcdatamodeld */,
 				2C4ED4B524ABD6B800FD05D4 /* CoreDataStack.swift */,
 			);
@@ -126,7 +128,6 @@
 			isa = PBXGroup;
 			children = (
 				2C9BB4CF24A9A55400936C1C /* ProjectsVC.swift */,
-				2C03D0AF24D2928000E00FA5 /* SectionHeader.swift */,
 				2C5258D324B2D4E6005D662D /* NewProjectVC.swift */,
 				2CEBDFCB24ABF5240097094F /* TasksVC.swift */,
 				2CEBDFCF24AC19E40097094F /* NewTaskVC.swift */,
@@ -139,6 +140,7 @@
 			isa = PBXGroup;
 			children = (
 				2C9BB4D124A9A55400936C1C /* Main.storyboard */,
+				2C03D0AF24D2928000E00FA5 /* SectionHeader.swift */,
 				2CEBDFD124AC45450097094F /* CustomCell.swift */,
 				2C5258D124B2D164005D662D /* ColorGrid.swift */,
 			);
@@ -149,6 +151,7 @@
 			isa = PBXGroup;
 			children = (
 				2C5258D524B2E419005D662D /* CustomColor.swift */,
+				2C94F1A124EB42530089AAAB /* NotificationHelper.swift */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -238,9 +241,11 @@
 				2CECFAF824AB0B57006564AA /* UIColor.swift in Sources */,
 				2C5258D224B2D164005D662D /* ColorGrid.swift in Sources */,
 				2C8F175424ABE953002B0352 /* Project.xcdatamodeld in Sources */,
-				2C8242D824DA7209006BC447 /* Project+CoreDataProperties.swift in Sources */,
-				2C8242D724DA7209006BC447 /* Project+CoreDataClass.swift in Sources */,
+				2C94F1A824EB46C60089AAAB /* Project+CoreDataProperties.swift in Sources */,
+				2C94F1AA24EB46C60089AAAB /* Task+CoreDataProperties.swift in Sources */,
+				2C94F1A724EB46C60089AAAB /* Project+CoreDataClass.swift in Sources */,
 				2C5258D424B2D4E6005D662D /* NewProjectVC.swift in Sources */,
+				2C94F1A924EB46C60089AAAB /* Task+CoreDataClass.swift in Sources */,
 				2CEBDFD024AC19E40097094F /* NewTaskVC.swift in Sources */,
 				2C9BB4D024A9A55400936C1C /* ProjectsVC.swift in Sources */,
 				2C9BB4CC24A9A55400936C1C /* AppDelegate.swift in Sources */,
@@ -248,9 +253,8 @@
 				2C03D0B024D2928000E00FA5 /* SectionHeader.swift in Sources */,
 				2CEBDFCC24ABF5240097094F /* TasksVC.swift in Sources */,
 				2CE8732724EAECB500D2B6CE /* UNNotificationAttachment.swift in Sources */,
-				2C8242D624DA7209006BC447 /* Task+CoreDataProperties.swift in Sources */,
-				2C8242D524DA7209006BC447 /* Task+CoreDataClass.swift in Sources */,
 				2C4ED4B624ABD6B800FD05D4 /* CoreDataStack.swift in Sources */,
+				2C94F1A224EB42530089AAAB /* NotificationHelper.swift in Sources */,
 				2C5258D624B2E419005D662D /* CustomColor.swift in Sources */,
 				2C37381C24B9762E00E05654 /* UITextField.swift in Sources */,
 				2C9BB4CE24A9A55400936C1C /* SceneDelegate.swift in Sources */,

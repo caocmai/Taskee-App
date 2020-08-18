@@ -60,7 +60,7 @@ class CustomCell: UITableViewCell {
         self.contentView.addSubview(taskImage)
         self.contentView.addSubview(taskStatusImage)
         
-        taskStatusImage.isHidden = task.status ? false: true
+        taskStatusImage.isHidden = task.isCompleted ? false: true
         
         if !taskStatusImage.isHidden {
             taskImage.alpha = 0.5
@@ -91,12 +91,13 @@ class CustomCell: UITableViewCell {
         cellTitleLabel.text = task.title
         taskImage.image = UIImage(data: task.taskImage!)
         
-        pendingTasksLabel.text = task.status ? "Completed on \(dateFormatter.string(from: task.dateCompleted!))" : "Due by \(dateFormatter.string(from: task.dueDate!))"
+        pendingTasksLabel.text = task.isCompleted ? "Completed on \(dateFormatter.string(from: task.dateCompleted!))" : "Due by \(dateFormatter.string(from: task.dueDate!))"
         pendingTasksLabel.textColor = #colorLiteral(red: 0.6000000238, green: 0.6000000238, blue: 0.6000000238, alpha: 1)
     }
     
     internal func configureUIForProject(with project: Project) {
-        //        print(project.taskCount)
+        //        print(project.
+//        self.contentView.backgroundColor = project.color as? UIColor
         NSLayoutConstraint.activate([
             cellTitleLabel.centerYAnchor.constraint(equalTo: self.contentView.centerYAnchor, constant: -3),
             cellTitleLabel.leadingAnchor.constraint(equalTo: self.contentView.leadingAnchor, constant: 15),
@@ -108,7 +109,7 @@ class CustomCell: UITableViewCell {
         accessoryType = .disclosureIndicator
         var pendingTaskCount = 0
         for task in project.projectTasks! {
-            if (task as! Task).status == false {
+            if (task as! Task).isCompleted == false {
                 pendingTaskCount += 1
             }
         }

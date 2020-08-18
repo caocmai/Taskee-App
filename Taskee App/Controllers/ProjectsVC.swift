@@ -54,7 +54,6 @@ class ProjectsVC: UIViewController, NSFetchedResultsControllerDelegate {
             cacheName: nil)
         
         fetchedResultsController.delegate = self // Use to detect changes and don't have to manually reload data
-        
         return fetchedResultsController
     }()
     
@@ -166,9 +165,8 @@ extension ProjectsVC: UITableViewDelegate, UITableViewDataSource {
     func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
         let headerView = tableView.dequeueReusableHeaderFooterView(withIdentifier:
             "sectionHeader") as! SectionHeader
-        let sectionInfo = fetchedResultsController.sections?[section]
-        //            headerView.title.text = String(String(sectionInfo!.name).dropFirst())
-        headerView.configureTitle(String(String(sectionInfo!.name).dropFirst()))
+        let sectionInfo = fetchedResultsController.sections?[section].name        
+        headerView.configureTitle(String(sectionInfo!))
         return headerView
     }
     
@@ -203,9 +201,9 @@ extension ProjectsVC: UITableViewDelegate, UITableViewDataSource {
         return 90
     }
     
-    func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
-        return 35
-    }
+//    func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
+//        return 35
+//    }
 }
 
 // - MARK: NSFetchResultsController
