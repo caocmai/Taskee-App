@@ -253,7 +253,7 @@ extension TasksVC: UITableViewDelegate, UITableViewDataSource {
         guard let taskTitle = selectedTask.title, let taskDueDate = selectedTask.dueDate, let taskID = selectedTask.taskID, let taskImage = selectedTask.taskImage else {return}
         
         if !selectedTask.isCompleted {
-            NotificationHelper.addNotification(about: taskTitle, at: taskDueDate, uniqueID: taskID.uuidString, image: UIImage(data: taskImage)!)
+            NotificationHelper.addNotification(project: (selectedTask.parentProject?.name!)!, about: taskTitle, at: taskDueDate, alertBeforeSecs: 3600, uniqueID: taskID.uuidString, image: UIImage(data: taskImage)!)
         } else {
             NotificationHelper.removeTaskFromNotification(id: taskID)
         }

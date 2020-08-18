@@ -63,10 +63,8 @@ class NewTaskVC: UIViewController, UITextFieldDelegate {
         let image = UIImageView()
         image.translatesAutoresizingMaskIntoConstraints = false
         image.image = UIImage(named: "no item image")
-        //        image.image = UIImage(systemName: "photo.on.rectangle.fill")
         image.contentMode = .scaleAspectFill
         image.isUserInteractionEnabled = true
-        //        image.layer.cornerRadius = 75
         image.layer.masksToBounds = true
         image.layer.cornerRadius = 20
         
@@ -79,11 +77,9 @@ class NewTaskVC: UIViewController, UITextFieldDelegate {
         return dateFormat
     }()
     
-    // Use lazy declaration to use self.
     //    lazy var contentViewSize = CGSize(width: self.view.frame.width, height: self.view.frame.height + 920) //Step One
     
     let scrollView : UIScrollView = {
-        //        let view = UIScrollView(frame : .zero)
         let view = UIScrollView()
         //        view.frame = self.view.bounds
         //        view.contentInsetAdjustmentBehavior = .never
@@ -99,6 +95,25 @@ class NewTaskVC: UIViewController, UITextFieldDelegate {
         return view
     }()
     
+    let segementNotifyTimeLabel: UILabel = {
+        let label = UILabel()
+        label.text = "Select an alert reminder pior to due date"
+        label.translatesAutoresizingMaskIntoConstraints = false
+        label.textColor = #colorLiteral(red: 0.501960814, green: 0.501960814, blue: 0.501960814, alpha: 1)
+        return label
+    }()
+    
+    let segmentItems = ["10hr", "5hr", "1hr","30m","5m", "1m"]
+    
+    lazy var segementNotifyTime: UISegmentedControl = {
+        let segment = UISegmentedControl(items: segmentItems)
+//        segment.selectedSegmentIndex = 1
+        segment.addTarget(self, action: #selector(segmentNotifyTimeTapped), for: .valueChanged)
+        segment.translatesAutoresizingMaskIntoConstraints = false
+        return segment
+    }()
+
+    var notifyTimeSelected: Double? = nil
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -132,6 +147,25 @@ class NewTaskVC: UIViewController, UITextFieldDelegate {
         // move back the root view origin to zero
         //        self.view.frame.origin.y = 0
         scrollView.setContentOffset(CGPoint(x: 0, y: 0), animated: true)
+    }
+    
+    @objc func segmentNotifyTimeTapped() {
+        switch segementNotifyTime.selectedSegmentIndex {
+        case 0:
+            notifyTimeSelected = 36000.0
+        case 1:
+            notifyTimeSelected = 18000.0
+        case 2:
+            notifyTimeSelected = 3600.0
+        case 3:
+            notifyTimeSelected = 1800.0
+        case 4:
+            notifyTimeSelected = 300.0
+        case 5:
+            notifyTimeSelected = 60.0
+        default:
+            notifyTimeSelected = nil
+        }
     }
     
     private func addDoneButtonOnKeyboard() {
@@ -231,8 +265,10 @@ class NewTaskVC: UIViewController, UITextFieldDelegate {
         containerView.addSubview(taskImageView)
         containerView.addSubview(setTitle)
         containerView.addSubview(dateTextField)
+        containerView.addSubview(segementNotifyTime)
+        containerView.addSubview(segementNotifyTimeLabel)
         containerView.addSubview(saveButton)
-        
+
         NSLayoutConstraint.activate([
             scrollView.topAnchor.constraint(equalTo: self.view.safeAreaLayoutGuide.topAnchor),
             scrollView.leadingAnchor.constraint(equalTo: self.view.leadingAnchor),
@@ -240,7 +276,7 @@ class NewTaskVC: UIViewController, UITextFieldDelegate {
             scrollView.bottomAnchor.constraint(equalTo: self.view.bottomAnchor),
             
             containerView.topAnchor.constraint(equalTo: scrollView.topAnchor),
-            containerView.heightAnchor.constraint(equalToConstant: 700),
+            containerView.heightAnchor.constraint(equalToConstant: 800),
             containerView.widthAnchor.constraint(equalTo: scrollView.widthAnchor),
             containerView.bottomAnchor.constraint(equalTo: scrollView.bottomAnchor, constant: -12),
         ])
@@ -260,8 +296,18 @@ class NewTaskVC: UIViewController, UITextFieldDelegate {
             dateTextField.topAnchor.constraint(equalTo: setTitle.bottomAnchor, constant: 45),
             dateTextField.leadingAnchor.constraint(equalTo: containerView.leadingAnchor, constant: 100),
             dateTextField.trailingAnchor.constraint(equalTo: containerView.trailingAnchor, constant: -100),
+
             
-            saveButton.topAnchor.constraint(equalTo: dateTextField.bottomAnchor, constant: 55),
+            segementNotifyTime.topAnchor.constraint(equalTo: dateTextField.bottomAnchor, constant: 65),
+            segementNotifyTime.heightAnchor.constraint(equalToConstant: 45),
+            segementNotifyTime.leadingAnchor.constraint(equalTo: containerView.leadingAnchor, constant: 20),
+            segementNotifyTime.trailingAnchor.constraint(equalTo: containerView.trailingAnchor, constant: -20),
+            
+            segementNotifyTimeLabel.bottomAnchor.constraint(equalTo: segementNotifyTime.topAnchor, constant: -0),
+            segementNotifyTimeLabel.leadingAnchor.constraint(equalTo: containerView.leadingAnchor, constant: 25),
+
+            
+            saveButton.topAnchor.constraint(equalTo: segementNotifyTime.bottomAnchor, constant: 65),
             saveButton.heightAnchor.constraint(equalToConstant: 55),
             saveButton.leadingAnchor.constraint(equalTo: containerView.leadingAnchor, constant: 45),
             saveButton.trailingAnchor.constraint(equalTo: containerView.trailingAnchor, constant: -45),
@@ -278,7 +324,9 @@ class NewTaskVC: UIViewController, UITextFieldDelegate {
                     taskToEdit?.setValue(datePicker.date, forKey: "dueDate")
                     taskToEdit?.isCompleted = false // because the if new date is different then original then change status as incomplete
                     // update the notfication with the new date
-                    NotificationHelper.addNotification(about: setTitle.text!, at: datePicker.date, uniqueID: (taskToEdit?.taskID?.uuidString)!, image: taskImageView.image!)
+                    if notifyTimeSelected != nil {
+                        NotificationHelper.addNotification(project: (taskToEdit?.parentProject?.name!)!, about: setTitle.text!, at: datePicker.date, alertBeforeSecs: notifyTimeSelected!, uniqueID: (taskToEdit?.taskID?.uuidString)!, image: taskImageView.image!)
+                    }
                     taskToEdit?.parentProject!.taskCount += 1
                 }
                 coreDataStack?.saveContext()
@@ -356,7 +404,9 @@ class NewTaskVC: UIViewController, UITextFieldDelegate {
         coreDataStack?.saveContext()
 
         // add to notification
-        NotificationHelper.addNotification(about: setTitle.text!, at: datePicker.date, uniqueID: uniqueID.uuidString, image: taskImageView.image!)
+        if notifyTimeSelected != nil {
+            NotificationHelper.addNotification(project: (newTask.parentProject?.name)!, about: setTitle.text!, at: datePicker.date, alertBeforeSecs: notifyTimeSelected!, uniqueID: uniqueID.uuidString, image: taskImageView.image!)
+        }
 
     }
     

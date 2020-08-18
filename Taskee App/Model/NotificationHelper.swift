@@ -9,21 +9,40 @@
 import UIKit
 
 class NotificationHelper {
-    static func addNotification(about title: String, at date: Date, uniqueID id: String, image: UIImage) {
+    static func addNotification(project: String, about title: String, at date: Date, alertBeforeSecs sec: Double, uniqueID id: String, image: UIImage) {
         let center = UNUserNotificationCenter.current()
         center.requestAuthorization(options: [.alert, .sound]) { (granted, error) in
             //            print(error as Any)
         }
         
+        var dueAtString = ""
+
+        switch sec {
+        case 36000.0:
+            dueAtString = "10 hours"
+        case 18000.0:
+            dueAtString = "5 hours"
+        case 3600.0:
+            dueAtString = "1 hour"
+        case 1800.0:
+            dueAtString = "30 minutes"
+        case 300.0:
+            dueAtString = "5 minutes"
+        case 60.0:
+            dueAtString = "1 minute"
+        default:
+            dueAtString = "1 hour"
+        }
+        
         let content = UNMutableNotificationContent()
-        content.title = "Task Deadline Near!"
-        content.body = "\(title) is due in 1 hour."
+        content.title = "Task Deadline For \(project) Project Near!"
+        content.body = "\(title) is due in \(dueAtString)."
         
         if let attachment = UNNotificationAttachment.create(identifier: id, image: image, options: nil) {
             content.attachments = [attachment]
         }
         
-        let dateNew = date.addingTimeInterval(-3600) // move the date back an hour to notify 1 hour before task due date
+        let dateNew = date.addingTimeInterval(sec * -1) // move the date back an hour to notify 1 hour before task due date
         
         let dateComponents = Calendar.current.dateComponents([.year, .month, .day, .hour, .minute], from: dateNew)
         let trigger = UNCalendarNotificationTrigger(dateMatching: dateComponents, repeats: false)
