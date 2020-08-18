@@ -12,13 +12,13 @@ Core Data is used to persistently store user created content, meaning thier proj
 * Empty field validation 
 * Edit/update a project or task that is accessible by 3D touch (context menu)
 * Core Data to persist projects and tasks
-* Local notification with text and image 1 hour prior to a task's due date
+* Local notification with text and image presented based on the user's choice
 
 ### App Demo (gif)
 ![](Project%20Gif/Taskee1.gif)
 
 ### Usage
-The user can create a project by giving it a name and color of their choosing to make the project easier to differentiate between them. 
+The user can create a project by giving it a name and color of their choosing to make projects easier to differentiate between them. 
 
 The user can then create tasks for that project by giving them a title, image, and due date. These tasks can then be marked as completed by a tap gesture.
 

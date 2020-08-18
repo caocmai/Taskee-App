@@ -8,7 +8,7 @@
 
 import UIKit
 
-/// from https://stackoverflow.com/questions/43564326/attach-image-to-notification-given-image-url
+/// from https://stackoverflow.com/questions/43564326/attach-image-to-notification-given-image-url, to add image to local notification
 extension UNNotificationAttachment {
     static func create(identifier: String, image: UIImage, options: [NSObject : AnyObject]?) -> UNNotificationAttachment? {
         let fileManager = FileManager.default

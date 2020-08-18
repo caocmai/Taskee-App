@@ -97,7 +97,7 @@ class NewTaskVC: UIViewController, UITextFieldDelegate {
     
     let segementNotifyTimeLabel: UILabel = {
         let label = UILabel()
-        label.text = "Select an alert reminder pior to due date"
+        label.text = "Select a reminder pior to due date (optional)"
         label.translatesAutoresizingMaskIntoConstraints = false
         label.textColor = #colorLiteral(red: 0.501960814, green: 0.501960814, blue: 0.501960814, alpha: 1)
         return label
@@ -146,7 +146,7 @@ class NewTaskVC: UIViewController, UITextFieldDelegate {
     @objc func keyboardWillHide(notification: NSNotification) {
         // move back the root view origin to zero
         //        self.view.frame.origin.y = 0
-        scrollView.setContentOffset(CGPoint(x: 0, y: 0), animated: true)
+        scrollView.setContentOffset(CGPoint(x: 0, y: view.frame.height/4), animated: true)
     }
     
     @objc func segmentNotifyTimeTapped() {
@@ -298,7 +298,7 @@ class NewTaskVC: UIViewController, UITextFieldDelegate {
             dateTextField.trailingAnchor.constraint(equalTo: containerView.trailingAnchor, constant: -100),
 
             
-            segementNotifyTime.topAnchor.constraint(equalTo: dateTextField.bottomAnchor, constant: 65),
+            segementNotifyTime.topAnchor.constraint(equalTo: dateTextField.bottomAnchor, constant: 75),
             segementNotifyTime.heightAnchor.constraint(equalToConstant: 45),
             segementNotifyTime.leadingAnchor.constraint(equalTo: containerView.leadingAnchor, constant: 20),
             segementNotifyTime.trailingAnchor.constraint(equalTo: containerView.trailingAnchor, constant: -20),
