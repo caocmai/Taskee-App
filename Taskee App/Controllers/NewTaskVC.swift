@@ -123,7 +123,7 @@ class NewTaskVC: UIViewController, UITextFieldDelegate {
         datePickerToolbar()
         addDoneButtonOnKeyboard()
         
-        // ask for user permission to notify them of stuff
+        // ask for user permission to notify them of coming due tasks
         let center = UNUserNotificationCenter.current()
         center.requestAuthorization(options: [.alert, .sound]) { (granted, error) in
             //            print(error as Any)

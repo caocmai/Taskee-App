@@ -12,7 +12,7 @@ Core Data is used to persistently store user created content, meaning their proj
 * Empty field validation 
 * Edit/update a project or task that is accessible by 3D touch (context menu)
 * Core Data to persist projects and tasks
-* Local notification with text and image is presented based on the user's choice
+* Local notification with text and image is presented based on the user's choice (must put app in background or lock screen to see notifications)
 
 ### App Demo (gif)
 ![](Project%20Gif/Taskee1.gif)
