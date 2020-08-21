@@ -150,20 +150,6 @@ extension ProjectsVC: UITableViewDelegate, UITableViewDataSource {
         return fetchedResultsController.sections?.count ?? 0
     }
     
-    
-    //    func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
-    //
-    //        let sectionInfo = fetchedResultsController.sections?[section]
-    ////        print(sectionInfo?.name)
-    //        return sectionInfo?.name
-    //
-    //
-    //        //OR
-    //        //    let sectionInfo = fetchedResultsController.sections?[section]
-    //        //    return sectionInfo?.name
-    //
-    //    }
-    
     func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
         let headerView = tableView.dequeueReusableHeaderFooterView(withIdentifier:
             "sectionHeader") as! SectionHeader
