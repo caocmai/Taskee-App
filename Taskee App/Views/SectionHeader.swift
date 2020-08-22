@@ -34,7 +34,6 @@ class SectionHeader: UITableViewHeaderFooterView {
     
     override init(reuseIdentifier: String?) {
         super.init(reuseIdentifier: reuseIdentifier)
-//        self.contentView.heightAnchor.constraint(equalToConstant: 35).isActive = true
         configureContents()
         
     }

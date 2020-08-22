@@ -28,7 +28,7 @@ class NewTaskVC: UIViewController, UITextFieldDelegate {
         textField.translatesAutoresizingMaskIntoConstraints = false
         textField.placeholder = "Task Title"
         textField.borderStyle = .roundedRect
-        textField.textAlignment = .center
+//        textField.textAlignment = .center
         textField.tag = 0
         textField.font = UIFont.systemFont(ofSize: 35)
         textField.setBottomBorder()
@@ -40,9 +40,9 @@ class NewTaskVC: UIViewController, UITextFieldDelegate {
         textField.translatesAutoresizingMaskIntoConstraints = false
         textField.borderStyle = .roundedRect
         textField.placeholder = "Done By"
-        textField.textAlignment = .center
+//        textField.textAlignment = .center
         textField.tag = 1
-        textField.font = UIFont.systemFont(ofSize: 25)
+        textField.font = UIFont.systemFont(ofSize: 23)
         textField.setBottomBorder()
         textField.inputView = datePicker
         return textField
@@ -73,7 +73,8 @@ class NewTaskVC: UIViewController, UITextFieldDelegate {
     
     let dateFormatter: DateFormatter = {
         let dateFormat = DateFormatter()
-        dateFormat.dateStyle = .short
+        dateFormat.dateStyle = .medium
+        dateFormat.timeStyle = .short
         return dateFormat
     }()
     
@@ -294,28 +295,33 @@ class NewTaskVC: UIViewController, UITextFieldDelegate {
             taskImageView.heightAnchor.constraint(equalToConstant: self.view.frame.height/2.3),
             taskImageView.topAnchor.constraint(equalTo: containerView.topAnchor),
             
+//            setTitle.topAnchor.constraint(equalTo: taskImageView.bottomAnchor, constant: 45),
+//            setTitle.centerXAnchor.constraint(equalTo: containerView.centerXAnchor),
+//            setTitle.leadingAnchor.constraint(equalTo: containerView.leadingAnchor, constant: 80),
+//            setTitle.trailingAnchor.constraint(equalTo: containerView.trailingAnchor, constant: -80),
+            
             setTitle.topAnchor.constraint(equalTo: taskImageView.bottomAnchor, constant: 45),
-            setTitle.centerXAnchor.constraint(equalTo: containerView.centerXAnchor),
-            setTitle.leadingAnchor.constraint(equalTo: containerView.leadingAnchor, constant: 80),
-            setTitle.trailingAnchor.constraint(equalTo: containerView.trailingAnchor, constant: -80),
+//            setTitle.centerXAnchor.constraint(equalTo: containerView.centerXAnchor),
+            setTitle.leadingAnchor.constraint(equalTo: containerView.leadingAnchor, constant: 25),
+            setTitle.trailingAnchor.constraint(equalTo: containerView.trailingAnchor, constant: -25),
             
             dateTextField.centerXAnchor.constraint(equalTo: containerView.centerXAnchor),
             dateTextField.topAnchor.constraint(equalTo: setTitle.bottomAnchor, constant: 45),
-            dateTextField.leadingAnchor.constraint(equalTo: containerView.leadingAnchor, constant: 100),
-            dateTextField.trailingAnchor.constraint(equalTo: containerView.trailingAnchor, constant: -100),
+            dateTextField.leadingAnchor.constraint(equalTo: containerView.leadingAnchor, constant: 25),
+            dateTextField.trailingAnchor.constraint(equalTo: containerView.trailingAnchor, constant: -25),
 
             
-            segementNotifyTime.topAnchor.constraint(equalTo: dateTextField.bottomAnchor, constant: 75),
+            segementNotifyTime.topAnchor.constraint(equalTo: dateTextField.bottomAnchor, constant: 73),
             segementNotifyTime.heightAnchor.constraint(equalToConstant: 45),
             segementNotifyTime.leadingAnchor.constraint(equalTo: containerView.leadingAnchor, constant: 20),
             segementNotifyTime.trailingAnchor.constraint(equalTo: containerView.trailingAnchor, constant: -20),
             
             segementNotifyTimeLabel.bottomAnchor.constraint(equalTo: segementNotifyTime.topAnchor, constant: -0),
-            segementNotifyTimeLabel.leadingAnchor.constraint(equalTo: containerView.leadingAnchor, constant: 25),
+            segementNotifyTimeLabel.leadingAnchor.constraint(equalTo: containerView.leadingAnchor, constant: 22),
 
             
-            saveButton.topAnchor.constraint(equalTo: segementNotifyTime.bottomAnchor, constant: 65),
-            saveButton.heightAnchor.constraint(equalToConstant: 55),
+            saveButton.topAnchor.constraint(equalTo: segementNotifyTime.bottomAnchor, constant: 75),
+            saveButton.heightAnchor.constraint(equalToConstant: 63),
             saveButton.leadingAnchor.constraint(equalTo: containerView.leadingAnchor, constant: 45),
             saveButton.trailingAnchor.constraint(equalTo: containerView.trailingAnchor, constant: -45),
             
@@ -393,9 +399,9 @@ class NewTaskVC: UIViewController, UITextFieldDelegate {
     
     @objc func doneButtonTapped(_ button: UIBarButtonItem?) {
         dateTextField.resignFirstResponder()
-        let formatter = DateFormatter()
-        formatter.dateStyle = .short
-        dateTextField.text = formatter.string(from: datePicker.date) // shows the date in UItexfield from datepicker
+//        let formatter = DateFormatter()
+//        dateFormatter.dateStyle = .long
+        dateTextField.text = dateFormatter.string(from: datePicker.date) // shows the date in UItexfield from datepicker
     }
     
     private func createNewTask() {

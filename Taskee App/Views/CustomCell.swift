@@ -83,11 +83,11 @@ class CustomCell: UITableViewCell {
             cellTitleLabel.centerYAnchor.constraint(equalTo: self.contentView.centerYAnchor, constant: -1),
             cellTitleLabel.leadingAnchor.constraint(equalTo: self.taskImage.trailingAnchor, constant: 8),
             
-            pendingTasksLabel.leadingAnchor.constraint(equalTo: self.taskImage.trailingAnchor, constant: 5)
+            pendingTasksLabel.leadingAnchor.constraint(equalTo: self.taskImage.trailingAnchor, constant: 8)
         ])
         
         taskImage.layer.masksToBounds = true
-        taskImage.layer.cornerRadius = 30
+        taskImage.layer.cornerRadius = 9
         cellTitleLabel.text = task.title
         taskImage.image = UIImage(data: task.taskImage!)
         
