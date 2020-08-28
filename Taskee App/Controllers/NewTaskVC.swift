@@ -28,7 +28,7 @@ class NewTaskVC: UIViewController, UITextFieldDelegate {
         textField.translatesAutoresizingMaskIntoConstraints = false
         textField.placeholder = "Task Title"
         textField.borderStyle = .roundedRect
-//        textField.textAlignment = .center
+        //        textField.textAlignment = .center
         textField.tag = 0
         textField.font = UIFont.systemFont(ofSize: 35)
         textField.setBottomBorder()
@@ -40,7 +40,7 @@ class NewTaskVC: UIViewController, UITextFieldDelegate {
         textField.translatesAutoresizingMaskIntoConstraints = false
         textField.borderStyle = .roundedRect
         textField.placeholder = "Done By"
-//        textField.textAlignment = .center
+        //        textField.textAlignment = .center
         textField.tag = 1
         textField.font = UIFont.systemFont(ofSize: 23)
         textField.setBottomBorder()
@@ -108,7 +108,7 @@ class NewTaskVC: UIViewController, UITextFieldDelegate {
     
     lazy var segementNotifyTime: UISegmentedControl = {
         let segment = UISegmentedControl(items: segmentItems)
-//        segment.selectedSegmentIndex = 1
+        //        segment.selectedSegmentIndex = 1
         segment.addTarget(self, action: #selector(segmentNotifyTimeTapped), for: .valueChanged)
         segment.translatesAutoresizingMaskIntoConstraints = false
         return segment
@@ -131,7 +131,7 @@ class NewTaskVC: UIViewController, UITextFieldDelegate {
         textView.font = UIFont.systemFont(ofSize: 18)
         return textView
     }()
-
+    
     var notifyTimeSelected: Double? = nil
     
     override func viewDidLoad() {
@@ -227,6 +227,10 @@ class NewTaskVC: UIViewController, UITextFieldDelegate {
             taskImageView.image = UIImage(data: (taskToEdit?.taskImage)!)
             dateTextField.text = dateFormatter.string(from: (taskToEdit?.dueDate)!)
             self.title = "Edit \(taskToEdit?.title ?? "UnNamed")"
+            
+            if taskToEdit!.taskDescription != "Empty String" || taskToEdit!.taskDescription != "" {
+                taskDetailDescriptionView.text = taskToEdit?.taskDescription!
+            }
             saveButton.setTitle("Update", for: .normal)
         } else {
             self.title = "Create A New Task"
@@ -302,7 +306,7 @@ class NewTaskVC: UIViewController, UITextFieldDelegate {
         containerView.addSubview(saveButton)
         containerView.addSubview(taskDetailDescriptionLabel)
         containerView.addSubview(taskDetailDescriptionView)
-
+        
         NSLayoutConstraint.activate([
             scrollView.topAnchor.constraint(equalTo: self.view.safeAreaLayoutGuide.topAnchor),
             scrollView.leadingAnchor.constraint(equalTo: self.view.leadingAnchor),
@@ -321,13 +325,13 @@ class NewTaskVC: UIViewController, UITextFieldDelegate {
             taskImageView.heightAnchor.constraint(equalToConstant: self.view.frame.height/2.3),
             taskImageView.topAnchor.constraint(equalTo: containerView.topAnchor),
             
-//            setTitle.topAnchor.constraint(equalTo: taskImageView.bottomAnchor, constant: 45),
-//            setTitle.centerXAnchor.constraint(equalTo: containerView.centerXAnchor),
-//            setTitle.leadingAnchor.constraint(equalTo: containerView.leadingAnchor, constant: 80),
-//            setTitle.trailingAnchor.constraint(equalTo: containerView.trailingAnchor, constant: -80),
+            //            setTitle.topAnchor.constraint(equalTo: taskImageView.bottomAnchor, constant: 45),
+            //            setTitle.centerXAnchor.constraint(equalTo: containerView.centerXAnchor),
+            //            setTitle.leadingAnchor.constraint(equalTo: containerView.leadingAnchor, constant: 80),
+            //            setTitle.trailingAnchor.constraint(equalTo: containerView.trailingAnchor, constant: -80),
             
             setTitle.topAnchor.constraint(equalTo: taskImageView.bottomAnchor, constant: 45),
-//            setTitle.centerXAnchor.constraint(equalTo: containerView.centerXAnchor),
+            //            setTitle.centerXAnchor.constraint(equalTo: containerView.centerXAnchor),
             setTitle.leadingAnchor.constraint(equalTo: containerView.leadingAnchor, constant: 25),
             setTitle.trailingAnchor.constraint(equalTo: containerView.trailingAnchor, constant: -25),
             
@@ -343,7 +347,7 @@ class NewTaskVC: UIViewController, UITextFieldDelegate {
             taskDetailDescriptionView.heightAnchor.constraint(equalToConstant: 100),
             taskDetailDescriptionView.leadingAnchor.constraint(equalTo: containerView.leadingAnchor, constant: 22),
             taskDetailDescriptionView.trailingAnchor.constraint(equalTo: containerView.trailingAnchor, constant: -22),
-
+            
             
             segementNotifyTime.topAnchor.constraint(equalTo: taskDetailDescriptionView.bottomAnchor, constant: 65),
             segementNotifyTime.heightAnchor.constraint(equalToConstant: 45),
@@ -352,7 +356,7 @@ class NewTaskVC: UIViewController, UITextFieldDelegate {
             
             segementNotifyTimeLabel.bottomAnchor.constraint(equalTo: segementNotifyTime.topAnchor, constant: -0),
             segementNotifyTimeLabel.leadingAnchor.constraint(equalTo: containerView.leadingAnchor, constant: 22),
-
+            
             
             saveButton.topAnchor.constraint(equalTo: segementNotifyTime.bottomAnchor, constant: 85),
             saveButton.heightAnchor.constraint(equalToConstant: 60),
@@ -378,6 +382,7 @@ class NewTaskVC: UIViewController, UITextFieldDelegate {
                     }
                     taskToEdit?.parentProject!.taskCount += 1
                 }
+                taskToEdit?.taskDescription = taskDetailDescriptionView.text
                 coreDataStack?.saveContext()
             } else {
                 createNewTask()
@@ -435,8 +440,8 @@ class NewTaskVC: UIViewController, UITextFieldDelegate {
     
     @objc func doneButtonTapped(_ button: UIBarButtonItem?) {
         dateTextField.resignFirstResponder()
-//        let formatter = DateFormatter()
-//        dateFormatter.dateStyle = .long
+        //        let formatter = DateFormatter()
+        //        dateFormatter.dateStyle = .long
         dateTextField.text = dateFormatter.string(from: datePicker.date) // shows the date in UItexfield from datepicker
     }
     
@@ -453,12 +458,12 @@ class NewTaskVC: UIViewController, UITextFieldDelegate {
         newTask.taskID = uniqueID
         newTask.parentProject?.taskCount += 1 // not currenlty using
         coreDataStack?.saveContext()
-
+        
         // add to notification
         if notifyTimeSelected != nil {
             NotificationHelper.addNotification(project: (newTask.parentProject?.name)!, about: setTitle.text!, at: datePicker.date, alertBeforeSecs: notifyTimeSelected!, uniqueID: uniqueID.uuidString, image: taskImageView.image!)
         }
-
+        
     }
     
 }

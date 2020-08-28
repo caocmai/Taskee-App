@@ -36,27 +36,49 @@ class PreviewVC: UIViewController {
         return formatter
     }()
     
+    let statusView: UIView = {
+        let view = UIView()
+        view.translatesAutoresizingMaskIntoConstraints = false
+        view.backgroundColor = .blue
+        return view
+    }()
+    
     let taskDetailDescriptionView: UITextView = {
         let textView = UITextView()
         textView.translatesAutoresizingMaskIntoConstraints = false
-        textView.layer.borderWidth = 1.0
-        textView.layer.borderColor = UIColor.lightGray.cgColor
-        textView.layer.cornerRadius = 8
+        textView.textAlignment = .center
+        textView.textColor = #colorLiteral(red: 0.2549019754, green: 0.2745098174, blue: 0.3019607961, alpha: 1)
+//        textView.layer.borderWidth = 1.0
+//        textView.layer.borderColor = UIColor.lightGray.cgColor
+//        textView.layer.cornerRadius = 8
         textView.font = UIFont.systemFont(ofSize: 18)
         return textView
+    }()
+    
+    let taskStatusImage: UIImageView = {
+        let image = UIImageView()
+        image.translatesAutoresizingMaskIntoConstraints = false
+        //        image.contentMode = .scaleAspectFit
+        let systemCheckmark = UIImage(systemName: "checkmark.circle.fill")
+        let greenSystemCheckmark = systemCheckmark?.withTintColor(#colorLiteral(red: 0.3276759386, green: 0.759457171, blue: 0.1709203422, alpha: 1), renderingMode: .alwaysOriginal)
+        image.image = greenSystemCheckmark
+        image.contentMode = .scaleAspectFit
+        return image
     }()
     
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        configureUI()
+        
     }
     
     private func configureUI() {
         self.view.backgroundColor = .white
-        self.view.addSubview(imageView)
         self.view.addSubview(taskTitleLabel)
-        self.view.addSubview(taskDueDateLabel)
+        self.view.addSubview(imageView)
+        statusView.addSubview(taskDueDateLabel)
+        self.view.addSubview(statusView)
+        self.view.addSubview(taskStatusImage)
         self.view.addSubview(taskDetailDescriptionView)
         
         NSLayoutConstraint.activate([
@@ -68,32 +90,62 @@ class PreviewVC: UIViewController {
         
         NSLayoutConstraint.activate([
             taskTitleLabel.centerXAnchor.constraint(equalTo: view.centerXAnchor),
-            taskTitleLabel.topAnchor.constraint(equalTo: imageView.bottomAnchor, constant: 45)
+//            taskTitleLabel.topAnchor.constraint(equalTo: imageView.bottomAnchor, constant: 45)
+            
+//            taskStatusImage.topAnchor.constraint(equalTo: imageView.bottomAnchor, constant: 97),
+//            taskStatusImage.bottomAnchor.constraint(equalTo: self.view.bottomAnchor),
+            taskStatusImage.heightAnchor.constraint(equalToConstant: 30),
+            taskStatusImage.widthAnchor.constraint(equalToConstant: 30),
+            taskStatusImage.centerYAnchor.constraint(equalTo: taskTitleLabel.centerYAnchor),
+            
+            taskStatusImage.trailingAnchor.constraint(equalTo: taskTitleLabel.leadingAnchor, constant: -8),
+
         ])
         
         NSLayoutConstraint.activate([
-            taskDueDateLabel.centerXAnchor.constraint(equalTo: view.centerXAnchor),
-            taskDueDateLabel.topAnchor.constraint(equalTo: imageView.bottomAnchor, constant: 45)
+            
+            statusView.topAnchor.constraint(equalTo: imageView.bottomAnchor),
+            statusView.heightAnchor.constraint(equalToConstant: 35),
+            statusView.leadingAnchor.constraint(equalTo: self.view.leadingAnchor),
+            statusView.trailingAnchor.constraint(equalTo: self.view.trailingAnchor),
+            
+            taskDueDateLabel.centerXAnchor.constraint(equalTo: statusView.centerXAnchor),
+            taskDueDateLabel.centerYAnchor.constraint(equalTo: statusView.centerYAnchor)
+
+//            taskDueDateLabel.topAnchor.constraint(equalTo: imageView.bottomAnchor, constant: 5)
+            
+//            taskDueDateLabel.centerXAnchor.constraint(equalTo: view.centerXAnchor),
+//            taskDueDateLabel.topAnchor.constraint(equalTo: imageView.bottomAnchor, constant: 5)
         ])
         
         NSLayoutConstraint.activate([
-            taskDetailDescriptionView.topAnchor.constraint(equalTo: imageView.bottomAnchor, constant: 55),
-            taskDetailDescriptionView.heightAnchor.constraint(equalToConstant: 100),
-            taskDetailDescriptionView.leadingAnchor.constraint(equalTo: self.view.leadingAnchor, constant: 22),
-            taskDetailDescriptionView.trailingAnchor.constraint(equalTo: self.view.trailingAnchor, constant: -22),
+            taskDetailDescriptionView.topAnchor.constraint(equalTo: imageView.bottomAnchor, constant: 97),
+            taskDetailDescriptionView.bottomAnchor.constraint(equalTo: self.view.bottomAnchor),
+            taskDetailDescriptionView.leadingAnchor.constraint(equalTo: self.view.leadingAnchor, constant: 15),
+            taskDetailDescriptionView.trailingAnchor.constraint(equalTo: self.view.trailingAnchor, constant: -15),
         ])
         
     }
     
     internal func configureTask(with task: Task){
+        configureUI()
+
         taskTitleLabel.text = task.title
         imageView.image = UIImage(data: task.taskImage!)
         taskDueDateLabel.text = task.isCompleted ? "Completed on \(dateFormatter.string(from: task.dateCompleted!))" : "Due by \(dateFormatter.string(from: task.dueDate!))"
 //        taskDueDateLabel.textColor = task.status ? #colorLiteral(red: 0.2980392157, green: 0.7843137255, blue: 0.262745098, alpha: 1) : #colorLiteral(red: 0.501960814, green: 0.501960814, blue: 0.501960814, alpha: 1)
         taskDueDateLabel.textColor = #colorLiteral(red: 0.501960814, green: 0.501960814, blue: 0.501960814, alpha: 1)
         taskDetailDescriptionView.text = task.taskDescription
+        if task.taskDescription == "Empty String" || task.taskDescription == "" {
+            taskDetailDescriptionView.isHidden = true
+            taskTitleLabel.topAnchor.constraint(equalTo: taskDueDateLabel.bottomAnchor, constant: 60).isActive = true
+        } else {
+            taskTitleLabel.topAnchor.constraint(equalTo: imageView.bottomAnchor, constant: 50).isActive = true
 
-        view.backgroundColor = task.isCompleted ?  #colorLiteral(red: 0.6746127009, green: 0.9552420974, blue: 0.4862803817, alpha: 1) : .white
+        }
+
+        statusView.backgroundColor = task.isCompleted ?  #colorLiteral(red: 0.6746127009, green: 0.9552420974, blue: 0.4862803817, alpha: 1) : .white
+        taskStatusImage.isHidden = task.isCompleted ? false:true
     }
     
 }
