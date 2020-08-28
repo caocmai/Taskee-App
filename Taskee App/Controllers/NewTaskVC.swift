@@ -113,6 +113,24 @@ class NewTaskVC: UIViewController, UITextFieldDelegate {
         segment.translatesAutoresizingMaskIntoConstraints = false
         return segment
     }()
+    
+    let taskDetailDescriptionLabel: UILabel = {
+        let label = UILabel()
+        label.text = "Add a description to task (optional)"
+        label.translatesAutoresizingMaskIntoConstraints = false
+        label.textColor = #colorLiteral(red: 0.501960814, green: 0.501960814, blue: 0.501960814, alpha: 1)
+        return label
+    }()
+    
+    let taskDetailDescriptionView: UITextView = {
+        let textView = UITextView()
+        textView.translatesAutoresizingMaskIntoConstraints = false
+        textView.layer.borderWidth = 1.0
+        textView.layer.borderColor = UIColor.lightGray.cgColor
+        textView.layer.cornerRadius = 8
+        textView.font = UIFont.systemFont(ofSize: 18)
+        return textView
+    }()
 
     var notifyTimeSelected: Double? = nil
     
@@ -149,6 +167,10 @@ class NewTaskVC: UIViewController, UITextFieldDelegate {
         //        self.view.frame.origin.y = 100 - keyboardSize.height
         
         scrollView.setContentOffset(CGPoint(x: 0, y: view.frame.height/4), animated: true)
+        
+        if taskDetailDescriptionView.isFirstResponder {
+            scrollView.setContentOffset(CGPoint(x: 0, y: view.frame.height/2), animated: true)
+        }
     }
     
     @objc func keyboardWillHide(notification: NSNotification) {
@@ -182,15 +204,17 @@ class NewTaskVC: UIViewController, UITextFieldDelegate {
         
         let hide = UIBarButtonItem(barButtonSystemItem: UIBarButtonItem.SystemItem.close, target: nil, action: #selector(closeKeyboard))
         let flexSpace = UIBarButtonItem(barButtonSystemItem: UIBarButtonItem.SystemItem.flexibleSpace, target: nil, action: nil)
-        let done: UIBarButtonItem = UIBarButtonItem(title: "Next", style: UIBarButtonItem.Style.done, target: self, action: #selector(nextFieldTapped))
+        let next: UIBarButtonItem = UIBarButtonItem(title: "Next", style: UIBarButtonItem.Style.done, target: self, action: #selector(nextFieldTapped))
         
-        doneToolbar.items = [hide, flexSpace, done]
+        doneToolbar.items = [hide, flexSpace]
         doneToolbar.sizeToFit()
         setTitle.inputAccessoryView = doneToolbar
+        taskDetailDescriptionView.inputAccessoryView = doneToolbar
     }
     
     @objc func closeKeyboard() {
         setTitle.resignFirstResponder()
+        taskDetailDescriptionView.resignFirstResponder()
     }
     
     @objc func nextFieldTapped() {
@@ -276,6 +300,8 @@ class NewTaskVC: UIViewController, UITextFieldDelegate {
         containerView.addSubview(segementNotifyTime)
         containerView.addSubview(segementNotifyTimeLabel)
         containerView.addSubview(saveButton)
+        containerView.addSubview(taskDetailDescriptionLabel)
+        containerView.addSubview(taskDetailDescriptionView)
 
         NSLayoutConstraint.activate([
             scrollView.topAnchor.constraint(equalTo: self.view.safeAreaLayoutGuide.topAnchor),
@@ -284,7 +310,7 @@ class NewTaskVC: UIViewController, UITextFieldDelegate {
             scrollView.bottomAnchor.constraint(equalTo: self.view.bottomAnchor),
             
             containerView.topAnchor.constraint(equalTo: scrollView.topAnchor),
-            containerView.heightAnchor.constraint(equalToConstant: 800),
+            containerView.heightAnchor.constraint(equalToConstant: 930),
             containerView.widthAnchor.constraint(equalTo: scrollView.widthAnchor),
             containerView.bottomAnchor.constraint(equalTo: scrollView.bottomAnchor, constant: -12),
         ])
@@ -309,9 +335,17 @@ class NewTaskVC: UIViewController, UITextFieldDelegate {
             dateTextField.topAnchor.constraint(equalTo: setTitle.bottomAnchor, constant: 45),
             dateTextField.leadingAnchor.constraint(equalTo: containerView.leadingAnchor, constant: 25),
             dateTextField.trailingAnchor.constraint(equalTo: containerView.trailingAnchor, constant: -25),
+            
+            taskDetailDescriptionLabel.bottomAnchor.constraint(equalTo: taskDetailDescriptionView.topAnchor, constant: -2),
+            taskDetailDescriptionLabel.leadingAnchor.constraint(equalTo: containerView.leadingAnchor, constant: 22),
+            
+            taskDetailDescriptionView.topAnchor.constraint(equalTo: dateTextField.bottomAnchor, constant: 75),
+            taskDetailDescriptionView.heightAnchor.constraint(equalToConstant: 100),
+            taskDetailDescriptionView.leadingAnchor.constraint(equalTo: containerView.leadingAnchor, constant: 22),
+            taskDetailDescriptionView.trailingAnchor.constraint(equalTo: containerView.trailingAnchor, constant: -22),
 
             
-            segementNotifyTime.topAnchor.constraint(equalTo: dateTextField.bottomAnchor, constant: 73),
+            segementNotifyTime.topAnchor.constraint(equalTo: taskDetailDescriptionView.bottomAnchor, constant: 65),
             segementNotifyTime.heightAnchor.constraint(equalToConstant: 45),
             segementNotifyTime.leadingAnchor.constraint(equalTo: containerView.leadingAnchor, constant: 20),
             segementNotifyTime.trailingAnchor.constraint(equalTo: containerView.trailingAnchor, constant: -20),
@@ -320,10 +354,12 @@ class NewTaskVC: UIViewController, UITextFieldDelegate {
             segementNotifyTimeLabel.leadingAnchor.constraint(equalTo: containerView.leadingAnchor, constant: 22),
 
             
-            saveButton.topAnchor.constraint(equalTo: segementNotifyTime.bottomAnchor, constant: 75),
-            saveButton.heightAnchor.constraint(equalToConstant: 63),
+            saveButton.topAnchor.constraint(equalTo: segementNotifyTime.bottomAnchor, constant: 85),
+            saveButton.heightAnchor.constraint(equalToConstant: 60),
             saveButton.leadingAnchor.constraint(equalTo: containerView.leadingAnchor, constant: 45),
             saveButton.trailingAnchor.constraint(equalTo: containerView.trailingAnchor, constant: -45),
+            
+            
             
         ])
     }
@@ -412,6 +448,7 @@ class NewTaskVC: UIViewController, UITextFieldDelegate {
         newTask.taskImage = taskImageView.image!.pngData()
         newTask.parentProject = parentObject
         newTask.parentProject?.projectStatus = "0Active Projects"
+        newTask.taskDescription = taskDetailDescriptionView.text!
         let uniqueID = UUID()
         newTask.taskID = uniqueID
         newTask.parentProject?.taskCount += 1 // not currenlty using

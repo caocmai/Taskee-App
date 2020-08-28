@@ -36,6 +36,16 @@ class PreviewVC: UIViewController {
         return formatter
     }()
     
+    let taskDetailDescriptionView: UITextView = {
+        let textView = UITextView()
+        textView.translatesAutoresizingMaskIntoConstraints = false
+        textView.layer.borderWidth = 1.0
+        textView.layer.borderColor = UIColor.lightGray.cgColor
+        textView.layer.cornerRadius = 8
+        textView.font = UIFont.systemFont(ofSize: 18)
+        return textView
+    }()
+    
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -47,6 +57,7 @@ class PreviewVC: UIViewController {
         self.view.addSubview(imageView)
         self.view.addSubview(taskTitleLabel)
         self.view.addSubview(taskDueDateLabel)
+        self.view.addSubview(taskDetailDescriptionView)
         
         NSLayoutConstraint.activate([
             imageView.topAnchor.constraint(equalTo: self.view.topAnchor),
@@ -62,7 +73,14 @@ class PreviewVC: UIViewController {
         
         NSLayoutConstraint.activate([
             taskDueDateLabel.centerXAnchor.constraint(equalTo: view.centerXAnchor),
-            taskDueDateLabel.topAnchor.constraint(equalTo: taskTitleLabel.bottomAnchor, constant: 45)
+            taskDueDateLabel.topAnchor.constraint(equalTo: imageView.bottomAnchor, constant: 45)
+        ])
+        
+        NSLayoutConstraint.activate([
+            taskDetailDescriptionView.topAnchor.constraint(equalTo: imageView.bottomAnchor, constant: 55),
+            taskDetailDescriptionView.heightAnchor.constraint(equalToConstant: 100),
+            taskDetailDescriptionView.leadingAnchor.constraint(equalTo: self.view.leadingAnchor, constant: 22),
+            taskDetailDescriptionView.trailingAnchor.constraint(equalTo: self.view.trailingAnchor, constant: -22),
         ])
         
     }
@@ -73,6 +91,7 @@ class PreviewVC: UIViewController {
         taskDueDateLabel.text = task.isCompleted ? "Completed on \(dateFormatter.string(from: task.dateCompleted!))" : "Due by \(dateFormatter.string(from: task.dueDate!))"
 //        taskDueDateLabel.textColor = task.status ? #colorLiteral(red: 0.2980392157, green: 0.7843137255, blue: 0.262745098, alpha: 1) : #colorLiteral(red: 0.501960814, green: 0.501960814, blue: 0.501960814, alpha: 1)
         taskDueDateLabel.textColor = #colorLiteral(red: 0.501960814, green: 0.501960814, blue: 0.501960814, alpha: 1)
+        taskDetailDescriptionView.text = task.taskDescription
 
         view.backgroundColor = task.isCompleted ?  #colorLiteral(red: 0.6746127009, green: 0.9552420974, blue: 0.4862803817, alpha: 1) : .white
     }

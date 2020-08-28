@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
-<model type="com.apple.IDECoreDataModeler.DataModel" documentVersion="1.0" lastSavedToolsVersion="16119" systemVersion="19G73" minimumToolsVersion="Automatic" sourceLanguage="Swift" userDefinedModelVersionIdentifier="">
+<model type="com.apple.IDECoreDataModeler.DataModel" documentVersion="1.0" lastSavedToolsVersion="16119" systemVersion="19G2021" minimumToolsVersion="Automatic" sourceLanguage="Swift" userDefinedModelVersionIdentifier="">
     <entity name="Project" representedClassName="Project" syncable="YES">
         <attribute name="color" attributeType="Transformable" valueTransformerName=""/>
         <attribute name="name" attributeType="String"/>
@@ -11,6 +11,7 @@
         <attribute name="dateCompleted" optional="YES" attributeType="Date" usesScalarValueType="NO"/>
         <attribute name="dueDate" attributeType="Date" usesScalarValueType="NO"/>
         <attribute name="isCompleted" attributeType="Boolean" usesScalarValueType="YES"/>
+        <attribute name="taskDescription" attributeType="String" defaultValueString="Empty String"/>
         <attribute name="taskID" attributeType="UUID" usesScalarValueType="NO"/>
         <attribute name="taskImage" optional="YES" attributeType="Binary" allowsExternalBinaryDataStorage="YES"/>
         <attribute name="title" attributeType="String"/>
@@ -18,6 +19,6 @@
     </entity>
     <elements>
         <element name="Project" positionX="-382.25" positionY="10.8984375" width="128" height="118"/>
-        <element name="Task" positionX="-61.32421875" positionY="-19.3046875" width="128" height="148"/>
+        <element name="Task" positionX="-61.32421875" positionY="-19.3046875" width="128" height="163"/>
     </elements>
 </model>
