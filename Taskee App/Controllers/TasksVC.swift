@@ -197,7 +197,7 @@ class TasksVC: UIViewController {
     
     @objc func resetFinishedTasksTapped() {
         
-        let refreshAlert = UIAlertController(title: "Reset All Finished Tasks", message: "Revert ALL completed tasks to be pending again", preferredStyle: UIAlertController.Style.alert)
+        let refreshAlert = UIAlertController(title: "Reset All Finished Tasks", message: "Caution: Will revert ALL completed tasks as pending again", preferredStyle: UIAlertController.Style.alert)
 
         refreshAlert.addAction(UIAlertAction(title: "Ok", style: .default, handler: { (action: UIAlertAction!) in
           print("Handle Ok logic here")
@@ -286,6 +286,7 @@ extension TasksVC: UITableViewDelegate, UITableViewDataSource {
         guard let taskTitle = selectedTask.title, let taskDueDate = selectedTask.dueDate, let taskID = selectedTask.taskID, let taskImage = selectedTask.taskImage else {return}
         
         if !selectedTask.isCompleted {
+            // not sure if I should keep this
             NotificationHelper.addNotification(project: (selectedTask.parentProject?.name!)!, about: taskTitle, at: taskDueDate, alertBeforeSecs: 3600, uniqueID: taskID.uuidString, image: UIImage(data: taskImage)!)
         } else {
             NotificationHelper.removeTaskFromNotification(id: taskID)
@@ -324,19 +325,9 @@ extension TasksVC: UITableViewDelegate, UITableViewDataSource {
     }
     
     private func deleteTask(with task: Task, at indexPath: IndexPath) {
-        //        if !task.status {
-        //            task.parentProject?.taskCount -= 1 // To decrement accordingly
-        //        }
-        //        if task.parentProject?.taskCount == 0 {
-        //            task.parentProject?.projectStatus = "2Tasks Completed"
-        //        }
-        //        if selectedProject?.projectTasks?.count == 1 { // 1 because when not yet updated (haven't saved core data)
-        //            task.parentProject?.projectStatus = "1Task Not Set"
-        //        }
         coreDataStack.managedContext.delete(task)
         tasks.remove(at: indexPath.row)
         taskTable.deleteRows(at: [indexPath], with: .fade)
-        //        coreDataStack.saveContext()
         determineProjectSection()
     }
     

@@ -108,7 +108,6 @@ class NewTaskVC: UIViewController, UITextFieldDelegate {
     
     lazy var segementNotifyTime: UISegmentedControl = {
         let segment = UISegmentedControl(items: segmentItems)
-        //        segment.selectedSegmentIndex = 1
         segment.addTarget(self, action: #selector(segmentNotifyTimeTapped), for: .valueChanged)
         segment.translatesAutoresizingMaskIntoConstraints = false
         return segment
