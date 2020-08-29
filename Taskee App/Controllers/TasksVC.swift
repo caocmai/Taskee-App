@@ -44,8 +44,13 @@ class TasksVC: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        self.view.backgroundColor = .white
+        self.navigationController?.navigationBar.prefersLargeTitles = true
+        self.title = "\(selectedProject!.name ?? "Unnamed") Tasks"
+        
         addSegmentControl()
-        configureNavBar()
+//        configureNavBar()
         configureTable()
         //        getPendingTasks()
         // For context menu to have preview
@@ -61,11 +66,14 @@ class TasksVC: UIViewController {
         if selectedProject?.projectStatus == "2Completed Projects" { // to show completed tasks when none pending tasks
             segmentControl.selectedSegmentIndex = 1
             getFinshedTasks()
+            self.navigationItem.rightBarButtonItems = configureNavBar(segment: 1)
         } else {
             segmentControl.selectedSegmentIndex = 0
             getPendingTasks()
+            self.navigationItem.rightBarButtonItems = configureNavBar(segment: 0)
         }
-
+        
+        
     }
     
     override func viewWillDisappear(_ animated: Bool) {
@@ -165,19 +173,52 @@ class TasksVC: UIViewController {
         switch (segmentedControl.selectedSegmentIndex) {
         case 0:  // First segment tapped
             getPendingTasks()
+            self.navigationItem.rightBarButtonItems = configureNavBar(segment: 0)
         case 1:  // Second segment tapped
             getFinshedTasks()
+            self.navigationItem.rightBarButtonItems = configureNavBar(segment: 1)
         default:
             break
         }
     }
     
-    private func configureNavBar() {
-        self.view.backgroundColor = .white
-        self.navigationController?.navigationBar.prefersLargeTitles = true
-        self.title = "\(selectedProject!.name ?? "Unnamed") Tasks"
+    
+    private func configureNavBar(segment: Int) -> [UIBarButtonItem]{
         let addButton = UIBarButtonItem(barButtonSystemItem: .add, target: self, action: #selector(addTaskTapped))
-        self.navigationItem.rightBarButtonItems = [addButton, self.editButtonItem]
+        let resetFinishedTasks = UIBarButtonItem(title: "Reset", style: .plain, target: self, action: #selector(resetFinishedTasksTapped))
+        
+        if segment == 0 {
+            return [addButton, self.editButtonItem]
+        } else {
+            return [addButton, self.editButtonItem, resetFinishedTasks]
+        }
+
+    }
+    
+    @objc func resetFinishedTasksTapped() {
+        
+        let refreshAlert = UIAlertController(title: "Reset All Finished Tasks", message: "Revert ALL completed tasks to be pending again", preferredStyle: UIAlertController.Style.alert)
+
+        refreshAlert.addAction(UIAlertAction(title: "Ok", style: .default, handler: { (action: UIAlertAction!) in
+          print("Handle Ok logic here")
+            for task in self.tasks {
+                if task.isCompleted {
+                    task.isCompleted = !task.isCompleted
+                }
+            }
+            self.determineProjectSection()
+            self.coreDataStack.saveContext()
+            self.getFinshedTasks()
+            self.taskTable.reloadData()
+            
+          }))
+
+        refreshAlert.addAction(UIAlertAction(title: "Cancel", style: .cancel, handler: { (action: UIAlertAction!) in
+          print("Reset is cancled")
+          }))
+
+        present(refreshAlert, animated: true, completion: nil)
+        
     }
     
     // This method is needed for edit button in navbar to work
