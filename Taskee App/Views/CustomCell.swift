@@ -30,6 +30,8 @@ class CustomCell: UITableViewCell {
         let image = UIImageView()
         image.translatesAutoresizingMaskIntoConstraints = false
 //                image.contentMode = .scaleToFill
+        image.layer.masksToBounds = true
+
         return image
     }()
     
@@ -86,7 +88,6 @@ class CustomCell: UITableViewCell {
             pendingTasksLabel.leadingAnchor.constraint(equalTo: self.taskImage.trailingAnchor, constant: 8)
         ])
         
-        taskImage.layer.masksToBounds = true
         taskImage.layer.cornerRadius = 9
         cellTitleLabel.text = task.title
         taskImage.image = UIImage(data: task.taskImage!)
@@ -96,14 +97,29 @@ class CustomCell: UITableViewCell {
     }
     
     internal func configureUIForProject(with project: Project) {
-        //        print(project.
-//        self.contentView.backgroundColor = project.color as? UIColor
-        NSLayoutConstraint.activate([
-            cellTitleLabel.centerYAnchor.constraint(equalTo: self.contentView.centerYAnchor, constant: -3),
-            cellTitleLabel.leadingAnchor.constraint(equalTo: self.contentView.leadingAnchor, constant: 15),
-            pendingTasksLabel.leadingAnchor.constraint(equalTo: self.contentView.leadingAnchor, constant: 15)
-        ])
+        self.contentView.addSubview(taskImage)
         
+        
+        NSLayoutConstraint.activate([
+            taskImage.leadingAnchor.constraint(equalTo: self.contentView.leadingAnchor, constant: 10),
+            taskImage.centerYAnchor.constraint(equalTo: self.contentView.centerYAnchor),
+            taskImage.widthAnchor.constraint(equalToConstant: 30),
+            taskImage.heightAnchor.constraint(equalToConstant: 30),
+            
+            cellTitleLabel.centerYAnchor.constraint(equalTo: self.contentView.centerYAnchor, constant: -3),
+            cellTitleLabel.leadingAnchor.constraint(equalTo: taskImage.trailingAnchor, constant: 15),
+            pendingTasksLabel.leadingAnchor.constraint(equalTo: taskImage.trailingAnchor, constant: 15),
+            
+        ])
+
+//        NSLayoutConstraint.activate([
+//            cellTitleLabel.centerYAnchor.constraint(equalTo: self.contentView.centerYAnchor, constant: -3),
+//            cellTitleLabel.leadingAnchor.constraint(equalTo: self.contentView.leadingAnchor, constant: 15),
+//            pendingTasksLabel.leadingAnchor.constraint(equalTo: self.contentView.leadingAnchor, constant: 15)
+//        ])
+//
+        taskImage.layer.cornerRadius = 15
+        taskImage.backgroundColor = project.color as? UIColor
         cellTitleLabel.text = project.name
         cellTitleLabel.textColor = project.color as? UIColor
         accessoryType = .disclosureIndicator
