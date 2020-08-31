@@ -20,8 +20,6 @@ class NotificationHelper {
         switch sec {
         case 36000.0:
             dueAtString = "10 hours"
-        case 18000.0:
-            dueAtString = "5 hours"
         case 3600.0:
             dueAtString = "1 hour"
         case 1800.0:

@@ -53,10 +53,10 @@ class CoreDataStack {
         }
     }
     
-    func fetchTasks(with request: NSFetchRequest<Task> = Task.fetchRequest(), predicate: NSPredicate? = nil, selectedProject: Project, completion: @escaping(Result<[Task]>) -> Void) {
+    func fetchTasks(with request: NSFetchRequest<Task> = Task.fetchRequest(), sortBy sortString: String, predicate: NSPredicate? = nil, selectedProject: Project, completion: @escaping(Result<[Task]>) -> Void) {
         
         let categoryPredicate = NSPredicate(format: "parentProject == %@", selectedProject)
-        let sectionSortDescriptor = NSSortDescriptor(key: "title", ascending: true)
+        let sectionSortDescriptor = NSSortDescriptor(key: sortString, ascending: true)
         //
         request.sortDescriptors = [sectionSortDescriptor]
         

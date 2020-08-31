@@ -104,7 +104,7 @@ class NewTaskVC: UIViewController, UITextFieldDelegate {
         return label
     }()
     
-    let segmentItems = ["10hr", "5hr", "1hr","30m","5m", "1m"]
+    let segmentItems = ["10hr", "1hr","30m","5m", "1m"]
     
     lazy var segementNotifyTime: UISegmentedControl = {
         let segment = UISegmentedControl(items: segmentItems)
@@ -183,14 +183,12 @@ class NewTaskVC: UIViewController, UITextFieldDelegate {
         case 0:
             notifyTimeSelected = 36000.0
         case 1:
-            notifyTimeSelected = 18000.0
-        case 2:
             notifyTimeSelected = 3600.0
-        case 3:
+        case 2:
             notifyTimeSelected = 1800.0
-        case 4:
+        case 3:
             notifyTimeSelected = 300.0
-        case 5:
+        case 4:
             notifyTimeSelected = 60.0
         default:
             notifyTimeSelected = nil

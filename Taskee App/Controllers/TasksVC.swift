@@ -16,6 +16,7 @@ class TasksVC: UIViewController {
     var coreDataStack: CoreDataStack!
     let searchController = UISearchController()
     var segmentControl: UISegmentedControl!
+    var sortByString = "dueDate"
     
     let dateFormatter: DateFormatter = {
         let formatter = DateFormatter()
@@ -63,15 +64,7 @@ class TasksVC: UIViewController {
     // fetch item right after user adds task, to get it to show/update
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-        if selectedProject?.projectStatus == "2Completed Projects" { // to show completed tasks when none pending tasks
-            segmentControl.selectedSegmentIndex = 1
-            getFinshedTasks()
-            self.navigationItem.rightBarButtonItems = configureNavBar(segment: 1)
-        } else {
-            segmentControl.selectedSegmentIndex = 0
-            getPendingTasks()
-            self.navigationItem.rightBarButtonItems = configureNavBar(segment: 0)
-        }
+       determineSegmentToShow()
         
         
     }
@@ -80,6 +73,18 @@ class TasksVC: UIViewController {
         super.viewWillDisappear(animated)
          // determine proper sections before view disappears
         determineProjectSection()
+    }
+    
+    private func determineSegmentToShow() {
+        if selectedProject?.projectStatus == "2Completed Projects" { // to show completed tasks when none pending tasks
+                   segmentControl.selectedSegmentIndex = 1
+                   getFinshedTasks()
+                   self.navigationItem.rightBarButtonItems = configureNavBar(segment: 1)
+               } else {
+                   segmentControl.selectedSegmentIndex = 0
+                   getPendingTasks()
+                   self.navigationItem.rightBarButtonItems = configureNavBar(segment: 0)
+               }
     }
     
     private func setupUIForEmptyPendingTasks(withDuration time: Double) {
@@ -116,7 +121,7 @@ class TasksVC: UIViewController {
     
     private func getPendingTasks() {
         let projectStatusPredicate = NSPredicate(format: "isCompleted = false")
-        coreDataStack.fetchTasks(predicate: projectStatusPredicate, selectedProject: (selectedProject)!) { results in
+        coreDataStack.fetchTasks(sortBy: sortByString, predicate: projectStatusPredicate, selectedProject: (selectedProject)!) { results in
             switch results {
             case .success(let tasks):
                 self.tasks = tasks
@@ -134,7 +139,7 @@ class TasksVC: UIViewController {
     
     private func getFinshedTasks() {
         let projectStatusPredicate = NSPredicate(format: "isCompleted = true")
-        coreDataStack.fetchTasks(predicate: projectStatusPredicate, selectedProject: (selectedProject)!) { results in
+        coreDataStack.fetchTasks(sortBy: sortByString, predicate: projectStatusPredicate, selectedProject: (selectedProject)!) { results in
             switch results {
             case .success(let tasks):
                 self.tasks = tasks
@@ -250,13 +255,13 @@ class TasksVC: UIViewController {
     }
     
     @objc func refresh() {
-        self.taskTable.refreshControl?.endRefreshing()
+        taskTable.refreshControl?.endRefreshing()
         if segmentControl.selectedSegmentIndex == 0 {
             getPendingTasks()
         } else {
             getFinshedTasks()
         }
-        self.taskTable.reloadData()
+        taskTable.reloadData()
     }
     
     
@@ -379,13 +384,18 @@ extension TasksVC: UIContextMenuInteractionDelegate {
             }
             
             let delete = UIAction(title: "Delete", image: UIImage(systemName: "trash"), identifier: .none, discoverabilityTitle: .none, attributes: .destructive, state: .off) { (_) in
-                //                print("del")
                 let task = self.tasks[indexPath.row]
                 NotificationHelper.removeTaskFromNotification(id: task.taskID!)
                 self.deleteTask(with: task, at: indexPath)
             }
             
-            return UIMenu(title: "Action", children: [edit, delete])
+            let sortByDate = UIAction(title: "Sort By Name") { (_) in
+                self.sortByString = "title"
+                self.determineSegmentToShow()
+                
+            }
+            
+            return UIMenu(title: "Action", children: [edit, sortByDate, delete])
         }
         return configuration
     }
