@@ -210,9 +210,9 @@ extension ProjectsVC {
         case .delete:
             table.deleteRows(at: [indexPath!], with: .automatic)
         case .update:
-            //            table.reloadRows(at: [indexPath!], with: .automatic)
-            let cell = table.cellForRow(at: indexPath!) as! CustomCell
-            configureCell(cell: cell, for: indexPath!)
+            table.reloadRows(at: [indexPath!], with: .automatic)
+//            let cell = table.cellForRow(at: indexPath!) as! CustomCell
+//            configureCell(cell: cell, for: indexPath!)
         case .move:
             table.deleteRows(at: [indexPath!], with: .automatic)
             table.insertRows(at: [newIndexPath!], with: .automatic)
