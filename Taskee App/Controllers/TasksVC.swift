@@ -51,57 +51,45 @@ class TasksVC: UIViewController {
         self.title = "\(selectedProject!.name ?? "Unnamed") Tasks"
         
         addSegmentControl()
-//        configureNavBar()
+        //        configureNavBar()
         configureTable()
         //        getPendingTasks()
         // For context menu to have preview
         let interaction = UIContextMenuInteraction(delegate: self)
         self.view.addInteraction(interaction)
         addNotifyEmptyTableLabel()
-
+        
     }
     
     // fetch item right after user adds task, to get it to show/update
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-       determineSegmentToShow()
+        determineSegmentToShow()
         
         
     }
     
     override func viewWillDisappear(_ animated: Bool) {
         super.viewWillDisappear(animated)
-         // determine proper sections before view disappears
+        // determine proper sections before view disappears
         determineProjectSection()
     }
     
     private func determineSegmentToShow() {
         if selectedProject?.projectStatus == "2Completed Projects" { // to show completed tasks when none pending tasks
-                   segmentControl.selectedSegmentIndex = 1
-                   getFinshedTasks()
-                   self.navigationItem.rightBarButtonItems = configureNavBar(segment: 1)
-               } else {
-                   segmentControl.selectedSegmentIndex = 0
-                   getPendingTasks()
-                   self.navigationItem.rightBarButtonItems = configureNavBar(segment: 0)
-               }
+            segmentControl.selectedSegmentIndex = 1
+            getFinshedTasks()
+            self.navigationItem.rightBarButtonItems = configureNavBar(segment: 1)
+        } else {
+            segmentControl.selectedSegmentIndex = 0
+            getPendingTasks()
+            self.navigationItem.rightBarButtonItems = configureNavBar(segment: 0)
+        }
     }
     
-    private func setupUIForEmptyPendingTasks(withDuration time: Double) {
+    private func setupUIForEmptyTasks(text: String, withDuration time: Double) {
         notifyEmptyTableLabel.transform = CGAffineTransform(scaleX: 0, y: 0)
-        notifyEmptyTableLabel.text = "No Pending Tasks"
-        notifyEmptyTableLabel.isHidden = false
-        
-        UIView.animate(withDuration: time, delay: 0.0,
-                       usingSpringWithDamping: 0.6, initialSpringVelocity: 0.0, options: [],
-                       animations: {
-                        self.notifyEmptyTableLabel.transform = CGAffineTransform(scaleX: 1, y: 1)},
-                       completion: nil)
-    }
-    
-    private func setupUIForEmptyCompletedTasks(withDuration time: Double) {
-        notifyEmptyTableLabel.transform = CGAffineTransform(scaleX: 0, y: 0)
-        notifyEmptyTableLabel.text = "No Completed Tasks"
+        notifyEmptyTableLabel.text = text
         notifyEmptyTableLabel.isHidden = false
         
         UIView.animate(withDuration: time, delay: 0.0,
@@ -126,10 +114,14 @@ class TasksVC: UIViewController {
             case .success(let tasks):
                 self.tasks = tasks
                 self.taskTable.reloadData()
-                if tasks.isEmpty {
-                    self.setupUIForEmptyPendingTasks(withDuration: 1.10)
-                } else {
-                    self.notifyEmptyTableLabel.isHidden = true
+                if self.selectedProject?.projectStatus == "1New Projects" {
+                    self.setupUIForEmptyTasks(text: "Add a Task!", withDuration: 1.10) // if project just added
+                }
+                else if tasks.isEmpty {
+                    self.setupUIForEmptyTasks(text: "No Pending Tasks", withDuration: 1.10) // if empty tasks
+                }
+                else {
+                    self.notifyEmptyTableLabel.isHidden = true // if some tasks and hide message
                 }
             case .failure(let error):
                 print(error)
@@ -144,9 +136,13 @@ class TasksVC: UIViewController {
             case .success(let tasks):
                 self.tasks = tasks
                 self.taskTable.reloadData()
-                if tasks.isEmpty {
-                    self.setupUIForEmptyCompletedTasks(withDuration: 1.10)
-                } else {
+                if self.selectedProject?.projectStatus == "1New Projects" {
+                    self.setupUIForEmptyTasks(text: "Add a Task!", withDuration: 1.10)
+                }
+                else if tasks.isEmpty {
+                    self.setupUIForEmptyTasks(text: "No Completed Tasks", withDuration: 1.10)
+                }
+                else {
                     self.notifyEmptyTableLabel.isHidden = true
                 }
             case .failure(let error):
@@ -197,15 +193,15 @@ class TasksVC: UIViewController {
         } else {
             return [addButton, self.editButtonItem, resetFinishedTasks]
         }
-
+        
     }
     
     @objc func resetFinishedTasksTapped() {
         
         let refreshAlert = UIAlertController(title: "Reset All Finished Tasks", message: "Caution: Will revert ALL completed tasks as pending again", preferredStyle: UIAlertController.Style.alert)
-
+        
         refreshAlert.addAction(UIAlertAction(title: "Ok", style: .default, handler: { (action: UIAlertAction!) in
-          print("Handle Ok logic here")
+            print("Handle Ok logic here")
             for task in self.tasks {
                 if task.isCompleted {
                     task.isCompleted = !task.isCompleted
@@ -216,12 +212,12 @@ class TasksVC: UIViewController {
             self.getFinshedTasks()
             self.taskTable.reloadData()
             
-          }))
-
+        }))
+        
         refreshAlert.addAction(UIAlertAction(title: "Cancel", style: .cancel, handler: { (action: UIAlertAction!) in
-          print("Reset is cancled")
-          }))
-
+            print("Reset is cancled")
+        }))
+        
         present(refreshAlert, animated: true, completion: nil)
         
     }
