@@ -124,9 +124,9 @@ class PreviewVC: UIViewController {
         taskDetailDescriptionView.text = task.taskDescription
         if task.taskDescription == "Empty String" || task.taskDescription == "" {
             taskDetailDescriptionView.isHidden = true
-            taskTitleLabel.topAnchor.constraint(equalTo: taskDueDateLabel.bottomAnchor, constant: 60).isActive = true
+            taskTitleLabel.topAnchor.constraint(equalTo: imageView.bottomAnchor, constant: 95).isActive = true
         } else {
-            taskTitleLabel.topAnchor.constraint(equalTo: imageView.bottomAnchor, constant: 50).isActive = true
+            taskTitleLabel.topAnchor.constraint(equalTo: imageView.bottomAnchor, constant: 48).isActive = true
 
         }
 

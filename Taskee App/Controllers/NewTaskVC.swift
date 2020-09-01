@@ -168,7 +168,7 @@ class NewTaskVC: UIViewController, UITextFieldDelegate {
         scrollView.setContentOffset(CGPoint(x: 0, y: view.frame.height/4), animated: true)
         
         if taskDetailDescriptionView.isFirstResponder {
-            scrollView.setContentOffset(CGPoint(x: 0, y: view.frame.height/2), animated: true)
+            scrollView.setContentOffset(CGPoint(x: 0, y: view.frame.height/1.7), animated: true)
         }
     }
     

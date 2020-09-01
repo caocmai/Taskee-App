@@ -62,7 +62,6 @@ class ProjectsVC: UIViewController, NSFetchedResultsControllerDelegate {
         configureNavBarAndSearch()
         configureTable()
         
-        
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -210,7 +209,9 @@ extension ProjectsVC {
         case .delete:
             table.deleteRows(at: [indexPath!], with: .automatic)
         case .update:
-            table.reloadRows(at: [indexPath!], with: .automatic)
+//            table.reloadRows(at: [indexPath!], with: .automatic)
+            fetchProjects()
+//            print(indexPath)
 //            let cell = table.cellForRow(at: indexPath!) as! CustomCell
 //            configureCell(cell: cell, for: indexPath!)
         case .move:
