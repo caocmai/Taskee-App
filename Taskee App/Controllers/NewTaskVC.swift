@@ -235,9 +235,7 @@ class NewTaskVC: UIViewController, UITextFieldDelegate {
     }
     
     @objc func imageViewTapped() {
-        //        imagePicker.delegate = self
         imagePicker.sourceType = .photoLibrary
-        //        imagePicker.allowsEditing = true
         self.present(imagePicker, animated: true, completion: nil)
     }
     
@@ -322,13 +320,7 @@ class NewTaskVC: UIViewController, UITextFieldDelegate {
             taskImageView.heightAnchor.constraint(equalToConstant: self.view.frame.height/2.3),
             taskImageView.topAnchor.constraint(equalTo: containerView.topAnchor),
             
-            //            setTitle.topAnchor.constraint(equalTo: taskImageView.bottomAnchor, constant: 45),
-            //            setTitle.centerXAnchor.constraint(equalTo: containerView.centerXAnchor),
-            //            setTitle.leadingAnchor.constraint(equalTo: containerView.leadingAnchor, constant: 80),
-            //            setTitle.trailingAnchor.constraint(equalTo: containerView.trailingAnchor, constant: -80),
-            
             setTitle.topAnchor.constraint(equalTo: taskImageView.bottomAnchor, constant: 45),
-            //            setTitle.centerXAnchor.constraint(equalTo: containerView.centerXAnchor),
             setTitle.leadingAnchor.constraint(equalTo: containerView.leadingAnchor, constant: 25),
             setTitle.trailingAnchor.constraint(equalTo: containerView.trailingAnchor, constant: -25),
             
@@ -345,7 +337,6 @@ class NewTaskVC: UIViewController, UITextFieldDelegate {
             taskDetailDescriptionView.leadingAnchor.constraint(equalTo: containerView.leadingAnchor, constant: 22),
             taskDetailDescriptionView.trailingAnchor.constraint(equalTo: containerView.trailingAnchor, constant: -22),
             
-            
             segementNotifyTime.topAnchor.constraint(equalTo: taskDetailDescriptionView.bottomAnchor, constant: 65),
             segementNotifyTime.heightAnchor.constraint(equalToConstant: 45),
             segementNotifyTime.leadingAnchor.constraint(equalTo: containerView.leadingAnchor, constant: 20),
@@ -354,13 +345,10 @@ class NewTaskVC: UIViewController, UITextFieldDelegate {
             segementNotifyTimeLabel.bottomAnchor.constraint(equalTo: segementNotifyTime.topAnchor, constant: -0),
             segementNotifyTimeLabel.leadingAnchor.constraint(equalTo: containerView.leadingAnchor, constant: 22),
             
-            
             saveButton.topAnchor.constraint(equalTo: segementNotifyTime.bottomAnchor, constant: 85),
             saveButton.heightAnchor.constraint(equalToConstant: 60),
             saveButton.leadingAnchor.constraint(equalTo: containerView.leadingAnchor, constant: 45),
             saveButton.trailingAnchor.constraint(equalTo: containerView.trailingAnchor, constant: -45),
-            
-            
             
         ])
     }
@@ -437,8 +425,6 @@ class NewTaskVC: UIViewController, UITextFieldDelegate {
     
     @objc func doneButtonTapped(_ button: UIBarButtonItem?) {
         dateTextField.resignFirstResponder()
-        //        let formatter = DateFormatter()
-        //        dateFormatter.dateStyle = .long
         dateTextField.text = dateFormatter.string(from: datePicker.date) // shows the date in UItexfield from datepicker
     }
     

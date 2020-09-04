@@ -33,7 +33,7 @@ class NotificationHelper {
         }
         
         let content = UNMutableNotificationContent()
-        content.title = "Task Deadline For \(project) Project Near!"
+        content.title = "\(project) Task Reminder"
         content.body = "\(title) is due in \(dueAtString)."
         
         if let attachment = UNNotificationAttachment.create(identifier: id, image: image, options: nil) {

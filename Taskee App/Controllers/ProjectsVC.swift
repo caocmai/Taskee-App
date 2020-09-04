@@ -41,7 +41,6 @@ class ProjectsVC: UIViewController, NSFetchedResultsControllerDelegate {
     lazy var fetchedResultsController: NSFetchedResultsController<Project> = {
         let fetchRequest: NSFetchRequest<Project> = Project.fetchRequest()
         let nameSort = NSSortDescriptor(key: #keyPath(Project.name), ascending: true)
-        // Will crash when saving object if activated; seems like can't sort by color
         let colorSort = NSSortDescriptor(key: #keyPath(Project.color), ascending: true)
         let taskCountSort = NSSortDescriptor(key: #keyPath(Project.taskCount), ascending: false)
         let projectStatusSort = NSSortDescriptor(key: #keyPath(Project.projectStatus), ascending: true)

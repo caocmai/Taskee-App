@@ -81,11 +81,11 @@ class PreviewVC: UIViewController {
             imageView.topAnchor.constraint(equalTo: self.view.topAnchor),
             imageView.widthAnchor.constraint(lessThanOrEqualToConstant: self.view.frame.width),
             imageView.heightAnchor.constraint(lessThanOrEqualToConstant: self.view.frame.width/1.3),
-            imageView.centerXAnchor.constraint(equalTo: view.centerXAnchor),
+            imageView.centerXAnchor.constraint(equalTo: self.view.centerXAnchor),
         ])
         
         NSLayoutConstraint.activate([
-            taskTitleLabel.centerXAnchor.constraint(equalTo: view.centerXAnchor),
+            taskTitleLabel.centerXAnchor.constraint(equalTo: self.view.centerXAnchor),
 
             taskStatusImage.heightAnchor.constraint(equalToConstant: 30),
             taskStatusImage.widthAnchor.constraint(equalToConstant: 30),
