@@ -13,7 +13,7 @@ class NewProjectVC: UIViewController, ButtonBackgroundColorProtocol {
     var selectedProject: Project?
     let colorGrid = ColorGrid()
     var coreDataStack: CoreDataStack?
-    var getColorFromColorGrid: UIColor? = nil
+    var getColorFromColorGrid: String? = nil
 
     let setProjectName: UITextField = {
         let textField = UITextField()
@@ -50,19 +50,20 @@ class NewProjectVC: UIViewController, ButtonBackgroundColorProtocol {
         UITextField.connectFields(fields: [setProjectName])
     }
     
-    internal func getButtonColor(buttonColor: UIColor) { // from protocol/delegate
+    internal func getButtonColor(buttonColor: UIColor) { // from Colorgrid protocol/delegate
         self.view.backgroundColor = buttonColor
-        getColorFromColorGrid = buttonColor
+        getColorFromColorGrid = buttonColor.toHexString()
+//        print(buttonColor.toHexString())
     }
     
     private func editProjectSetup(){
         if selectedProject != nil { // Setup UI if there's a passed in project
             setProjectName.text = selectedProject?.name
-            getColorFromColorGrid = selectedProject?.color as? UIColor
-            view.backgroundColor = selectedProject?.color as? UIColor
+            getColorFromColorGrid = selectedProject?.color
+            view.backgroundColor = UIColor((selectedProject?.color)!)
             self.title = "Edit \(selectedProject?.name ?? "Unnamed")"
             saveButton.setTitle("Update", for: .normal)
-            colorGrid.checkMatchAndHighlight(with: (selectedProject?.color as? UIColor)!)
+            colorGrid.checkMatchAndHighlight(with: UIColor((selectedProject?.color)!))
         } else {
             self.title = "Create A New Project"
         }

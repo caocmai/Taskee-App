@@ -119,9 +119,9 @@ class CustomCell: UITableViewCell {
 //        ])
 //
         taskImage.layer.cornerRadius = 15
-        taskImage.backgroundColor = project.color as? UIColor
+        taskImage.backgroundColor = UIColor(project.color!)
         cellTitleLabel.text = project.name
-        cellTitleLabel.textColor = project.color as? UIColor
+        cellTitleLabel.textColor = UIColor(project.color!)
         accessoryType = .disclosureIndicator
         var pendingTaskCount = 0
         for task in project.projectTasks! {

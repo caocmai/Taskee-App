@@ -2,7 +2,7 @@
 //  Task+CoreDataProperties.swift
 //  Taskee App
 //
-//  Created by Cao Mai on 8/27/20.
+//  Created by Cao Mai on 9/3/20.
 //  Copyright © 2020 Make School. All rights reserved.
 //
 //
@@ -20,10 +20,10 @@ extension Task {
     @NSManaged public var dateCompleted: Date?
     @NSManaged public var dueDate: Date?
     @NSManaged public var isCompleted: Bool
+    @NSManaged public var taskDescription: String?
     @NSManaged public var taskID: UUID?
     @NSManaged public var taskImage: Data?
     @NSManaged public var title: String?
-    @NSManaged public var taskDescription: String?
     @NSManaged public var parentProject: Project?
 
 }

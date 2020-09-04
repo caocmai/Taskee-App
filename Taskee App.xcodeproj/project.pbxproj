@@ -22,11 +22,11 @@
 		2C9BB4D524A9A55500936C1C /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 2C9BB4D424A9A55500936C1C /* Assets.xcassets */; };
 		2C9BB4D824A9A55500936C1C /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 2C9BB4D624A9A55500936C1C /* LaunchScreen.storyboard */; };
 		2C9BB4E524A9B48F00936C1C /* README.md in Resources */ = {isa = PBXBuildFile; fileRef = 2C9BB4E424A9B48F00936C1C /* README.md */; };
-		2CA0B17A24F8CCE2007E2608 /* Task+CoreDataClass.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2CA0B17624F8CCE2007E2608 /* Task+CoreDataClass.swift */; };
-		2CA0B17B24F8CCE2007E2608 /* Task+CoreDataProperties.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2CA0B17724F8CCE2007E2608 /* Task+CoreDataProperties.swift */; };
-		2CA0B17C24F8CCE2007E2608 /* Project+CoreDataClass.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2CA0B17824F8CCE2007E2608 /* Project+CoreDataClass.swift */; };
-		2CA0B17D24F8CCE2007E2608 /* Project+CoreDataProperties.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2CA0B17924F8CCE2007E2608 /* Project+CoreDataProperties.swift */; };
 		2CA75BD124BEC3480091DB06 /* PreviewVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2CA75BD024BEC3480091DB06 /* PreviewVC.swift */; };
+		2CBE52232501F5B400397356 /* Project+CoreDataClass.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2CBE521F2501F5B400397356 /* Project+CoreDataClass.swift */; };
+		2CBE52242501F5B400397356 /* Project+CoreDataProperties.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2CBE52202501F5B400397356 /* Project+CoreDataProperties.swift */; };
+		2CBE52252501F5B400397356 /* Task+CoreDataClass.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2CBE52212501F5B400397356 /* Task+CoreDataClass.swift */; };
+		2CBE52262501F5B400397356 /* Task+CoreDataProperties.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2CBE52222501F5B400397356 /* Task+CoreDataProperties.swift */; };
 		2CE8732724EAECB500D2B6CE /* UNNotificationAttachment.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2CE8732624EAECB500D2B6CE /* UNNotificationAttachment.swift */; };
 		2CEBDFCC24ABF5240097094F /* TasksVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2CEBDFCB24ABF5240097094F /* TasksVC.swift */; };
 		2CEBDFD024AC19E40097094F /* NewTaskVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2CEBDFCF24AC19E40097094F /* NewTaskVC.swift */; };
@@ -53,11 +53,11 @@
 		2C9BB4D724A9A55500936C1C /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		2C9BB4D924A9A55500936C1C /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		2C9BB4E424A9B48F00936C1C /* README.md */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = net.daringfireball.markdown; path = README.md; sourceTree = "<group>"; };
-		2CA0B17624F8CCE2007E2608 /* Task+CoreDataClass.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Task+CoreDataClass.swift"; sourceTree = "<group>"; };
-		2CA0B17724F8CCE2007E2608 /* Task+CoreDataProperties.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Task+CoreDataProperties.swift"; sourceTree = "<group>"; };
-		2CA0B17824F8CCE2007E2608 /* Project+CoreDataClass.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Project+CoreDataClass.swift"; sourceTree = "<group>"; };
-		2CA0B17924F8CCE2007E2608 /* Project+CoreDataProperties.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Project+CoreDataProperties.swift"; sourceTree = "<group>"; };
 		2CA75BD024BEC3480091DB06 /* PreviewVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PreviewVC.swift; sourceTree = "<group>"; };
+		2CBE521F2501F5B400397356 /* Project+CoreDataClass.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Project+CoreDataClass.swift"; sourceTree = "<group>"; };
+		2CBE52202501F5B400397356 /* Project+CoreDataProperties.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Project+CoreDataProperties.swift"; sourceTree = "<group>"; };
+		2CBE52212501F5B400397356 /* Task+CoreDataClass.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Task+CoreDataClass.swift"; sourceTree = "<group>"; };
+		2CBE52222501F5B400397356 /* Task+CoreDataProperties.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Task+CoreDataProperties.swift"; sourceTree = "<group>"; };
 		2CE8732624EAECB500D2B6CE /* UNNotificationAttachment.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UNNotificationAttachment.swift; sourceTree = "<group>"; };
 		2CEBDFCB24ABF5240097094F /* TasksVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TasksVC.swift; sourceTree = "<group>"; };
 		2CEBDFCF24AC19E40097094F /* NewTaskVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewTaskVC.swift; sourceTree = "<group>"; };
@@ -79,10 +79,10 @@
 		2C8F175524ABE95B002B0352 /* Core Data */ = {
 			isa = PBXGroup;
 			children = (
-				2CA0B17624F8CCE2007E2608 /* Task+CoreDataClass.swift */,
-				2CA0B17724F8CCE2007E2608 /* Task+CoreDataProperties.swift */,
-				2CA0B17824F8CCE2007E2608 /* Project+CoreDataClass.swift */,
-				2CA0B17924F8CCE2007E2608 /* Project+CoreDataProperties.swift */,
+				2CBE521F2501F5B400397356 /* Project+CoreDataClass.swift */,
+				2CBE52202501F5B400397356 /* Project+CoreDataProperties.swift */,
+				2CBE52212501F5B400397356 /* Task+CoreDataClass.swift */,
+				2CBE52222501F5B400397356 /* Task+CoreDataProperties.swift */,
 				2C8F175224ABE953002B0352 /* Project.xcdatamodeld */,
 				2C4ED4B524ABD6B800FD05D4 /* CoreDataStack.swift */,
 			);
@@ -238,20 +238,20 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				2CA0B17B24F8CCE2007E2608 /* Task+CoreDataProperties.swift in Sources */,
 				2CECFAF824AB0B57006564AA /* UIColor.swift in Sources */,
 				2C5258D224B2D164005D662D /* ColorGrid.swift in Sources */,
 				2C8F175424ABE953002B0352 /* Project.xcdatamodeld in Sources */,
+				2CBE52242501F5B400397356 /* Project+CoreDataProperties.swift in Sources */,
+				2CBE52262501F5B400397356 /* Task+CoreDataProperties.swift in Sources */,
+				2CBE52232501F5B400397356 /* Project+CoreDataClass.swift in Sources */,
 				2C5258D424B2D4E6005D662D /* NewProjectVC.swift in Sources */,
+				2CBE52252501F5B400397356 /* Task+CoreDataClass.swift in Sources */,
 				2CEBDFD024AC19E40097094F /* NewTaskVC.swift in Sources */,
 				2C9BB4D024A9A55400936C1C /* ProjectsVC.swift in Sources */,
 				2C9BB4CC24A9A55400936C1C /* AppDelegate.swift in Sources */,
 				2CEBDFD224AC45450097094F /* CustomCell.swift in Sources */,
-				2CA0B17C24F8CCE2007E2608 /* Project+CoreDataClass.swift in Sources */,
-				2CA0B17D24F8CCE2007E2608 /* Project+CoreDataProperties.swift in Sources */,
 				2C03D0B024D2928000E00FA5 /* SectionHeader.swift in Sources */,
 				2CEBDFCC24ABF5240097094F /* TasksVC.swift in Sources */,
-				2CA0B17A24F8CCE2007E2608 /* Task+CoreDataClass.swift in Sources */,
 				2CE8732724EAECB500D2B6CE /* UNNotificationAttachment.swift in Sources */,
 				2C4ED4B624ABD6B800FD05D4 /* CoreDataStack.swift in Sources */,
 				2C94F1A224EB42530089AAAB /* NotificationHelper.swift in Sources */,

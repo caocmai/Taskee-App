@@ -2,7 +2,7 @@
 //  Project+CoreDataProperties.swift
 //  Taskee App
 //
-//  Created by Cao Mai on 8/27/20.
+//  Created by Cao Mai on 9/3/20.
 //  Copyright © 2020 Make School. All rights reserved.
 //
 //
@@ -17,7 +17,7 @@ extension Project {
         return NSFetchRequest<Project>(entityName: "Project")
     }
 
-    @NSManaged public var color: NSObject?
+    @NSManaged public var color: String?
     @NSManaged public var name: String?
     @NSManaged public var projectStatus: String?
     @NSManaged public var taskCount: Int16

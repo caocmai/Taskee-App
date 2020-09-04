@@ -46,7 +46,7 @@ class ProjectsVC: UIViewController, NSFetchedResultsControllerDelegate {
         let taskCountSort = NSSortDescriptor(key: #keyPath(Project.taskCount), ascending: false)
         let projectStatusSort = NSSortDescriptor(key: #keyPath(Project.projectStatus), ascending: true)
         
-        fetchRequest.sortDescriptors = [projectStatusSort, taskCountSort, nameSort]
+        fetchRequest.sortDescriptors = [projectStatusSort, colorSort, taskCountSort, nameSort]
         
         let fetchedResultsController = NSFetchedResultsController(
             fetchRequest: fetchRequest,
