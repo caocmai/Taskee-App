@@ -17,8 +17,6 @@ Core Data is used to persistently store user-generated content, meaning their pr
 ### App Demo (gif)
 Verson 1.5 <br>
 ![](Project%20Gif/Taskee2.gif)
-Local Notification
-![](Project%20Gif/Taskee-Local-Notification-Resized.png)
 
 ### Usage
 The user can create a project by giving it a name and color to make projects easier to differentiate between them. 
