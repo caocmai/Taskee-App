@@ -15,10 +15,10 @@ Core Data is used to persistently store user-generated content, meaning their pr
 * Local notification with text and image at a user's specfied time (must put app in background or lock screen to see notifications)
 
 ### App Demo (gif)
-<font size="+1">Verson 1</font>
 <br>
 ![](Project%20Gif/Taskee1.gif)
 
+<br><br>
 Verson 1.5 <br>
 ![](Project%20Gif/Taskee2.gif)
 
