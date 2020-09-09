@@ -15,10 +15,6 @@ Core Data is used to persistently store user-generated content, meaning their pr
 * Local notification with text and image at a user's specfied time (must put app in background or lock screen to see notifications)
 
 ### App Demo (gif)
-<br>
-![](Project%20Gif/Taskee1.gif)
-
-<br><br>
 Verson 1.5 <br>
 ![](Project%20Gif/Taskee2.gif)
 
@@ -42,3 +38,7 @@ This project is licensed under the MIT License - see the [LICENSE](LICENSE) file
 
 ## Note
 Camera functionality on the new task view only works on a physical device, meaning when the app is loaded and running on an actual physical Apple iOS device. Hence, the app will crash when trying to access the camera on a simulated device in Xcode.
+
+## Previous Iteration
+Verson 1.0 <br>
+![](Project%20Gif/Taskee1.gif)
