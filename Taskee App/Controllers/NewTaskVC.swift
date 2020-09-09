@@ -309,7 +309,7 @@ class NewTaskVC: UIViewController, UITextFieldDelegate {
             scrollView.bottomAnchor.constraint(equalTo: self.view.bottomAnchor),
             
             containerView.topAnchor.constraint(equalTo: scrollView.topAnchor),
-            containerView.heightAnchor.constraint(equalToConstant: 930),
+            containerView.heightAnchor.constraint(equalToConstant: self.view.frame.height + 200),
             containerView.widthAnchor.constraint(equalTo: scrollView.widthAnchor),
             containerView.bottomAnchor.constraint(equalTo: scrollView.bottomAnchor, constant: -12),
         ])

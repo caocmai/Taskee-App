@@ -106,7 +106,7 @@ class PreviewVC: UIViewController {
         ])
         
         NSLayoutConstraint.activate([
-            taskDetailDescriptionView.topAnchor.constraint(equalTo: imageView.bottomAnchor, constant: 97),
+            taskDetailDescriptionView.topAnchor.constraint(equalTo: imageView.bottomAnchor, constant: 130),
             taskDetailDescriptionView.bottomAnchor.constraint(equalTo: self.view.bottomAnchor),
             taskDetailDescriptionView.leadingAnchor.constraint(equalTo: self.view.leadingAnchor, constant: 15),
             taskDetailDescriptionView.trailingAnchor.constraint(equalTo: self.view.trailingAnchor, constant: -15),
@@ -126,7 +126,7 @@ class PreviewVC: UIViewController {
             taskDetailDescriptionView.isHidden = true
             taskTitleLabel.topAnchor.constraint(equalTo: imageView.bottomAnchor, constant: 95).isActive = true
         } else {
-            taskTitleLabel.topAnchor.constraint(equalTo: imageView.bottomAnchor, constant: 48).isActive = true
+            taskTitleLabel.topAnchor.constraint(equalTo: imageView.bottomAnchor, constant: 56).isActive = true
 
         }
 
