@@ -139,7 +139,7 @@ class NewTaskVC: UIViewController, UITextFieldDelegate {
         setupEditUI()
         setupScrollViewUI()
         datePickerToolbar()
-        addDoneButtonOnKeyboard()
+        addToolbarToKeyboard()
         
         // ask for user permission to notify them of coming due tasks
         let center = UNUserNotificationCenter.current()
@@ -165,6 +165,7 @@ class NewTaskVC: UIViewController, UITextFieldDelegate {
         // move the root view up by the distance of keyboard height
         //        self.view.frame.origin.y = 100 - keyboardSize.height
         
+        // moving the view up by scrolling 1/4 of frame height
         scrollView.setContentOffset(CGPoint(x: 0, y: view.frame.height/4), animated: true)
         
         if taskDetailDescriptionView.isFirstResponder {
@@ -178,6 +179,7 @@ class NewTaskVC: UIViewController, UITextFieldDelegate {
         scrollView.setContentOffset(CGPoint(x: 0, y: view.frame.height/4), animated: true)
     }
     
+    /// Setting the amount of seconds for each segment
     @objc func segmentNotifyTimeTapped() {
         switch segementNotifyTime.selectedSegmentIndex {
         case 0:
@@ -195,7 +197,8 @@ class NewTaskVC: UIViewController, UITextFieldDelegate {
         }
     }
     
-    private func addDoneButtonOnKeyboard() {
+    /// Add close toolbar on top of keyboard
+    private func addToolbarToKeyboard() {
         let doneToolbar: UIToolbar = UIToolbar(frame: CGRect(x:38, y: 100, width: 244, height: 30))
         doneToolbar.barStyle = UIBarStyle.default
         
@@ -218,6 +221,7 @@ class NewTaskVC: UIViewController, UITextFieldDelegate {
         dateTextField.becomeFirstResponder()
     }
     
+    /// Similar to setting up projects, setting up UI of tasks to have user data if there is some
     private func setupEditUI() {
         if taskToEdit != nil { // to popluate content of the task to edit
             setTitle.text = taskToEdit?.title
@@ -353,6 +357,7 @@ class NewTaskVC: UIViewController, UITextFieldDelegate {
         ])
     }
     
+    /// Similar to New Projects, this method will either create a new Task object or save the modified Task object
     @objc func saveButtonTapped() {
         if !checkAreFieldsEmpty() {
             if taskToEdit != nil {
@@ -376,6 +381,7 @@ class NewTaskVC: UIViewController, UITextFieldDelegate {
         }
     }
     
+    /// Check for empty values on the form
     private func checkAreFieldsEmpty() -> Bool {
         if setTitle.text == "" {
             setTitle.layer.borderWidth = 2
@@ -406,6 +412,7 @@ class NewTaskVC: UIViewController, UITextFieldDelegate {
         return true
     }
     
+    /// Add a toolbar on top of the UIDatePicker
     private func datePickerToolbar() {
         let doneToolbar: UIToolbar = UIToolbar(frame: CGRect(x:38, y: 100, width: 244, height: 30))
         doneToolbar.barStyle = UIBarStyle.default
@@ -428,6 +435,7 @@ class NewTaskVC: UIViewController, UITextFieldDelegate {
         dateTextField.text = dateFormatter.string(from: datePicker.date) // shows the date in UItexfield from datepicker
     }
     
+    /// Helper function to create a new Task
     private func createNewTask() {
         let newTask = Task(context: (coreDataStack?.managedContext)!)
         newTask.dueDate = datePicker.date

@@ -86,7 +86,7 @@ class TasksVC: UIViewController {
             self.navigationItem.rightBarButtonItems = configureNavBar(segment: 0)
         }
     }
-    
+    /// A method that will show a message when there are no Task objects
     private func setupUIForEmptyTasks(text: String, withDuration time: Double) {
         notifyEmptyTableLabel.transform = CGAffineTransform(scaleX: 0, y: 0)
         notifyEmptyTableLabel.text = text
@@ -107,6 +107,7 @@ class TasksVC: UIViewController {
         ])
     }
     
+    /// Fetch tasks that are not yet completed
     private func getPendingTasks() {
         let projectStatusPredicate = NSPredicate(format: "isCompleted = false")
         coreDataStack.fetchTasks(sortBy: sortByString, predicate: projectStatusPredicate, selectedProject: (selectedProject)!) { results in
@@ -115,7 +116,7 @@ class TasksVC: UIViewController {
                 self.tasks = tasks
                 self.taskTable.reloadData()
                 if self.selectedProject?.projectStatus == "1New Projects" {
-                    self.setupUIForEmptyTasks(text: "Add a Task!", withDuration: 1.10) // if project just added
+                    self.setupUIForEmptyTasks(text: "Add a Task!", withDuration: 1.10) // if project just added and no tasks
                 }
                 else if tasks.isEmpty {
                     self.setupUIForEmptyTasks(text: "No Pending Tasks", withDuration: 1.10) // if empty tasks
@@ -129,6 +130,7 @@ class TasksVC: UIViewController {
         }
     }
     
+    /// Fetch all tasks that are completed
     private func getFinshedTasks() {
         let projectStatusPredicate = NSPredicate(format: "isCompleted = true")
         coreDataStack.fetchTasks(sortBy: sortByString, predicate: projectStatusPredicate, selectedProject: (selectedProject)!) { results in
@@ -196,8 +198,8 @@ class TasksVC: UIViewController {
         
     }
     
+    /// A function to reset all completed tasks to pending tasks, for if they want to restart doing those tasks again
     @objc func resetFinishedTasksTapped() {
-        
         let refreshAlert = UIAlertController(title: "Reset All Finished Tasks", message: "Caution: Will revert ALL completed tasks as pending again", preferredStyle: UIAlertController.Style.alert)
         
         refreshAlert.addAction(UIAlertAction(title: "Ok", style: .default, handler: { (action: UIAlertAction!) in
@@ -250,6 +252,7 @@ class TasksVC: UIViewController {
         ])
     }
     
+    /// refresh control selector
     @objc func refresh() {
         taskTable.refreshControl?.endRefreshing()
         if segmentControl.selectedSegmentIndex == 0 {
@@ -279,19 +282,16 @@ extension TasksVC: UITableViewDelegate, UITableViewDataSource {
         return cell
     }
     
+    /// When the selects the cell, the task's status is changed to be completed and the local notification is removed
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         let selectedTask = tasks[indexPath.row]
         selectedTask.isCompleted = !selectedTask.isCompleted
         selectedTask.dateCompleted = Date()
         
-        guard let taskTitle = selectedTask.title, let taskDueDate = selectedTask.dueDate, let taskID = selectedTask.taskID, let taskImage = selectedTask.taskImage else {return}
+        guard let taskID = selectedTask.taskID else {return}
         
-        if !selectedTask.isCompleted {
-            // not sure if I should keep this
-            NotificationHelper.addNotification(project: (selectedTask.parentProject?.name!)!, about: taskTitle, at: taskDueDate, alertBeforeSecs: 3600, uniqueID: taskID.uuidString, image: UIImage(data: taskImage)!)
-        } else {
-            NotificationHelper.removeTaskFromNotification(id: taskID)
-        }
+        NotificationHelper.removeTaskFromNotification(id: taskID)
+ 
         
         //        if selectedTask.status { // decrement or increment to keep track of task  count
         //            selectedTask.parentProject?.taskCount -= 1
@@ -363,6 +363,7 @@ extension TasksVC: UIContextMenuInteractionDelegate {
         return nil
     }
     
+    /// Configuring contex menu
     func tableView(_ tableView: UITableView, contextMenuConfigurationForRowAt indexPath: IndexPath, point: CGPoint) -> UIContextMenuConfiguration? {
         let configuration = UIContextMenuConfiguration(identifier: nil, previewProvider: { () -> UIViewController? in
             let preview = PreviewVC()

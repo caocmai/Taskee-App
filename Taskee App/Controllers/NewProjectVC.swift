@@ -56,6 +56,7 @@ class NewProjectVC: UIViewController, ButtonBackgroundColorProtocol {
 //        print(buttonColor.toHexString())
     }
     
+    /// Configure UI with project information to be edited, if user wants to edit project
     private func editProjectSetup(){
         if selectedProject != nil { // Setup UI if there's a passed in project
             setProjectName.text = selectedProject?.name
@@ -112,6 +113,7 @@ class NewProjectVC: UIViewController, ButtonBackgroundColorProtocol {
         ])
     }
     
+    /// Check if entry fields are empty
     private func checkAreFieldsEmpty() -> Bool {
         if setProjectName.text == "" {
             setProjectName.layer.borderWidth = 2
@@ -136,6 +138,7 @@ class NewProjectVC: UIViewController, ButtonBackgroundColorProtocol {
         return true
     }
     
+    /// Will either create new Project object then save  or update the Project object with the modified data
     @objc func saveButtonTapped() {
         if !checkAreFieldsEmpty() {
             if selectedProject != nil { // To update/edit project

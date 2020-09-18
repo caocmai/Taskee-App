@@ -105,6 +105,7 @@ class ProjectsVC: UIViewController, NSFetchedResultsControllerDelegate {
         
     }
     
+    /// Helper function to fetch the object to a TableView cell
     private func configureCell(cell: UITableViewCell, for indexPath: IndexPath) {
         guard let cell = cell as? CustomCell else { return }
         let project = fetchedResultsController.object(at: indexPath)
@@ -138,7 +139,7 @@ class ProjectsVC: UIViewController, NSFetchedResultsControllerDelegate {
 extension ProjectsVC: UITableViewDelegate, UITableViewDataSource {
     
     func numberOfSections(in tableView: UITableView) -> Int {
-        
+        // setup proper labeling if there are no projects
         if fetchedResultsController.sections?.count == 0 {
             setupUIForEmptyProjects(withDuration: 1.20)
         } else {
@@ -148,6 +149,7 @@ extension ProjectsVC: UITableViewDelegate, UITableViewDataSource {
         return fetchedResultsController.sections?.count ?? 0
     }
     
+    /// Configuring custom header
     func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
         let headerView = tableView.dequeueReusableHeaderFooterView(withIdentifier:
             "sectionHeader") as! SectionHeader
@@ -157,6 +159,7 @@ extension ProjectsVC: UITableViewDelegate, UITableViewDataSource {
     }
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+        // configure num of section headers
         guard let sectionInfo = fetchedResultsController.sections?[section] else { return 0 }
         return sectionInfo.numberOfObjects
     }
@@ -167,6 +170,7 @@ extension ProjectsVC: UITableViewDelegate, UITableViewDataSource {
         return cell
     }
     
+    /// Changing the view controller after cell selected passed along the Project information
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         let destinationVC = TasksVC()
         let project = fetchedResultsController.object(at: indexPath)
@@ -177,6 +181,7 @@ extension ProjectsVC: UITableViewDelegate, UITableViewDataSource {
         self.navigationController?.pushViewController(destinationVC, animated: true)
     }
     
+    /// Deleting the cell
     func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCell.EditingStyle, forRowAt indexPath: IndexPath) {
         let project = fetchedResultsController.object(at: indexPath)
         coreDataStack.managedContext.delete(project)
@@ -200,6 +205,7 @@ extension ProjectsVC {
         table.beginUpdates()
     }
     
+    /// Configure changes to the TableView
     func controller(_ controller: NSFetchedResultsController<NSFetchRequestResult>, didChange anObject: Any, at indexPath: IndexPath?, for type: NSFetchedResultsChangeType, newIndexPath: IndexPath?) {
         
         switch type {
@@ -226,10 +232,7 @@ extension ProjectsVC {
     }
     
     // update sections
-    func controller(_ controller: NSFetchedResultsController<NSFetchRequestResult>,
-                    didChange sectionInfo: NSFetchedResultsSectionInfo,
-                    atSectionIndex sectionIndex: Int,
-                    for type: NSFetchedResultsChangeType) {
+    func controller(_ controller: NSFetchedResultsController<NSFetchRequestResult>, didChange sectionInfo: NSFetchedResultsSectionInfo, atSectionIndex sectionIndex: Int, for type: NSFetchedResultsChangeType) {
         
         let indexSet = IndexSet(integer: sectionIndex)
         
@@ -248,8 +251,7 @@ extension ProjectsVC {
 
 extension ProjectsVC: UIContextMenuInteractionDelegate {
     
-    func contextMenuInteraction(_ interaction: UIContextMenuInteraction,
-                                configurationForMenuAtLocation location: CGPoint) -> UIContextMenuConfiguration? {
+    func contextMenuInteraction(_ interaction: UIContextMenuInteraction, configurationForMenuAtLocation location: CGPoint) -> UIContextMenuConfiguration? {
             return nil
     }
     
