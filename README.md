@@ -33,9 +33,6 @@ Project code can be viewed locally and run in Xcode's simulator by cloning or do
 ## Author
 * Cao Mai - [Portfolio](https://www.makeschool.com/portfolio/Cao-Mai)
 
-## License
-This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details
-
 ## Note
 Camera functionality on the new task view only works on a physical device, meaning when the app is loaded and running on an actual physical Apple iOS device. Hence, the app will crash when trying to access the camera on a simulated device in Xcode.
 
