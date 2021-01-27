@@ -128,6 +128,7 @@ class TasksVC: UIViewController {
                 print(error)
             }
         }
+        
     }
     
     /// Fetch all tasks that are completed
@@ -384,6 +385,7 @@ extension TasksVC: UIContextMenuInteractionDelegate {
                 let task = self.tasks[indexPath.row]
                 NotificationHelper.removeTaskFromNotification(id: task.taskID!)
                 self.deleteTask(with: task, at: indexPath)
+                
             }
             
             let sortByDate = UIAction(title: "Sort By Name") { (_) in

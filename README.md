@@ -10,7 +10,7 @@ Core Data is used to persistently store user-generated content, meaning their pr
 * CRUD(Create, Read, Update, and Delete) plus ability to search projects 
 * CRUD(Create, Read, Update, and Delete) tasks with ability to toggle between pending and completed
 * Empty field validation 
-* Edit/update a project or task that is accessible by 3D touch (context menu)
+* Edit/update a project or task which is accessible by 3D touch (context menu)
 * Core Data to persist projects and tasks
 * Local notification with text and image at a user's specfied time (must put app in background or lock screen to see notifications)
 
